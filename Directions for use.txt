@@ -1,0 +1,4 @@
+How to demonstrate
+In this folder, open the "index.html" file for an offline demo in your browser.
+Two, matters needing attention
+Do not delete or move the files in the folder. Otherwise, the presentation will fail. When sharing the demo package, please also send and share the whole folder.
