@@ -54,14 +54,14 @@ export default {
   computed: {
     //判断设备大小是否小于700
     drawerBtnJustify() {
-      if (this.$store.state.windowSize > 768) {
+      if (this.$store.state.windowSize.windowSizeWidth > 768) {
         return "space-around";
       } else {
         return "end";
       }
     },
     windowSizeBoolean() {
-      if (this.$store.state.windowSize > 768) {
+      if (this.$store.state.windowSize.windowSizeWidth > 768) {
         return true;
       } else {
         return false;
