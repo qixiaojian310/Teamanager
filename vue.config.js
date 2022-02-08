@@ -1,6 +1,6 @@
 'use strict'
 module.exports = {
-    publicPath: '/teamanager/',
+    publicPath: '/',
     pages: {
         index: {
             // page 的入口
