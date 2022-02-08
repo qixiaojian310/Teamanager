@@ -2,10 +2,11 @@
   <el-container :direction="'vertical'">
     <main-header />
     <el-container>
-      <el-aside width="200px">Aside</el-aside>
+      <el-aside width="200px">
+        <aside-modules></aside-modules>
+      </el-aside>
       <el-container>
-        <el-main>
-        </el-main>
+        <el-main> main </el-main>
         <el-footer>Footer</el-footer>
       </el-container>
     </el-container>
@@ -16,6 +17,7 @@
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
 import MainHeader from "@/components/header/MainHeader.vue";
+import AsideModules from "@/components/aside/AsideModules";
 
 export default {
   name: "Home",
@@ -26,7 +28,8 @@ export default {
   },
   components: {
     MainHeader,
+    AsideModules,
   },
 };
 </script>
-    MainHeader
+MainHeader
