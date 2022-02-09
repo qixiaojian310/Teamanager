@@ -75,7 +75,8 @@ export default {
 .el-row {
   height: 100%;
   width: 100%;
-  background: rgb(91, 113, 167);
+  background: #4D58B5;
+  /* background: rgb(91, 113, 167); */
   /* background: rgb(167, 93, 93); */
 }
 .el-header {
