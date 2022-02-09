@@ -29,4 +29,8 @@ export default {
 </script>
 
 <style>
+.el-scrollbar__thumb {
+background-color: #0988ff !important;
+border-radius: 3px;
+}
 </style>

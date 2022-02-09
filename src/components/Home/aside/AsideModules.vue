@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import ModuleItem from "@/components/aside/ModuleItem";
+import ModuleItem from "@/components/Home/aside/ModuleItem";
 export default {
   name: "AsideModules",
   props:{

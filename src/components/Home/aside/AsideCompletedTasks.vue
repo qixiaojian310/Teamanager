@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <el-scrollbar>
     <aside-completed-task-item
       v-for="completedTask in completedTasks"
       :key="completedTask.index"
@@ -8,11 +8,11 @@
       :taskContent="completedTask.taskContent"
       :taskTeamName="completedTask.taskTeamName"
     ></aside-completed-task-item>
-  </div>
+  </el-scrollbar>
 </template>
 
 <script>
-import AsideCompletedTaskItem from "@/components/aside/AsideCompletedTaskItem";
+import AsideCompletedTaskItem from "@/components/Home/aside/AsideCompletedTaskItem";
 
 export default {
   name: "AsideCompletedTasks",
