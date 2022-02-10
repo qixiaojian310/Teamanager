@@ -17,9 +17,11 @@ export default {
   methods:{
     //监听窗口大小变化
     reloadChange() {
-      this.$store.state.windowSize = window.innerWidth;
+      this.$store.state.windowSize.windowSizeWidth = window.innerWidth;
+      this.$store.state.windowSize.windowSizeHeight = window.innerHeight;
       window.onresize = () => {
-        this.$store.state.windowSize = window.innerWidth;
+        this.$store.state.windowSize.windowSizeWidth = window.innerWidth;
+        this.$store.state.windowSize.windowSizeHeight = window.innerHeight;
       }
     }
   }
