@@ -33,4 +33,7 @@ export default {
 background-color: #0988ff !important;
 border-radius: 3px;
 }
+.el-scrollbar__bar{
+  width: 4px !important;
+}
 </style>

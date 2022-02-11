@@ -21,7 +21,7 @@
           <el-main>
             <!-- show your task haven't done  -->
             <el-container>
-              <el-row>
+              <el-row style="width:100%">
                 <el-col :span="20" :offset="2">
                   <un-completed-tasks
                     :unCompletedTasks="unCompletedTasks"
@@ -30,7 +30,11 @@
               </el-row>
             </el-container>
           </el-main>
-          <el-footer>Footer</el-footer>
+          <el-footer>
+            <el-date-picker>
+              
+            </el-date-picker>
+          </el-footer>
         </el-scrollbar>
       </el-container>
       <el-aside
@@ -120,28 +124,28 @@ export default {
           taskTitle: "JS Class",
           taskContent: "JS Class JS Class JS Class JS Class JS Class JS Class",
           taskTeamName: "JS Team",
-          progress: "100",
+          progress: 100,
         },
         {
           taskTitle: "Java Class",
           taskContent:
             "Java Class Java Class Java Class Java Class Java Class Java Class",
           taskTeamName: "Java Team",
-          progress: "90",
+          progress: 90,
         },
         {
           taskTitle: "Matlab Class",
           taskContent:
             "Matlab Class Matlab Class Matlab Class Matlab Class Matlab Class Matlab Class",
           taskTeamName: "Matlab Team",
-          progress: "70",
+          progress: 70,
         },
         {
           taskTitle: "Python Class",
           taskContent:
             "Python Python Python Python Python Python Python Python Python Python",
           taskTeamName: "Python Team",
-          progress: "10",
+          progress: 10,
         },
       ],
       unCompletedTasks: [
@@ -159,9 +163,9 @@ export default {
             " id pariatur ipsum do dolor nisi sit fugiat esse culpa irure labore. Anim culpa ad cillum dolore ipsum" +
             " velit tempor elit.",
           unCompletedTaskTeamName: "JS Team",
-          cooperator: [1, 2, 3, 4],
+          cooperator: ['12345', '34567', '34785', '33245'],
           deadline: "2022-05-08",
-          progress: "10",
+          progress: 10,
         },
         {
           unCompletedTaskName: "JS Code Implementation",
@@ -177,9 +181,9 @@ export default {
             " id pariatur ipsum do dolor nisi sit fugiat esse culpa irure labore. Anim culpa ad cillum dolore ipsum" +
             " velit tempor elit.",
           unCompletedTaskTeamName: "JS Team",
-          cooperator: [1, 2, 3, 4, 5, 6, 7],
+          cooperator: ['12345', '34567', '34785', '33245','12645','34895','34580'],
           deadline: "2022-05-01",
-          progress: "10",
+          progress: 20,
         },
         {
           unCompletedTaskName: "JS Code Implementation",
@@ -195,9 +199,9 @@ export default {
             " id pariatur ipsum do dolor nisi sit fugiat esse culpa irure labore. Anim culpa ad cillum dolore ipsum" +
             " velit tempor elit.",
           unCompletedTaskTeamName: "JS Team",
-          cooperator: [2, 3, 4],
+          cooperator: ['12345', '34567', '34785','34580'],
           deadline: "2022-05-01",
-          progress: "10",
+          progress: 30,
         },
         {
           unCompletedTaskName: "JS Code Implementation",
@@ -213,9 +217,9 @@ export default {
             " id pariatur ipsum do dolor nisi sit fugiat esse culpa irure labore. Anim culpa ad cillum dolore ipsum" +
             " velit tempor elit.",
           unCompletedTaskTeamName: "JS Team",
-          cooperator: [1, 2, 4],
+          cooperator: ['12645','34895','34580'],
           deadline: "2022-05-01",
-          progress: "10",
+          progress: 40,
         },
         {
           unCompletedTaskName: "JS Code Implementation",
@@ -231,9 +235,9 @@ export default {
             " id pariatur ipsum do dolor nisi sit fugiat esse culpa irure labore. Anim culpa ad cillum dolore ipsum" +
             " velit tempor elit.",
           unCompletedTaskTeamName: "JS Team",
-          cooperator: [2, 3],
+          cooperator: ['12345', '34567', '34785','34895','34580'],
           deadline: "2022-05-01",
-          progress: "10",
+          progress: 50,
         },
       ],
     };
