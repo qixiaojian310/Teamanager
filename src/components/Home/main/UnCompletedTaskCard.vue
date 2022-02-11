@@ -6,26 +6,53 @@
           <p class="task-name">{{ unCompletedTaskName }}</p>
           <p class="team-name">{{ teamName }}</p>
         </div>
-        <date-shower :date="deadline.replace(/-/g, '')"></date-shower>
+        <div class="date-box">
+          <date-shower :date="deadline.replace(/-/g, '')"></date-shower>
+        </div>
       </div>
     </template>
     <div class="card-body">
       <el-row class="card-body-content">
-        <el-col :span="18" class="card-body-content-title">
-          <span>{{ unCompletedTaskContent }}</span>
-        </el-col>
-        <el-col :span="6" class="card-body-content-cooperator">
-          <el-scrollbar :height="400">
-            <head-icon
-              v-for="cooperatorObj in cooperatorObjs"
-              :key="cooperatorObj.ID"
-              :userIconHeight="50"
-              :userIconWidth="50"
-              :userIconSrc="cooperatorObj.userIconSrc"
-              :userName="cooperatorObj.name"
-              :userInfor="cooperatorObj.Infor"
-            ></head-icon>
+        <el-col :xs="24" :sm="18" class="card-body-content-title">
+          <el-scrollbar class="no-scroll-thumb" :height="300">
+            <span>{{ unCompletedTaskContent }}</span>
           </el-scrollbar>
+        </el-col>
+        <el-col :xs="24" :sm="6" class="card-body-content-cooperator">
+          <!-- <768时的情况 -->
+          <div v-if="widthLess768">
+            <p style="height: 40px">Your Cooperator</p>
+            <el-scrollbar :style="{ width: cardWidth + 'px' }">
+              <div class="head-box">
+                <head-icon
+                  v-for="cooperatorObj in cooperatorObjs"
+                  :key="cooperatorObj.ID"
+                  :userIconHeight="50"
+                  :userIconWidth="50"
+                  :userIconSrc="cooperatorObj.userIconSrc"
+                  :userName="cooperatorObj.name"
+                  :userInfor="cooperatorObj.Infor"
+                  :widthLess768="widthLess768"
+                ></head-icon>
+              </div>
+            </el-scrollbar>
+          </div>
+          <div v-else>
+            <p style="height: 40px">Your Cooperator</p>
+            <div style="height: 260px">
+              <el-scrollbar :height="200">
+                <head-icon
+                  v-for="cooperatorObj in cooperatorObjs"
+                  :key="cooperatorObj.ID"
+                  :userIconHeight="50"
+                  :userIconWidth="50"
+                  :userIconSrc="cooperatorObj.userIconSrc"
+                  :userName="cooperatorObj.name"
+                  :userInfor="cooperatorObj.Infor"
+                ></head-icon>
+              </el-scrollbar>
+            </div>
+          </div>
         </el-col>
       </el-row>
     </div>
@@ -70,7 +97,7 @@ export default {
       var temp = [];
       for (var index = 0; index < this.cooperator.length; index++) {
         //在store中用户的具体索引
-        var users = this.$store.state.users
+        var users = this.$store.state.users;
         var user = users.filter((user) => {
           return user.ID == this.cooperator[index];
         })[0];
@@ -79,15 +106,36 @@ export default {
       }
       return temp;
     },
+    widthLess768() {
+      if (this.$store.state.windowSize.windowSizeWidth < 768) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    cardWidth() {
+      return this.$store.state.windowSize.windowSizeWidth - 60;
+    },
   },
 };
 </script>
 
 <style scoped>
+.head-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.date-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .card-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
+  flex-wrap: wrap;
 }
 .task-name {
   color: #376fbd;
@@ -101,5 +149,12 @@ export default {
 }
 .card-body-content-title {
   line-height: 1.8;
+}
+.box-card {
+  box-shadow: 0px 0px 5px #888888;
+  margin-top: 30px;
+}
+.box-card:hover {
+  box-shadow: 0px 0px 10px #28485a;
 }
 </style>

@@ -4,7 +4,7 @@
     <el-row :justify="'center'" :align="'middle'">
       <!-- task title -->
       <el-col :span="6" :offset="2">
-        <el-progress width="50" type="dashboard" :percentage="progress" />
+        <el-progress :width="50" type="dashboard" :percentage="progress" />
       </el-col>
       <el-col :span="16">
         <!-- 以后写成routerlink -->
@@ -19,7 +19,24 @@
 <script>
 export default {
   name: "AsideCompletedTaskItem",
-  props: ["progress", "taskTitle", "taskContent", "taskTeamName"],
+  props: {
+    progress: {
+      type: Number,
+      required: true,
+    },
+    taskTitle: {
+      type: String,
+      required: true,
+    },
+    taskContent: {
+      type: String,
+      required: true,
+    },
+    taskTeamName: {
+      type: String,
+      required: true,
+    },
+  },
 };
 </script>
 
@@ -31,7 +48,7 @@ export default {
   margin-bottom: 10px !important;
 }
 
-p{
+p {
   margin: 2px !important;
 }
 </style>

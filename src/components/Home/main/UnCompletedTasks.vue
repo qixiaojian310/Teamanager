@@ -1,16 +1,19 @@
 <template>
   <div>
-    <un-completed-task-card
-      v-for="unCompletedTask in unCompletedTasks"
-      :key="unCompletedTask.index"
-      :unCompletedTaskName="unCompletedTask.unCompletedTaskName"
-      :unCompletedTaskContent="unCompletedTask.unCompletedTaskContent"
-      :cooperator="unCompletedTask.cooperator"
-      :deadline="unCompletedTask.deadline"
-      :teamName="unCompletedTask.unCompletedTaskTeamName"
-      :progress="unCompletedTask.progress"
-    >
-    </un-completed-task-card>
+    <p>Unfinished Task</p>
+    <el-space :direction="'vertical'" size="large">
+      <un-completed-task-card
+        v-for="unCompletedTask in unCompletedTasks"
+        :key="unCompletedTask.index"
+        :unCompletedTaskName="unCompletedTask.unCompletedTaskName"
+        :unCompletedTaskContent="unCompletedTask.unCompletedTaskContent"
+        :cooperator="unCompletedTask.cooperator"
+        :deadline="unCompletedTask.deadline"
+        :teamName="unCompletedTask.unCompletedTaskTeamName"
+        :progress="unCompletedTask.progress"
+      >
+      </un-completed-task-card>
+    </el-space>
   </div>
 </template>
 
@@ -28,5 +31,14 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+p{
+  margin-top: 0.5em;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+}
+.el-space{
+  width: 100%;
+}
 </style>
