@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import DateShower from "@/components/Home/main/DateShower.vue";
+import DateShower from "./DateShower.vue";
 import HeadIcon from "../../HeadIcon.vue";
 export default {
   components: { DateShower, HeadIcon },
@@ -123,7 +123,6 @@ export default {
 <style scoped>
 .head-box {
   display: flex;
-  justify-content: center;
   align-items: center;
 }
 .date-box {

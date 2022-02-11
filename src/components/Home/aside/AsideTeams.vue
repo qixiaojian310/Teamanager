@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import TeamItem from "@/components/Home/aside/TeamItem";
+import TeamItem from "./TeamItem.vue";
 
 export default {
   name: "AsideTeams",

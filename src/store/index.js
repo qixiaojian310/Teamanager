@@ -5,7 +5,7 @@ export default createStore({
     return{
       windowSize:{
         windowSizeWidth:1000,
-        windowSizeHeight:1000
+        windowSizeHeight:1000,
       },
       users:[
         {

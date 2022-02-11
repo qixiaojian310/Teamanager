@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import AsideCompletedTaskItem from "@/components/Home/aside/AsideCompletedTaskItem";
+import AsideCompletedTaskItem from "./AsideCompletedTaskItem.vue";
 
 export default {
   name: "AsideCompletedTasks",

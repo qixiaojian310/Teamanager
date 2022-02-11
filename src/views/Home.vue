@@ -54,11 +54,11 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
-import MainHeader from "@/components/Home/header/MainHeader.vue";
-import AsideModules from "@/components/Home/aside/AsideModules";
-import AsideTeams from "@/components/Home/aside/AsideTeams";
-import AsideCompletedTasks from "@/components/Home/aside/AsideCompletedTasks";
-import UnCompletedTasks from "@/components/Home/main/UnCompletedTasks";
+import MainHeader from "../components/Home/header/MainHeader.vue";
+import AsideModules from "../components/Home/aside/AsideModules.vue";
+import AsideTeams from "../components/Home/aside/AsideTeams.vue";
+import AsideCompletedTasks from "../components/Home/aside/AsideCompletedTasks.vue";
+import UnCompletedTasks from "../components/Home/main/UnCompletedTasks.vue";
 
 export default {
   name: "Home",

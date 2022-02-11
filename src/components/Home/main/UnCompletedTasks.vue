@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import UnCompletedTaskCard from "@/components/Home/main/UnCompletedTaskCard.vue";
+import UnCompletedTaskCard from "./UnCompletedTaskCard.vue";
 export default {
   name: "UnCompletedTasks",
   components: { UnCompletedTaskCard },
