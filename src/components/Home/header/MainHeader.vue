@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import HeaderLink from "@/components/header/HeaderLink.vue";
+import HeaderLink from "@/components/Home/header/HeaderLink.vue";
 
 export default {
   name: "MainHeader",

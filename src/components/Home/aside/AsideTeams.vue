@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import TeamItem from "@/components/aside/TeamItem";
+import TeamItem from "@/components/Home/aside/TeamItem";
 
 export default {
   name: "AsideTeams",
