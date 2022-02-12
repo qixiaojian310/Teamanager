@@ -17,21 +17,25 @@
           label-width="0px"
           class="login-form"
         >
-          <el-form-item>
+          <!-- <el-form-item label="Username">
             <el-input
               v-model="form.username"
               placeholder="placeholder.username"
               prefix-icon="el-icon-user"
             ></el-input>
           </el-form-item>
-          <el-form-item>
+          <el-form-item label="password">
             <el-input
               v-model="form.password"
               type="password"
               placeholder="placeholder.password"
               prefix-icon="el-icon-lock"
             ></el-input>
-          </el-form-item>
+          </el-form-item> -->
+          <sign-input-item :inputValue="form.username" :name="'Username'" :type="'text'">
+          </sign-input-item>
+          <sign-input-item :inputValue="form.password" :name="'Password'" :type="'password'">
+          </sign-input-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm">Create</el-button>
           </el-form-item>
@@ -40,6 +44,7 @@
       <div class="sign-toggle-box-link">
         <p>Doesn't have an account of Teamanager</p>
         <router-link to="/signup">Sign up</router-link>
+        <span>© Teamanager</span>
       </div>
     </div>
   </div>
@@ -47,8 +52,10 @@
 
 <script>
 import "../assets/css/sign-css.css";
+import SignInputItem from '../components/sign/SignInputItem.vue';
 
 export default {
+  components: { SignInputItem },
   name: "Signin",
   computed: {
     bigBoxWidth: function () {
