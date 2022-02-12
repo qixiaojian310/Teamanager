@@ -14,7 +14,7 @@ const routes = [
     component: Login
   },
   {
-    path: '/about/:id',
+    path: '/about',
     name: 'About',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
