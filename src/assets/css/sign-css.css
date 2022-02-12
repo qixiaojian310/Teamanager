@@ -1,0 +1,42 @@
+.bg-box {
+  background-color: #4d58b5;
+}
+.sign-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  margin-left: -250px;
+  min-width: 500px;
+  height: 700px;
+  margin-top: -350px;
+  min-height: 300px;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0);
+
+}
+.sign-in-content{
+  height: 60%;
+  background: #fff;
+  border-radius: 10px;
+}
+.sign-toggle-box-link{
+  margin-top: 10%;
+  height: 30%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  border-radius: 10px;
+}
+a{
+  text-decoration: none;
+  color: #fff;
+  background-color: #65b54d;
+  width: 40%;
+  display: block;
+  text-align: center;
+  padding: 2%;
+  border-radius: 20px;
+}

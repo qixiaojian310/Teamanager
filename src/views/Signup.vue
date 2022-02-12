@@ -5,11 +5,11 @@
     :style="{ width: bigBoxWidth + 'px', height: bigBoxHeight + 'px' }"
   >
     <!-- :style="{width:bigBoxWidth*0.4+'px',height:bigBoxHeight*0.5+'px',marginLeft:-bigBoxWidth*0.2+'px',marginTop:-bigBoxHeight*0.25+'px'}" -->
-    <div class="sign-in-out-box">
+    <div class="sign-box">
       <div class="sign-in-out-box-title">
         <p>Teamanager</p>
       </div>
-      <div class="sign-in-out-box-content">
+      <div class="sign-in-box-content">
         <el-form
           :model="form"
           :rules="rules"
@@ -20,7 +20,7 @@
           <el-form-item>
             <el-input
               v-model="form.username"
-              placeholder="请输入用户名"
+              :placeholder="placeholder.username"
               prefix-icon="el-icon-user"
             ></el-input>
           </el-form-item>
@@ -28,7 +28,7 @@
             <el-input
               v-model="form.password"
               type="password"
-              placeholder="请输入密码"
+              :placeholder="placeholder.password"
               prefix-icon="el-icon-lock"
             ></el-input>
           </el-form-item>
@@ -37,13 +37,18 @@
           </el-form-item>
         </el-form>
       </div>
+      <div class="sign-toggle-box-link">
+        <router-link to="/signin">Sign in</router-link>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import "../assets/css/sign-css.css";
+
 export default {
-  name: "Login",
+  name: "Signup",
   computed: {
     bigBoxWidth: function () {
       return this.$store.state.windowSize.windowSizeWidth;
@@ -58,20 +63,24 @@ export default {
         username: "",
         password: "",
       },
-      url:"/hello"
-    };
+      url: "/hello",
+      placeholder: {
+        username: "Enter your user name",
+        password: "Enter your password",
+      },
+    }
   },
   methods: {
     submitForm() {
       this.axios({
         url: this.url,
         data: {
-          user:{
+          user: {
             username: this.form.username,
             password: this.form.password,
-          }
+          },
         },
-        method:"post",
+        method: "post",
         baseURL: "http://localhost:8088/api",
       }).then((response) => {
         console.log(response);
