@@ -1,37 +1,77 @@
 <template>
-  <div>
-      <el-scrollbar :height="500" @scroll="scrollProxy">
-    <div class="about">
-      <!-- <main-header></main-header> -->
-      <div style="height: 600px; width: 600px; background: rgba(0,0,0,0.1)"></div>
-      <p
-        data-aos="fade-down"
-        data-aos-offset="200"
-        data-aos-delay="50"
-        data-aos-duration="1000"
-        data-aos-easing="ease-in-out"
-      >
-        dassadsadsadsadsad
-      </p>
-    </div>
+  <el-scrollbar :height="this.$store.state.windowSize.windowSizeHeight" @scroll="scrollProxy">
+    <main-header></main-header>
+    <el-row>
+      <el-col :span="12">
+        <div
+          data-aos="fade-right"
+          data-aos-offset="200"
+          data-aos-delay="50"
+          data-aos-duration="1000"
+          data-aos-easing="ease-in-out"
+          style="
+            height: 700px;
+            width: 100%;
+            background-color: rgb(0, 0, 0, 0.5);
+            text-align: center;
+          "
+        >
+          abcdjsajejwuiajw3qnferw4juiadsfav breaiwehwabfehlfehwahue4w7nsdh
+        </div>
+      </el-col>
+      <el-col :span="12">
+        <div
+          data-aos="fade-left"
+          data-aos-offset="200"
+          data-aos-delay="50"
+          data-aos-duration="1000"
+          data-aos-easing="ease-in-out"
+          style="
+            height: 700px;
+            width: 100%;
+            background-color: rgb(0, 0, 0, 0.8);
+            text-align: center;
+          "
+        >
+          abcdjsajejwuiajw3qnferw4juiadsfav breaiwehwabfehlfehwahue4w7nsdh
+        </div>
+      </el-col>
+    </el-row>
+
+    <div
+      data-aos="fade-right"
+      data-aos-offset="200"
+      data-aos-delay="50"
+      data-aos-duration="1000"
+      data-aos-easing="ease-in-out"
+      style="height: 700px; width: 100%; background-color: #4d58b5"
+    ></div>
+    <div
+      data-aos="fade-left"
+      data-aos-offset="200"
+      data-aos-delay="50"
+      data-aos-duration="1000"
+      data-aos-easing="ease-in-out"
+      style="height: 700px; width: 100%; background-color: #000"
+    ></div>
   </el-scrollbar>
-  </div>
 </template>
 <script>
 import MainHeader from "../components/Home/header/MainHeader.vue";
-import AOS from 'aos';
+import AOS from "aos"
 
 export default {
   components: {
     MainHeader,
   },
-  methods: {
-    scrollProxy(scrollParams) {
+  methods:{
+    scrollProxy: function(scrollParams){
       window.pageYOffset = scrollParams.scrollTop;
+      window.scrollY = scrollParams.scrollTop;
       AOS.refresh();
-      console.log(window.pageYOffset);
-    },
-  },
+    }
+  }
+
 };
 </script>
 <style scoped>
