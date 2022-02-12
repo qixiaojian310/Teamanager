@@ -58,15 +58,23 @@ export default {
         username: "",
         password: "",
       },
+      url:"/hello"
     };
   },
   methods: {
     submitForm() {
-      this.axios.post("/Home", {
-        firstName: "Fred",
-        lastName: "Flintstone",
+      this.axios({
+        url: this.url,
+        data: {
+          user:{
+            username: this.form.username,
+            password: this.form.password,
+          }
+        },
+        method:"post",
+        baseURL: "http://localhost:8088/api",
       }).then((response) => {
-        console.log("response");
+        console.log(response);
       });
     },
   },
