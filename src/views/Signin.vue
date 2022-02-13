@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import "../assets/css/sign-css.css";
+import "";
 import SignInputItem from '../components/sign/SignInputItem.vue';
 
 export default {
@@ -98,5 +98,5 @@ export default {
 };
 </script>
 
-<style>
+<style scoped src="../assets/css/sign-css.css">
 </style>
