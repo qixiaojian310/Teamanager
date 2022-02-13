@@ -45,8 +45,6 @@
 </template>
 
 <script>
-import "../assets/css/sign-css.css";
-
 export default {
   name: "Signup",
   computed: {
@@ -90,7 +88,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped src="../assets/css/sign-css.css">
 .bg-box {
   background-color: #4d58b5;
 }
