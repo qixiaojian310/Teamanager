@@ -10,10 +10,34 @@ import java.util.List;
 @Component
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Team {
-    private String teamid;
-    private String leaderid;
-    private String moduleid;
+    private String teamId;
+    private String leaderId;
+    private String moduleId;
     private List<Student> studentList;
+
+    public String getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(String teamId) {
+        this.teamId = teamId;
+    }
+
+    public String getLeaderId() {
+        return leaderId;
+    }
+
+    public void setLeaderId(String leaderId) {
+        this.leaderId = leaderId;
+    }
+
+    public String getModuleId() {
+        return moduleId;
+    }
+
+    public void setModuleId(String moduleId) {
+        this.moduleId = moduleId;
+    }
 
     public List<Student> getStudentList() {
         return studentList;
@@ -22,32 +46,4 @@ public class Team {
     public void setStudentList(List<Student> studentList) {
         this.studentList = studentList;
     }
-
-
-
-    public String getTeamid() {
-        return teamid;
-    }
-
-    public void setTeamid(String teamid) {
-        this.teamid = teamid;
-    }
-
-    public String getLeaderid() {
-        return leaderid;
-    }
-
-    public void setLeaderid(String leaderid) {
-        this.leaderid = leaderid;
-    }
-
-    public String getModuleid() {
-        return moduleid;
-    }
-
-    public void setModuleid(String moduleid) {
-        this.moduleid = moduleid;
-    }
-
-
 }

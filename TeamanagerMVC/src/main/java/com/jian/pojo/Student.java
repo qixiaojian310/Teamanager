@@ -1,14 +1,14 @@
 package com.jian.pojo;
 
-public class Student extends User{
+public class Student extends Member {
 
-    private String studentid;
-    public String getStudentid() {
-        return studentid;
+    private String studentId;
+    public String getStudentId() {
+        return studentId;
     }
 
-    public void setStudentid(String studentid) {
-        this.studentid = studentid;
+    public void setStudentId(String studentid) {
+        this.studentId = studentid;
     }
 
 

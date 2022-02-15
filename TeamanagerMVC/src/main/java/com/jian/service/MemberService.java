@@ -1,9 +1,9 @@
 package com.jian.service;
 
-import com.jian.pojo.User;
+import com.jian.pojo.Member;
 
-public interface UserService {
+public interface MemberService {
     public boolean ifUserExist(String username);
     public String getUserPwd(String username);
-    public boolean insertNewUser(User user);
+    public boolean insertNewUser(Member user);
 }

@@ -1,10 +1,10 @@
 package com.jian.service;
 
-import com.jian.pojo.User;
+import com.jian.pojo.Member;
 import org.springframework.stereotype.Service;
 
-@Service("signinUserDaoImpl")
-public class SigninUserServiceImpl implements UserService {
+@Service("signinMemberServiceImpl")
+public class SigninMemberServiceImpl implements MemberService {
     @Override
     public boolean ifUserExist(String username) {
         return false;
@@ -16,5 +16,5 @@ public class SigninUserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean insertNewUser(User user){return true;}
+    public boolean insertNewUser(Member user){return true;}
 }

@@ -1,13 +1,13 @@
 package com.jian.pojo;
 
-public class Teacher extends User{
-    private String teacherid;
-    public String getTeacherid() {
-        return teacherid;
+public class Teacher extends Member {
+    private String teacherId;
+    public String getTeacherId() {
+        return teacherId;
     }
 
-    public void setTeacherid(String teacherid) {
-        this.teacherid = teacherid;
+    public void setTeacherId(String teacherid) {
+        this.teacherId = teacherid;
     }
 
 

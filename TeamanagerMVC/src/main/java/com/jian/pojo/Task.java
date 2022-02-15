@@ -10,22 +10,36 @@ import java.util.List;
 @Component
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Task {
-    private String taskid;
+    private String taskId;
 
-    private String teamid;
+    private String teamId;
     private Date deadline;
     private String context;
     private List<Team> teamList;
 
-    public List<Team> getTeamList() {
-        return teamList;
+    public String getTaskId() {
+        return taskId;
     }
 
-    public void setTeamList(List<Team> teamList) {
-        this.teamList = teamList;
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
     }
 
+    public String getTeamId() {
+        return teamId;
+    }
 
+    public void setTeamId(String teamId) {
+        this.teamId = teamId;
+    }
+
+    public Date getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(Date deadline) {
+        this.deadline = deadline;
+    }
 
     public String getContext() {
         return context;
@@ -35,29 +49,11 @@ public class Task {
         this.context = context;
     }
 
-
-
-    public String getTaskid() {
-        return taskid;
+    public List<Team> getTeamList() {
+        return teamList;
     }
 
-    public void setTaskid(String taskid) {
-        this.taskid = taskid;
-    }
-
-    public String getTeamid() {
-        return teamid;
-    }
-
-    public void setTeamid(String teamid) {
-        this.teamid = teamid;
-    }
-
-    public Date getDeadline() {
-        return deadline;
-    }
-
-    public void setDeadline(Date deadline) {
-        this.deadline = deadline;
+    public void setTeamList(List<Team> teamList) {
+        this.teamList = teamList;
     }
 }
