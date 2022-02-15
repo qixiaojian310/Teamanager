@@ -2,21 +2,25 @@ package com.jian.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jian.service.UserService;
 import com.jian.pojo.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600, methods = {RequestMethod.DELETE,RequestMethod.GET,RequestMethod.OPTIONS,RequestMethod.POST,RequestMethod.PUT})
 @Controller
 //RestController不会加载视图，而是直接响应
 //@RestController
-public class HelloController{
+public class SigninController {
+
+    @Autowired
+    @Qualifier("signinUserDaoImpl")
+    private UserService userDao;
+
+
     @RequestMapping(value = "/hello", method = RequestMethod.POST)
     @ResponseBody
     public String hello(@RequestBody String userString) throws JsonProcessingException {
@@ -27,6 +31,23 @@ public class HelloController{
         String user1JSON = mapper.writeValueAsString(user1);
         return user1JSON;
     }
+
+    @RequestMapping(value = "/hello2", method = RequestMethod.POST)
+    @ResponseBody
+    public String hello2(@RequestBody User userString) throws JsonProcessingException {
+        System.out.println(userString.getPassword());
+        if (userDao.ifUserExist(userString.getUsername())){
+            if(userString.getPassword().equals(userDao.getUserPwd(userString.getUsername()))){
+                return "Match";
+            }
+            else return "NoMatch";
+        }
+        else{
+            return "NoExit";
+        }
+
+    }
+
 
     @RequestMapping(value = "/test", method = RequestMethod.POST)
     @ResponseBody

@@ -9,10 +9,6 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>TeammangerLearn</module>
-        <module>TeamanagerAOP</module>
-        <module>TeamanagerServlet</module>
-        <module>TeamanagerJDBC</module>
         <module>TeamanagerMVC</module>
     </modules>
 
