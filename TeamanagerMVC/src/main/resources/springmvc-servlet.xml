@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <context:component-scan base-package="com.jian.controller" />
+    <mvc:default-servlet-handler />
+    <mvc:annotation-driven>
+<!--        <mvc:message-converters register-defaults="true">-->
+<!--            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">-->
+<!--                <property name="supportedMediaTypes">-->
+<!--                    <list>-->
+<!--                        <value>text/html;charset=UTF-8</value>-->
+<!--                        <value>application/json</value>-->
+<!--                        <value>application/xml;charset=UTF-8</value>-->
+<!--                    </list>-->
+<!--                </property>-->
+<!--                <property name="features">-->
+<!--                    <list>-->
+<!--                        &lt;!&ndash; 默认的意思就是不配置这个属性，配置了就不是默认了 &ndash;&gt;-->
+<!--                        &lt;!&ndash; 是否输出值为null的字段 ，默认是false&ndash;&gt;-->
+
+<!--                        <value>WriteMapNullValue</value>-->
+
+<!--                        <value>WriteNullNumberAsZero</value>-->
+<!--                        <value>WriteNullListAsEmpty</value>-->
+<!--                        <value>WriteNullStringAsEmpty</value>-->
+<!--                        <value>WriteNullBooleanAsFalse</value>-->
+<!--                        <value>WriteDateUseDateFormat</value>-->
+
+<!--                    </list>-->
+<!--                </property>-->
+<!--            </bean>-->
+
+<!--        </mvc:message-converters>-->
+    </mvc:annotation-driven>
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 设置文件上传大小 5M -->
+    </bean>
+
+<!--    &lt;!&ndash;    处理器映射器&ndash;&gt;-->
+<!--    <bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>-->
+<!--    &lt;!&ndash;    处理器适配器&ndash;&gt;-->
+<!--    <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>-->
+    <!--    视图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="internalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+</beans>
