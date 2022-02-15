@@ -14,7 +14,7 @@ public class SignupController {
 
 
     @Autowired
-    @Qualifier("signinUserDaoImpl")
+    @Qualifier("signinUserServiceImpl")
     private UserService userDao;
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
