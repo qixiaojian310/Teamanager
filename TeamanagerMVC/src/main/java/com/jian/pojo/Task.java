@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
+import java.util.List;
 
 
 @Component
@@ -14,6 +15,17 @@ public class Task {
     private String teamid;
     private Date deadline;
     private String context;
+    private List<Team> teamList;
+
+    public List<Team> getTeamList() {
+        return teamList;
+    }
+
+    public void setTeamList(List<Team> teamList) {
+        this.teamList = teamList;
+    }
+
+
 
     public String getContext() {
         return context;
