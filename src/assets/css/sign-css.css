@@ -1,6 +1,11 @@
 .bg-box {
   background-color: #4d58b5;
 }
+
+.no-bg-box {
+  background-color: #fff;
+}
+
 .sign-box {
   position: absolute;
   top: 50%;
@@ -19,6 +24,7 @@
   height: 60%;
   background: #fff;
   border-radius: 10px;
+  
 }
 .sign-toggle-box-link{
   margin-top: 10%;
@@ -41,6 +47,7 @@ a{
   text-align: center;
   padding: 2%;
   border-radius: 10px;
+  font-size: 1.2rem;
 }
 a:hover{
   transition: background-color 0.35s ease-in-out, color 0.35s ease-in-out;
@@ -57,4 +64,27 @@ a:hover{
   margin-top: 1rem;
   font-size: 0.7rem;
   margin-bottom: 0.7rem;
+}
+.submit-box{
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+.btn-submit{
+  transition: background-color 0.35s ease-in-out, color 0.35s ease-in-out;
+  text-decoration: none;
+  color: #1b1b1b;
+  background-color: #65b54d56;
+  border: 2px solid #65b54d;
+  width: 80%;
+  display: block;
+  text-align: center;
+  padding: 2%;
+  border-radius: 10px;
+  font-size: 1.2rem;
+}
+.btn-submit:hover{
+  transition: background-color 0.35s ease-in-out, color 0.35s ease-in-out;
+  background-color: #65b54d;
+  color: #fff;
 }

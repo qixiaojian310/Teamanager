@@ -1,10 +1,10 @@
 <template>
-  <div class="sign-input-item" :class="{'sign-input-item-focus' : focusState}">
+  <div class="sign-input-item" :class="{ 'sign-input-item-focus': focusState }">
     <label :class="{ 'new-label': focusState }" :for="name">{{ name }}</label>
     <input
       :type="type"
       :id="name"
-      v-model="inputValue"
+      :value="inputValue"
       @input="changeStyleChange"
       @focus="changeStyleFocus"
       @blur="changeStyleBlur"
@@ -30,13 +30,22 @@ export default {
       this.emptyState == false
         ? (this.focusState = true)
         : (this.focusState = false);
-    },
-    changeStyleChange: function () {
-      console.log(this.inputValue.length);
       this.inputValue.length > 0
-        ? (this.emptyState = false)
-        : (this.emptyState = true);
+        ? (this.focusState = true)
+        : (this.focusState = false);
     },
+    changeStyleChange: function (event) {
+      this.inputValue.length > 0
+        ? (this.focusState = true)
+        : (this.focusState = false);
+      this.$emit("update:inputValue", event.target.value);
+    },
+  },
+
+  mounted() {
+    this.inputValue.length > 0
+      ? (this.focusState = true)
+      : (this.focusState = false);
   },
 };
 </script>
@@ -50,7 +59,7 @@ input {
   font-size: 1.8rem;
   left: 0%;
   z-index: 2;
-  color: #6A9D67;
+  color: #6a9d67;
 }
 label {
   position: absolute;
@@ -58,7 +67,7 @@ label {
   left: 0%;
   font-size: 1.6rem;
   z-index: 3;
-  color: #70665E;
+  color: #70665e;
   transition: font-size 0.3s cubic-bezier(0.4, 0, 0.2, 1),
     bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -76,15 +85,16 @@ label {
 }
 
 .sign-input-item-focus {
-  border-bottom: 4px dotted #6A9D67;
+  border-bottom: 4px dotted #6a9d67;
   transition: border-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .new-label {
   top: 0 !important;
   font-size: 1rem !important;
-  color: #6A9D67;
+  color: #6a9d67;
   transition: font-size 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 </style>
