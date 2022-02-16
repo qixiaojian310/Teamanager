@@ -24,7 +24,8 @@ public class SignupController {
             return false;
         }
         else{
-            return userDao.insertNewUser(userString);
+            if(userDao.insertNewUser(userString)==1)return true;
+            else return false;
         }
 
     }

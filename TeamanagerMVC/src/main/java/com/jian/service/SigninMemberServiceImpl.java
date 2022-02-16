@@ -22,9 +22,12 @@ public class SigninMemberServiceImpl implements MemberService {
 
     @Override
     public String getUserPwd(String username) {
-        return null;
+
+        return memberDao.getUserPwd(username);
     }
 
     @Override
-    public boolean insertNewUser(Member user){return true;}
+    public int insertNewUser(Member user){
+        return memberDao.addMember(user);
+    }
 }

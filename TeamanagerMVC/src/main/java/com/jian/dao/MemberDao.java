@@ -9,4 +9,6 @@ public interface MemberDao {
     public Member getMemberListId(String id);
     public int addMember(Member member);
     public List<Member> ifUserExist(String memberId);
+
+    public String getUserPwd(String memberId);
 }
