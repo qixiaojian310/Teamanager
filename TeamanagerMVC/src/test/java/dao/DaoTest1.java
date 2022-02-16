@@ -5,12 +5,14 @@ import com.jian.dao.MemberDao;
 import com.jian.pojo.Member;
 import com.jian.utils.MybatisBuildUtils;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.log4j.Logger;
 import org.junit.Test;
 
 import java.util.List;
 
 public class DaoTest1 {
 
+    static Logger logger = Logger.getLogger(DaoTest1.class);
     @Test
     public void test1(){
         SqlSession sqlSession = MybatisBuildUtils.getSqlSession();
