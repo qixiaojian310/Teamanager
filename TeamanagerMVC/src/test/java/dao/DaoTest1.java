@@ -28,6 +28,34 @@ public class DaoTest1 {
 
     }
 
+    @Test
+    public void test2(){
+        SqlSession sqlSession = MybatisBuildUtils.getSqlSession();
+        //执行sql，MemberDao可以对应一个MemberMapper
+        MemberDao memberDao = sqlSession.getMapper(MemberDao.class);
+        Member member = memberDao.getMemberListId("12345");
+
+        System.out.println(member.toString());
+
+        sqlSession.close();
+
+    }
+
+    @Test
+    public void test3(){
+        SqlSession sqlSession = MybatisBuildUtils.getSqlSession();
+        //执行sql，MemberDao可以对应一个MemberMapper
+        MemberDao memberDao = sqlSession.getMapper(MemberDao.class);
+        Member member = new Member();
+        member.setMemberId("123542");
+        member.setPassword("qixiaojian");
+        member.setTeacher(1);
+        memberDao.addMember(member);
+        sqlSession.commit();
+        sqlSession.close();
+
+    }
+
     public static void main(String[] args) {
         SqlSession sqlSession = MybatisBuildUtils.getSqlSession();
         //执行sql，MemberDao可以对应一个MemberMapper

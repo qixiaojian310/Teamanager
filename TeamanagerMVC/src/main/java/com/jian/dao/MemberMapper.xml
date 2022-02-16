@@ -3,23 +3,30 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jian.dao.MemberDao">
-<!--    id就是方法名字-->
-<!--    Type是类型只有一个，Map是一个list-->
+    <!--    id就是方法名字-->
+    <!--    Type是类型只有一个，Map是一个list-->
 
     <select id="getMemberList" resultMap="memberResultMap">
         select * from member
     </select>
 
     <resultMap id="memberResultMap" type="com.jian.pojo.Member">
-        <id property="memberId" column="member_id" />
-        <result property="password" column="password" />
-        <result property="isTeacher" column="is_teacher" />
+        <id property="memberId" column="member_id"/>
+        <result property="password" column="password"/>
+        <result property="isTeacher" column="is_teacher"/>
     </resultMap>
 
 
+    <!--    下面这种不行是因为，在使用resultType时，mybatis并不会把下划线转换为camelCase的格式-->
+    <!--    <select id="getMemberListId" resultType="com.jian.pojo.Member">-->
+    <!--        select * from member-->
+    <!--    </select>-->
 
-<!--    下面这种不行是因为，在使用resultType时，mybatis并不会把下划线转换为camelCase的格式-->
-<!--    <select id="getMemberList" resultType="com.jian.pojo.Member">-->
-<!--        select * from member-->
-<!--    </select>-->
+    <select id="getMemberListId" resultMap="memberResultMap">
+    select * from member where member_id = #{id}
+    </select>
+
+    <insert id="addMember" parameterType="com.jian.pojo.Member">
+        insert into member values  (#{memberId},#{password},#{isTeacher})
+    </insert>
 </mapper>

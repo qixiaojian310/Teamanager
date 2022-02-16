@@ -10,10 +10,6 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>TeamanagerMVC</module>
-        <module>TeamanagerAOP</module>
-        <module>TeamanagerJDBC</module>
-        <module>TeamanagerServlet</module>
-        <module>TeammangerLearn</module>
     </modules>
 
     <properties>

@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.*;
 public class SigninController {
 
     @Autowired
-    @Qualifier("signinUserDaoImpl")
-    private MemberService userDao;
+    @Qualifier("signinMemberServiceImpl")
+    private MemberService memberService;
 
 
     @RequestMapping(value = "/hello", method = RequestMethod.POST)
@@ -36,8 +36,8 @@ public class SigninController {
     @ResponseBody
     public String hello2(@RequestBody Member userString) throws JsonProcessingException {
         System.out.println(userString.getPassword());
-        if (userDao.ifUserExist(userString.getMemberId())){
-            if(userString.getPassword().equals(userDao.getUserPwd(userString.getMemberId()))){
+        if (memberService.ifUserExist(userString.getMemberId())){
+            if(userString.getPassword().equals(memberService.getUserPwd(userString.getMemberId()))){
                 return "Match";
             }
             else return "NoMatch";
