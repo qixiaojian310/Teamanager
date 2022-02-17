@@ -26,13 +26,15 @@ public class SigninMemberServiceImpl implements MemberService {
 
     @Override
     public boolean ifUserExist(String username) {
+    //  如果查询到当前id有人使用
+        Member member = memberDao.getMemberListId(username);
 
-        List<Member> memberList = memberDao.getMemberList();
-
-        for (Member member : memberList) {
-            System.out.println(member);
+        if(member==null) {
+            return false;
         }
-        return false;
+        else {
+            return true;
+        }
     }
 
     @Override
@@ -42,7 +44,7 @@ public class SigninMemberServiceImpl implements MemberService {
     }
 
     @Override
-    public int insertNewUser(Member user){
+    public boolean insertNewUser(Member user){
         return memberDao.addMember(user);
     }
 }

@@ -2,11 +2,11 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jian.dao.MemberDao">
+<mapper namespace="com.jian.dao.TaskDao">
     <!--    id就是方法名字-->
     <!--    Type是类型只有一个，Map是一个list-->
 
-    <select id="getMemberList" resultMap="memberResultMap">
+    <select id="getTaskList" resultMap="memberResultMap">
         select * from member
     </select>
 
