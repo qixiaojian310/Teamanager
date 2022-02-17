@@ -12,6 +12,7 @@
 
     <resultMap id="taskResultMap" type="com.jian.pojo.Task">
         <id property="taskId" column="task_id"/>
+        <result property="taskName" column="task_name" />
         <result property="context" column="content"/>
         <result property="deadline" column="deadline"/>
         <result property="teamId" column="team_id"/>
@@ -32,7 +33,7 @@
 
 
     <insert id="addTask" parameterType="com.jian.pojo.Task">
-        insert into task values  (#{taskId},#{context},#{deadline},#{teamId})
+        insert into task values  (#{taskId},#{context},#{deadline},#{teamName})
     </insert>
 
     <insert id="addTaskStudent" parameterType="String">

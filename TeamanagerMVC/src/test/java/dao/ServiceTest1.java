@@ -16,7 +16,6 @@ public class ServiceTest1 {
     public void test1(){
         ApplicationContext ctx = ApplicationContextBuilder.getContext();
         MemberService memberService = ctx.getBean("signinMemberServiceImpl",MemberService.class);
-        memberService.ifUserExist("das");
 
     }
 }

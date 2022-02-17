@@ -10,29 +10,37 @@ import java.util.List;
 @Component
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Team {
-    private String teamId;
-    private String moduleId;
+    private Integer teamId;
+    private String teamName;
+    private Integer moduleId;
     private List<Student> studentList;
     private List<Task> taskList;
     private Student leader;
 
-    public String getTeamId() {
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
+    public Integer getTeamId() {
         return teamId;
     }
 
-    public void setTeamId(String teamId) {
+    public void setTeamId(Integer teamId) {
         this.teamId = teamId;
     }
 
-
-    public String getModuleId() {
+    public Integer getModuleId() {
         return moduleId;
     }
 
-    public void setModuleId(String moduleId) {
+    public void setModuleId(Integer moduleId) {
         this.moduleId = moduleId;
     }
-
 
     public List<Student> getStudentList() {
         return studentList;

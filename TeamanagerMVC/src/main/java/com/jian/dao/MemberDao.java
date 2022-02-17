@@ -7,7 +7,7 @@ import java.util.List;
 public interface MemberDao {
     public List<Member> getMemberList();
     public Member getMemberListId(String memberId);
-    public boolean addMember(Member member);
+    public Integer addMember(Member member);
 
     public String getUserPwd(String memberId);
 }

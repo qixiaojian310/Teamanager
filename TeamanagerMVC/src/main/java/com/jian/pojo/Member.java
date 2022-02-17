@@ -10,7 +10,17 @@ import org.springframework.stereotype.Component;
 public class Member {
     private String memberId;
     private String password;
+
+
     private Integer isTeacher;
+
+    public Integer getIsTeacher() {
+        return isTeacher;
+    }
+
+    public void setIsTeacher(Integer isTeacher) {
+        this.isTeacher = isTeacher;
+    }
 
     public String getMemberId() {
         return memberId;
@@ -28,13 +38,7 @@ public class Member {
         this.password = password;
     }
 
-    public Integer isTeacher() {
-        return isTeacher;
-    }
 
-    public void setTeacher(Integer teacher) {
-        isTeacher = teacher;
-    }
 
     @Override
     public String toString() {

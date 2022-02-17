@@ -15,16 +15,16 @@ public class SignupController {
 
     @Autowired
     @Qualifier("signinMemberServiceImpl")
-    private MemberService userDao;
+    private MemberService memberService;
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     @ResponseBody
     public boolean hello2(@RequestBody Member userString) throws JsonProcessingException {
-        if (userDao.ifUserExist(userString.getMemberId())){
+        if (memberService.ifUserExist(userString.getMemberId())){
             return false;
         }
         else{
-            if(userDao.insertNewUser(userString)==1)return true;
+            if(memberService.insertNewUser(userString)==1)return true;
             else return false;
         }
 

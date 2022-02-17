@@ -44,7 +44,7 @@ public class SigninMemberServiceImpl implements MemberService {
     }
 
     @Override
-    public boolean insertNewUser(Member user){
+    public Integer insertNewUser(Member user){
         return memberDao.addMember(user);
     }
 }

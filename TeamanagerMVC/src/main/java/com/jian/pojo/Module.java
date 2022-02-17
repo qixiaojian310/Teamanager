@@ -3,18 +3,27 @@ package com.jian.pojo;
 import java.util.List;
 
 public class Module {
-    private String moduleId;
+    private Integer moduleId;
+    private String moduleName;
     private Teacher teacher;
     private List<Student> studentList;
     private List<Team> teamList;
 
 
-    public String getModuleId() {
+    public Integer getModuleId() {
         return moduleId;
     }
 
-    public void setModuleId(String moduleId) {
+    public void setModuleId(Integer moduleId) {
         this.moduleId = moduleId;
+    }
+
+    public String getModuleName() {
+        return moduleName;
+    }
+
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
     }
 
     public Teacher getTeacher() {
