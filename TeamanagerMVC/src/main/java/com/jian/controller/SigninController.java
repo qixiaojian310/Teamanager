@@ -2,8 +2,8 @@ package com.jian.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jian.service.MemberService;
-import com.jian.pojo.Member;
+import com.jian.pojo.Student;
+import com.jian.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.*;
 public class SigninController {
 
     @Autowired
-    @Qualifier("signinMemberServiceImpl")
-    private MemberService memberService;
+    @Qualifier("signinStudentServiceImpl")
+    private StudentService studentService;
 
 
     @RequestMapping(value = "/hello", method = RequestMethod.POST)
@@ -26,7 +26,7 @@ public class SigninController {
     public String hello(@RequestBody String userString) throws JsonProcessingException {
         System.out.println(userString);
         ObjectMapper mapper = new ObjectMapper();
-        Member user1 = mapper.readValue(userString, Member.class);
+        Student user1 = mapper.readValue(userString, Student.class);
         System.out.println(user1.getPassword());
         String user1JSON = mapper.writeValueAsString(user1);
         return user1JSON;
@@ -34,10 +34,10 @@ public class SigninController {
 
     @RequestMapping(value = "/hello2", method = RequestMethod.POST)
     @ResponseBody
-    public String hello2(@RequestBody Member userString) throws JsonProcessingException {
+    public String hello2(@RequestBody Student userString) throws JsonProcessingException {
         System.out.println(userString.getPassword());
-        if (memberService.ifUserExist(userString.getMemberId())){
-            if(userString.getPassword().equals(memberService.getUserPwd(userString.getMemberId()))){
+        if (studentService.ifStudentExist(userString.getStudentId())){
+            if(userString.getPassword().equals(studentService.getStudentPwd(userString.getStudentId()))){
                 return "Match";
             }
             else return "NoMatch";

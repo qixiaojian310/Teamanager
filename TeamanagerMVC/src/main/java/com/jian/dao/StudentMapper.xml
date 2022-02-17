@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jian.dao.StudentDao">
+    <!--    id就是方法名字-->
+    <!--    Type是类型只有一个，Map是一个list-->
+
+    <select id="getTaskIdList"  resultType="java.lang.Integer">
+        select * from task_student_link where student_id=#{studentId}
+    </select>
+
+
+    <select id="getModuleList"  resultType="java.lang.Integer">
+        select * from student_module_link where student_id=#{studentId}
+    </select>
+
+    <select id="getTeamList"  resultType="java.lang.Integer">
+        select * from student_team_link where student_id=#{studentId}
+    </select>
+
+    <select id="getStudent"  resultMap="StudentResultMap">
+        select * from student student_id=#{studentId}
+    </select>
+
+    <resultMap id="StudentResultMap" type="com.jian.pojo.Student">
+        <id property="studentId" column="member_id"/>
+        <result property="password" column="password" />
+        <result property="studentInfo" column="info"/>
+
+    </resultMap>
+
+    <select id="getStudentPwd" resultType="String">
+        select pssword from student student_id=#{studentId}
+    </select>
+
+    <insert id="addStudent" parameterType="com.jian.pojo.Student">
+        insert into student values  (#{studentId},#{password},#{studentInfo})
+    </insert>
+</mapper>

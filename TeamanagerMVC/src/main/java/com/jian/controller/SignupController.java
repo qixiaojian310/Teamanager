@@ -2,7 +2,6 @@ package com.jian.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jian.service.MemberService;
-import com.jian.pojo.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;

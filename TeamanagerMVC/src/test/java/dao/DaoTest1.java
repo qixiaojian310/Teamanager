@@ -2,7 +2,6 @@ package dao;
 
 
 import com.jian.dao.MemberDao;
-import com.jian.pojo.Member;
 import com.jian.utils.ApplicationContextBuilder;
 import com.jian.utils.MybatisBuildUtils;
 import org.apache.ibatis.session.SqlSession;
