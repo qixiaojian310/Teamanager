@@ -5,7 +5,7 @@
 
 
     <import resource="classpath:spring/springmvc-pojo.xml" />
-    <import resource="classpath:spring/springmvc-servlet.xml" />
+    <import resource="classpath:spring/springmvc-mvc.xml" />
     <import resource="classpath:spring/springmvc-filter.xml" />
     <import resource="classpath:spring/springmvc-dao.xml" />
     <import resource="classpath:spring/springmvc-service.xml" />

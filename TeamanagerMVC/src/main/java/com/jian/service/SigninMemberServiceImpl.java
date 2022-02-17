@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("signinMemberServiceImpl")
 public class SigninMemberServiceImpl implements MemberService {
 
@@ -13,10 +15,23 @@ public class SigninMemberServiceImpl implements MemberService {
     @Autowired
     @Qualifier("memberDao")
     private MemberDao memberDao;
+
+    public MemberDao getMemberDao() {
+        return memberDao;
+    }
+
+    public void setMemberDao(MemberDao memberDao) {
+        this.memberDao = memberDao;
+    }
+
     @Override
     public boolean ifUserExist(String username) {
 
-        System.out.println(memberDao.getMemberListId("12345"));
+        List<Member> memberList = memberDao.getMemberList();
+
+        for (Member member : memberList) {
+            System.out.println(member);
+        }
         return false;
     }
 
