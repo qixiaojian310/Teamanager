@@ -11,11 +11,11 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Task {
     private String taskId;
-
     private String teamId;
     private Date deadline;
     private String context;
-    private List<Team> teamList;
+    private List<Student> studentList;
+
 
     public String getTaskId() {
         return taskId;
@@ -49,11 +49,11 @@ public class Task {
         this.context = context;
     }
 
-    public List<Team> getTeamList() {
-        return teamList;
+    public List<Student> getStudentList() {
+        return studentList;
     }
 
-    public void setTeamList(List<Team> teamList) {
-        this.teamList = teamList;
+    public void setStudentList(List<Student> studentList) {
+        this.studentList = studentList;
     }
 }
