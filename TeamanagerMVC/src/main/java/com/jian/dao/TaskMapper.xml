@@ -6,32 +6,36 @@
     <!--    id就是方法名字-->
     <!--    Type是类型只有一个，Map是一个list-->
 
-    <select id="getTaskList" resultMap="memberResultMap">
-        select * from member
+    <select id="getTask" resultMap="taskResultMap">
+        select * from task where task_id=#{taskId}
     </select>
 
-    <resultMap id="memberResultMap" type="com.jian.pojo.Member">
-        <id property="memberId" column="member_id"/>
+    <resultMap id="taskResultMap" type="com.jian.pojo.Task">
+        <id property="taskId" column="task_id"/>
+        <result property="context" column="content"/>
+        <result property="deadline" column="deadline"/>
+        <result property="teamId" column="team_id"/>
+
+    </resultMap>
+
+
+    <select id="getStudentList" resultMap="studentResultMap">
+    select * from member where member_id=(select student_id from task_student_link where task_id=#{taskId})
+    </select>
+
+    <resultMap id="studentResultMap" type="com.jian.pojo.Student">
+        <id property="studentId" column="member_id"/>
         <result property="password" column="password"/>
         <result property="isTeacher" column="is_teacher"/>
     </resultMap>
 
 
-    <!--    下面这种不行是因为，在使用resultType时，mybatis并不会把下划线转换为camelCase的格式-->
-    <!--    <select id="getMemberListId" resultType="com.jian.pojo.Member">-->
-    <!--        select * from member-->
-    <!--    </select>-->
 
-    <select id="getMemberListId" resultMap="memberResultMap">
-    select * from member where member_id = #{memberId}
-    </select>
+    <insert id="addTask" parameterType="com.jian.pojo.Task">
+        insert into task values  (#{taskId},#{context},#{deadline},#{teamId})
+    </insert>
 
-    <select id="getUserPwd" resultType="String">
-    select password from member where member_id =#{memberId}
-
-    </select>
-
-    <insert id="addMember" parameterType="com.jian.pojo.Member">
-        insert into member values  (#{memberId},#{password},#{isTeacher})
+    <insert id="addTaskStudent" parameterType="String">
+        insert into task_student_link values  (#{studentId},#{taskId},0)
     </insert>
 </mapper>
