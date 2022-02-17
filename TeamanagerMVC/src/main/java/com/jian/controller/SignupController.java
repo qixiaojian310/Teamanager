@@ -1,7 +1,8 @@
 package com.jian.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.jian.service.MemberService;
+import com.jian.pojo.Student;
+import com.jian.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -13,17 +14,17 @@ public class SignupController {
 
 
     @Autowired
-    @Qualifier("signinMemberServiceImpl")
-    private MemberService memberService;
+    @Qualifier("signinStudentServiceImpl")
+    private StudentService memberService;
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     @ResponseBody
-    public boolean hello2(@RequestBody Member userString) throws JsonProcessingException {
-        if (memberService.ifUserExist(userString.getMemberId())){
+    public boolean hello2(@RequestBody Student userString) throws JsonProcessingException {
+        if (memberService.ifStudentExist(userString.getStudentId())){
             return false;
         }
         else{
-            if(memberService.insertNewUser(userString)==1)return true;
+            if(memberService.insertNewStudent(userString))return true;
             else return false;
         }
 

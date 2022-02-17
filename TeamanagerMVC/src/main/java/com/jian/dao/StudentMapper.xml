@@ -15,12 +15,13 @@
         select * from student_module_link where student_id=#{studentId}
     </select>
 
+<!--    this colomn called student_link, but it's fine to change the input parameter as studentId-->
     <select id="getTeamList"  resultType="java.lang.Integer">
-        select * from student_team_link where student_id=#{studentId}
+        select * from student_team_link where student_link=#{studentId}
     </select>
 
     <select id="getStudent"  resultMap="StudentResultMap">
-        select * from student student_id=#{studentId}
+        select * from student where student_id=#{studentId}
     </select>
 
     <resultMap id="StudentResultMap" type="com.jian.pojo.Student">
@@ -31,10 +32,10 @@
     </resultMap>
 
     <select id="getStudentPwd" resultType="String">
-        select pssword from student student_id=#{studentId}
+        select password from student where student_id=#{studentId}
     </select>
 
     <insert id="addStudent" parameterType="com.jian.pojo.Student">
-        insert into student values  (#{studentId},#{password},#{studentInfo})
+        insert into student values (#{studentId},#{password},#{studentInfo})
     </insert>
 </mapper>

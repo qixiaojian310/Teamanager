@@ -20,16 +20,11 @@ public class SigninController {
     @Qualifier("signinStudentServiceImpl")
     private StudentService studentService;
 
-
     @RequestMapping(value = "/hello", method = RequestMethod.POST)
     @ResponseBody
     public String hello(@RequestBody String userString) throws JsonProcessingException {
         System.out.println(userString);
-        ObjectMapper mapper = new ObjectMapper();
-        Student user1 = mapper.readValue(userString, Student.class);
-        System.out.println(user1.getPassword());
-        String user1JSON = mapper.writeValueAsString(user1);
-        return user1JSON;
+        return userString;
     }
 
     @RequestMapping(value = "/hello2", method = RequestMethod.POST)
