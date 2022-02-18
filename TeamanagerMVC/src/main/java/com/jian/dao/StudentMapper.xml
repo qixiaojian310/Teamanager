@@ -17,7 +17,7 @@
 
 <!--    this colomn called student_link, but it's fine to change the input parameter as studentId-->
     <select id="getTeamList"  resultType="java.lang.Integer">
-        select * from student_team_link where student_link=#{studentId}
+        select team_id from student_team_link where student_link=#{studentId}
     </select>
 
     <select id="getStudent"  resultMap="StudentResultMap">

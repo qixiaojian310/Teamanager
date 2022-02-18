@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jian.dao.ModuleDao">
+    <!--    id就是方法名字-->
+    <!--    Type是类型只有一个，Map是一个list-->
+
+    <select id="getModuleId"  resultType="java.lang.Integer">
+        select module_id from student_model_link where student_id=#{studentId} join module on module_name=#{moduleName}
+    </select>
+
+
+    <insert id="addModule" parameterType="com.jian.pojo.Module">
+        insert into module values (#{teacherId},#{moduleName})
+    </insert>
+
+    <select id="getModuleIdbyTeacher" resultType="String">
+        select module_id from module where teacher_id=#{teacherId} and module_name=#{moduleName}
+    </select>
+
+    <insert id="addModuleStudent" parameterType="String">
+        insert into student_module_link values (#{moduleId},#{studentId})
+    </insert>
+
+    <select id="getTask" resultType="java.lang.Integer">
+    select task_id from task_student_link where student_id=#{studentId} join task on team_id=(select team_id from team where module_id=#{moduleId})
+    </select>
+</mapper>

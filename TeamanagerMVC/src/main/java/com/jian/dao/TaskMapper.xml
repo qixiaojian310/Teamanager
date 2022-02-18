@@ -37,7 +37,7 @@
         insert into task_student_link values  (#{studentId},#{taskId},0)
     </insert>
 
-    <select id="getTaskProgress">
+    <select id="getTaskProgress" resultType="java.lang.Integer">
         select progress from task_student_link where student_id=#{studentId} and task_id=#{taskId}
     </select>
 </mapper>
