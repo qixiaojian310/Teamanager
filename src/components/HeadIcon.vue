@@ -4,8 +4,7 @@
       :width="250"
       :placement="popLayout"
       trigger="hover"
-      offset="-30"
-      hide-after="100"
+      :hide-after="100"
     >
       <template #reference>
         <!-- 用户没有头绪就显示图标 -->
@@ -117,20 +116,39 @@
 <script>
 export default {
   name: "HeadIcon",
-  props: [
-    "userName",
-    "userIconSrc",
-    "userIconWidth",
-    "userIconHeight",
-    "userInfor",
-    "widthLess768",
-  ],
+  props: {
+    widthLess768: {
+      type: Boolean,
+    },
+    userName: {
+      type: String,
+    },
+    userIconSrc: {
+      type: String,
+    },
+    userIconWidth: {
+      type: Number,
+    },
+    userIconHeight: {
+      type: Number,
+    },
+    userInfor: {
+      type: String,
+    },
+    widthMore768Less1200:{
+      type: Boolean,
+    }
+  },
   computed: {
     popLayout() {
       if (this.widthLess768) {
         return "bottom";
       } else {
-        return "right";
+        if(this.widthMore768Less1200){
+          return "left-end";
+        }else{
+          return "right-end";
+        }
       }
     },
   },
@@ -143,7 +161,7 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.head-box{
+.head-box {
   margin-bottom: 30px;
   margin-right: 30px;
   margin-left: 30px;

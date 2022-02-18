@@ -1,7 +1,6 @@
 <template>
   <main-header></main-header>
   <el-container>
-    <el
   </el-container>
 </template>
 

@@ -33,9 +33,28 @@
                   :userName="cooperatorObj.name"
                   :userInfor="cooperatorObj.Infor"
                   :widthLess768="widthLess768"
+                  :widthMore768Less1200="widthMore768Less1200"
                 ></head-icon>
               </div>
             </el-scrollbar>
+          </div>
+          <div v-else-if="widthMore768Less1200">
+            <p style="height: 40px">Your Cooperator</p>
+            <div style="height: 260px">
+              <el-scrollbar :height="200">
+                <head-icon
+                  v-for="cooperatorObj in cooperatorObjs"
+                  :key="cooperatorObj.ID"
+                  :userIconHeight="50"
+                  :userIconWidth="50"
+                  :userIconSrc="cooperatorObj.userIconSrc"
+                  :userName="cooperatorObj.name"
+                  :userInfor="cooperatorObj.Infor"
+                  :widthLess768="widthLess768"
+                  :widthMore768Less1200="widthMore768Less1200"
+                ></head-icon>
+              </el-scrollbar>
+            </div>
           </div>
           <div v-else>
             <p style="height: 40px">Your Cooperator</p>
@@ -49,6 +68,7 @@
                   :userIconSrc="cooperatorObj.userIconSrc"
                   :userName="cooperatorObj.name"
                   :userInfor="cooperatorObj.Infor"
+ 
                 ></head-icon>
               </el-scrollbar>
             </div>
@@ -113,6 +133,13 @@ export default {
         return false;
       }
     },
+    widthMore768Less1200() {
+      if (this.$store.state.windowSize.windowSizeWidth > 768 && this.$store.state.windowSize.windowSizeWidth < 1200) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     cardWidth() {
       return this.$store.state.windowSize.windowSizeWidth - 60;
     },
@@ -152,6 +179,7 @@ export default {
 .box-card {
   box-shadow: 0px 0px 5px #888888;
   margin-top: 30px;
+  width: 100%;
 }
 .box-card:hover {
   box-shadow: 0px 0px 10px #28485a;

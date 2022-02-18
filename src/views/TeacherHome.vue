@@ -1,10 +1,10 @@
 <template>
-  <el-container :direction="'vertical'">
+    <el-container :direction="'vertical'">
     <main-header />
     <el-container>
       <el-aside
         :width="asideWidth + 'px'"
-        class="aside-box-left hidden-xs-only"
+        class="aside-box-left hidden-sm-and-down"
         :style="{ height: asideHeight + 'px' }"
       >
         <el-scrollbar>
@@ -31,22 +31,9 @@
             </el-container>
           </el-main>
           <el-footer>
-            <el-date-picker>
-              
-            </el-date-picker>
           </el-footer>
         </el-scrollbar>
       </el-container>
-      <el-aside
-        :width="asideWidth + 'px'"
-        class="aside-box-right hidden-sm-and-down"
-        :style="{ height: asideHeight + 'px' }"
-      >
-        <p>Completed Task</p>
-        <aside-completed-tasks
-          :completedTasks="completedTasks"
-        ></aside-completed-tasks>
-      </el-aside>
     </el-container>
   </el-container>
 </template>
@@ -57,11 +44,10 @@
 import MainHeader from "../components/Home/header/MainHeader.vue";
 import AsideModules from "../components/Home/aside/AsideModules.vue";
 import AsideTeams from "../components/Home/aside/AsideTeams.vue";
-import AsideCompletedTasks from "../components/Home/aside/AsideCompletedTasks.vue";
 import UnCompletedTasks from "../components/Home/main/UnCompletedTasks.vue";
 
 export default {
-  name: "Home",
+  name: "TeachgerHome",
   data() {
     return {
       country: "china",
@@ -246,7 +232,6 @@ export default {
     MainHeader,
     AsideModules,
     AsideTeams,
-    AsideCompletedTasks,
     UnCompletedTasks,
   },
   computed: {
@@ -261,10 +246,10 @@ export default {
       }
     },
   },
-};
+}
 </script>
 
-<style scoped>
+<style>
 .aside-box-left {
   box-shadow: 1px 0px 7px #888888;
 }
@@ -284,9 +269,5 @@ export default {
   font-size: 20px;
   font-weight: 700;
   margin-left: 30px;
-}
-.aside-box-right {
-  box-shadow: -1px 0px 7px #888888;
-  overflow: hidden;
 }
 </style>
