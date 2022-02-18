@@ -25,13 +25,19 @@ export default {
 
 <style scoped>
 a {
-  color: rgb(91, 113, 167);
-  background: #e0e0e0;
+  color: #000000;
+  background: #DF7599;
   text-decoration: none;
   text-align: center;
   text-decoration: none;
   line-height: 60px;
   width: 25%;
+  transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+a:hover{
+  transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #fac1d3;
+  color: #000000;
 }
 
 </style>

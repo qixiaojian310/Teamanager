@@ -68,7 +68,6 @@
                   :userIconSrc="cooperatorObj.userIconSrc"
                   :userName="cooperatorObj.name"
                   :userInfor="cooperatorObj.Infor"
- 
                 ></head-icon>
               </el-scrollbar>
             </div>
@@ -134,7 +133,10 @@ export default {
       }
     },
     widthMore768Less1200() {
-      if (this.$store.state.windowSize.windowSizeWidth > 768 && this.$store.state.windowSize.windowSizeWidth < 1200) {
+      if (
+        this.$store.state.windowSize.windowSizeWidth > 768 &&
+        this.$store.state.windowSize.windowSizeWidth < 1200
+      ) {
         return true;
       } else {
         return false;
@@ -164,12 +166,12 @@ export default {
   flex-wrap: wrap;
 }
 .task-name {
-  color: #376fbd;
+  color: #242424;
   font-size: 20px;
   font-weight: 900;
 }
 .team-name {
-  color: #1d4f96;
+  color: #242424;
   font-size: 16px;
   font-weight: 900;
 }
@@ -180,8 +182,10 @@ export default {
   box-shadow: 0px 0px 5px #888888;
   margin-top: 30px;
   width: 100%;
+  
 }
-.box-card:hover {
-  box-shadow: 0px 0px 10px #28485a;
+.box-card{
+  background: rgba(100, 100, 100, 0.3);
 }
 </style>
+

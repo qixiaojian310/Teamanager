@@ -3,17 +3,46 @@ import StudentHome from '../views/StudentHome.vue'
 import TeacherHome from '../views/TeacherHome.vue'
 import Signin from '../views/Signin.vue'
 import Signup from "../views/Signup.vue"
+import TeacherModule from '../components/Module/Teacher/TeacherModule'
+import TeacherHomePage from '../components/Home/TeacherHomePage'
+import StudentHomePage from '../components/Home/StudentHomePage'
+import StudentModule from '../components/Module/Student/StudentModule'
 
 const routes = [
   {
-    path: '/student',
+    path: '/student/:id',
     name: 'StudentHome',
-    component: StudentHome
+    component: StudentHome,
+    children: [
+      {
+        path: '',
+        name: 'StudentHomePage',
+        component: StudentHomePage
+      },
+      {
+        path: 'module',
+        name: 'StudentModule',
+        component: StudentModule
+      }
+    ]
+
   },
   {
-    path: '/teacher',
+    path: '/teacher/:id',
     name: 'TeacherHome',
-    component: TeacherHome
+    component: TeacherHome,
+    children: [
+      {
+        path: '',
+        name: 'TeacherHomePage',
+        component: TeacherHomePage
+      },
+      {
+        path: 'module',
+        name: 'TeacherModule',
+        component: TeacherModule
+      }
+    ]
   },
   {
     path: '/signin',
@@ -32,7 +61,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+  },
 ]
 
 const router = createRouter({

@@ -13,6 +13,7 @@
     >
     </un-completed-task-card>
   </div>
+  
 </template>
 
 <script>
@@ -37,6 +38,7 @@ export default {
   align-items: center;
 }
 p {
+  color: #fff;
   margin-top: 0.5em;
   font-size: 30px;
   font-weight: bold;

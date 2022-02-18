@@ -5,6 +5,7 @@
       :placement="popLayout"
       trigger="hover"
       :hide-after="100"
+      :disabled="disabled"
     >
       <template #reference>
         <!-- 用户没有头绪就显示图标 -->
@@ -137,7 +138,11 @@ export default {
     },
     widthMore768Less1200:{
       type: Boolean,
-    }
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     popLayout() {

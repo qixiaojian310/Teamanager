@@ -45,7 +45,7 @@ export default {
 /*  The Digits  */
 .light {
   width: 200px;
-  background: #f4f5f7;
+  background: #f4f5f700;
   height: 30px;
   text-align: center;
 }

@@ -12,6 +12,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import aos from './aos/index'
 
+
 const app = createApp(App).use(store)
 app.use(router)
 app.use(ElementPlus)

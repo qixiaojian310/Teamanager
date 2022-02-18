@@ -1,5 +1,6 @@
 <template>
   <el-scrollbar>
+    <slot></slot>
     <aside-completed-task-item
       v-for="completedTask in completedTasks"
       :key="completedTask.index"
