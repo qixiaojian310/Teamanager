@@ -17,4 +17,8 @@ public interface StudentDao {
     public String getStudentPwd(String studentId);
     //增加一个student
     public boolean addStudent(Student student);
+    //给学生增加team
+    public boolean addTeam(String studentId,int teamId);
+    //给学生增加module
+    public boolean addModule(String studentId,int moduleId);
 }

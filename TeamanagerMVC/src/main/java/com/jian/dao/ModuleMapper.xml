@@ -26,4 +26,17 @@
     <select id="getTask" resultType="java.lang.Integer">
     select task_id from task_student_link where student_id=#{studentId} join task on team_id=(select team_id from team where module_id=#{moduleId})
     </select>
+
+    <select id="getModuleStudent" resultMap="ModuleResultMap">
+        select * from module where module_id = (select module_id from student_module_link where student_id=#{studentId})
+    </select>
+
+    <resultMap id="ModuleResultMap" type="com.jian.pojo.Module">
+        <id property="moduleId" column="module_id"/>
+        <result property="moduleName" column="module_name" />
+    </resultMap>
+
+    <select id="getModuleTeacher" resultMap="ModuleResultMap">
+        select * from module where teacher_id=#{teacherId}
+    </select>
 </mapper>

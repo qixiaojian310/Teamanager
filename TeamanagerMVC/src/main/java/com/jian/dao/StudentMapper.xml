@@ -25,7 +25,7 @@
     </select>
 
     <resultMap id="StudentResultMap" type="com.jian.pojo.Student">
-        <id property="studentId" column="member_id"/>
+        <id property="studentId" column="student_id"/>
         <result property="password" column="password" />
         <result property="studentInfo" column="info"/>
 
@@ -37,5 +37,13 @@
 
     <insert id="addStudent" parameterType="com.jian.pojo.Student">
         insert into student values (#{studentId},#{password},#{studentInfo})
+    </insert>
+
+    <insert id="addTeam" >
+        insert into student_team_link values(#{studentId},#{teamId})
+    </insert>
+
+    <insert id="addModule" >
+        insert into student_module_link values(#{moduleId},#{studentId})
     </insert>
 </mapper>

@@ -1,6 +1,8 @@
 package com.jian.dao;
 
 
+import com.jian.pojo.Module;
+
 import java.util.List;
 
 public interface ModuleDao {
@@ -14,5 +16,8 @@ public interface ModuleDao {
     public boolean addModuleStudent(String moduleId,String studentId);
     //通过课程id和学生id确定一下学生在当前课程有什么任务
     public List<Integer> getTask(int moduleId,String studentId);
-
+    //学生需要知道他上了什么课
+    public List<Module> getModuleStudent(String studentId);
+    //老师需要知道他上了什么课
+    public List<Module> getModuleTeacher(String teacherId);
 }

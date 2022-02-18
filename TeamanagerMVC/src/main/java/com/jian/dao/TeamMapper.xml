@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jian.dao.TeamDao">
+    <!--    id就是方法名字-->
+    <!--    Type是类型只有一个，Map是一个list-->
+
+    <select id="getTeamId" resultType="java.lang.Integer">
+        select team_id from team where team_name=#{teamName} join student_team_link on student_id=#{studentId}
+    </select>
+
+    <select id="getTask" resultType="java.lang.Integer">
+        select task_id from task where team_id=#{teamId} join task_student_link on student_id=#{studentId}
+    </select>
+
+    <select id="isLeader" resultType="String">
+        select leader_id from team where team_id=#{teamId}
+    </select>
+
+    <select id="getTeam" resultType="java.lang.Integer">
+        select team_id from student_team_link where student_id=#{studentId}
+    </select>
+
+    <insert id="addTeam">
+        insert into team values(#{leaderId},#{moduleId},#{teamName})
+    </insert>
+
+    <select id="getTaskList" resultType="java.lang.Integer">
+        select task_id from task where team_id=#{teamId}
+    </select>
+
+</mapper>
