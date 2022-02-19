@@ -317,7 +317,7 @@ export default {
   margin-left: 30px;
 }
 .aside-box-right {
-  background: linear-gradient(#ffdae6, #3994be);
+  background: linear-gradient(#df7599, #3994be);
   box-shadow: -1px 0px 7px #888888;
   overflow: hidden;
 }
