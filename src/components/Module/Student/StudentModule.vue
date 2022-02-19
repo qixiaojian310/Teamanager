@@ -6,7 +6,7 @@
       class="hidden-sm-and-down"
       :style="{ height: asideHeight + 'px' }"
     >
-      
+      <student-toolbar></student-toolbar>
     </el-aside>
     <el-main>
     </el-main>
@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import StudentToolbar from './StudentToolbar.vue'
+
 export default {
   name: "StudentModule",
   components:{
@@ -29,7 +31,10 @@ export default {
         return this.$store.state.windowSize.windowSizeWidth * 0.3;
       }
     },
-  }
+  },
+  components:{
+    StudentToolbar,
+  },
 };
 </script>
 
