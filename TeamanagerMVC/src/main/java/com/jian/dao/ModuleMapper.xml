@@ -12,6 +12,9 @@
 
 
     <insert id="addModule" parameterType="com.jian.pojo.Module">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="moduleId">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
         insert into module values (#{teacherId},#{moduleName})
     </insert>
 
@@ -38,5 +41,9 @@
 
     <select id="getModuleTeacher" resultMap="ModuleResultMap">
         select * from module where teacher_id=#{teacherId}
+    </select>
+
+    <select id="getTeamByModule" resultType="java.lang.Integer">
+        select team_id from team where module_id=#{moduleId}
     </select>
 </mapper>

@@ -30,4 +30,14 @@
         select task_id from task where team_id=#{teamId}
     </select>
 
+    <select id="getTeamById" resultMap="teamResultMap">
+        select * from team where team_id=#{teamId}
+    </select>
+
+    <resultMap id="teamResultMap" type="com.jian.pojo.Team">
+        <id property="teamId" column="team_id"/>
+        <result property="teamName" column="team_name"/>
+        <result property="moduleId" column="module_id"/>
+    </resultMap>
+
 </mapper>

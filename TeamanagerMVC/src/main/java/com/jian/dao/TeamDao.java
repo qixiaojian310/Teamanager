@@ -1,8 +1,5 @@
 package com.jian.dao;
 
-
-import com.jian.pojo.Student;
-import com.jian.pojo.Task;
 import com.jian.pojo.Team;
 
 import java.util.List;
@@ -20,5 +17,7 @@ public interface TeamDao {
   public boolean addTeam(String leaderId,int moduleId,String teamName);
   //老师有权查询该team下的所有task
   public List<Integer> getTaskList(int teamId);
+  //通过teamid得到整个team的信息
+  public Team getTeamById(int teamId);
 
 }

@@ -30,7 +30,10 @@
     </resultMap>
 
     <insert id="addTask" parameterType="com.jian.pojo.Task">
-        insert into task values  (#{taskId},#{context},#{deadline},#{teamName})
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="taskId">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into task values  (#{context},#{deadline},#{teamId},#{taskName})
     </insert>
 
     <insert id="addTaskStudent" >

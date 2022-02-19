@@ -12,8 +12,8 @@ public interface TaskDao {
     public Task getTask(int taskId);
     //获取该task的组员信息
     public  List<Student>  getStudentList(int taskId);
-    //增加一个空的任务
-    public boolean addTask(Task task);
+    //增加一个空的任务 返回该任务的taskid
+    public int addTask(Task task);
     //给该任务添加学生
     public boolean addTaskStudent(int taskId,String studentId);
     //跟据任务和学生id得到该学生的成绩
