@@ -33,11 +33,11 @@
         <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="taskId">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into task values  (#{context},#{deadline},#{teamId},#{taskName})
+        insert into task(content, deadline, team_id, task_name) values  (#{context},#{deadline},#{teamId},#{taskName})
     </insert>
 
     <insert id="addTaskStudent" >
-        insert into task_student_link values  (#{studentId},#{taskId},0)
+        insert into task_student_link(student_id, task_id, progress) values  (#{studentId},#{taskId},0)
     </insert>
 
     <select id="getTaskProgress" resultType="java.lang.Integer">

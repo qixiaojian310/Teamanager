@@ -17,7 +17,7 @@
 
 <!--    this colomn called student_link, but it's fine to change the input parameter as studentId-->
     <select id="getTeamList"  resultType="java.lang.Integer">
-        select team_id from student_team_link where student_link=#{studentId}
+        select team_id from student_team_link where student_id=#{studentId}
     </select>
 
     <select id="getStudent"  resultMap="StudentResultMap">
@@ -40,10 +40,10 @@
     </insert>
 
     <insert id="addTeam" >
-        insert into student_team_link values(#{studentId},#{teamId})
+        insert into student_team_link(student_id, team_id) values(#{studentId},#{teamId})
     </insert>
 
     <insert id="addModule" >
-        insert into student_module_link values(#{moduleId},#{studentId})
+        insert into student_module_link(module_id, student_id) values(#{moduleId},#{studentId})
     </insert>
 </mapper>

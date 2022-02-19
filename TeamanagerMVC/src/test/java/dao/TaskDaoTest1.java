@@ -1,32 +1,42 @@
 package dao;
 
 
-import com.jian.dao.StudentDao;
-import com.jian.pojo.Student;
+import com.jian.dao.TaskDao;
+import com.jian.pojo.Task;
 import com.jian.utils.ApplicationContextBuilder;
-import com.jian.utils.MybatisBuildUtils;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 
-import java.util.List;
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
-public class DaoTest1 {
+public class TaskDaoTest1 {
 
     private ApplicationContext ctx = ApplicationContextBuilder.getContext();
-    static Logger logger = Logger.getLogger(DaoTest1.class);
-//    @Test
-////    public void test1(){
-////        //执行sql，MemberDao可以对应一个MemberMapper
-////        StudentDao studentDao = ctx.getBean("studentDao",StudentDao.class);
-////        List<Student> studentList = studentDao.get();
-////
-////        for (Student student : memberList) {
-////            System.out.println(member.toString());
-////        }
-////
-////    }
+    @Test
+    public void test1(){
+        //执行sql，MemberDao可以对应一个MemberMapper
+        TaskDao taskDao = ctx.getBean("taskDao", TaskDao.class);
+        Task task = new Task();
+        task.setContext("yaoyao task");
+        task.setTaskName("yaoyao task");
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.set(Calendar.YEAR,2023);
+        gc.set(Calendar.MONTH,4);
+        gc.set(Calendar.DAY_OF_MONTH,17);
+        gc.set(Calendar.HOUR,12);
+        gc.set(Calendar.MINUTE,6);
+        gc.set(Calendar.SECOND,22);
+        java.util.Date utilDate = new java.util.Date();
+        utilDate = gc.getTime();
+        Date sqlDate = new Date(utilDate.getTime());
+        task.setDeadline(sqlDate);
+        task.setTeamId(1);
+        taskDao.addTask(task);
+        System.out.println("insert task id is"+task.getTaskId());
+    }
+
 
 //    @Test
 //    public void test2(){

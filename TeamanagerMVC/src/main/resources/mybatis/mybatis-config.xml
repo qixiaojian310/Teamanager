@@ -22,5 +22,10 @@
 
     <mappers>
         <mapper resource="com/jian/dao/StudentMapper.xml"/>
+        <mapper resource="com/jian/dao/TaskMapper.xml" />
+        <mapper resource="com/jian/dao/TeacherMapper.xml" />
+        <mapper resource="com/jian/dao/TeamMapper.xml" />
+        <mapper resource="com/jian/dao/ModuleMapper.xml" />
     </mappers>
+
 </configuration>
