@@ -22,4 +22,6 @@ public interface ModuleDao {
     public List<Module> getModuleTeacher(String teacherId);
     //跟据moduleid得到对应的所有的team的id
     public List<Integer> getTeamByModule(String moduleId);
+    //跟据课程id得到该课程包含的所有的学生
+    public List<Integer> getStudent(String moduleId);
 }

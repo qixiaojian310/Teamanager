@@ -46,4 +46,8 @@
     <select id="getTeamByModule" resultType="java.lang.Integer">
         select team_id from team where module_id=#{moduleId}
     </select>
+
+    <select id="getStudent" resultType="java.lang.Integer">
+        select student_id from student_module_link where moudle_id={moduleId}
+    </select>
 </mapper>

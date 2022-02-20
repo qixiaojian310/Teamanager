@@ -50,4 +50,8 @@
         <result property="moduleId" column="module_id"/>
     </resultMap>
 
+    <select id="getTeammate" resultType="java.lang.Integer">
+        select student_id from student_team_link where team_id=#{teamId}
+    </select>
+
 </mapper>
