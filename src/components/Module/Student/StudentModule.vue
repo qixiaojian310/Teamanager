@@ -8,31 +8,33 @@
     >
       <student-toolbar></student-toolbar>
     </el-aside>
-    <el-scrollbar :height="asideHeight">
-      <el-main>
-        <div ref="skele">
-          <el-skeleton animated :rows="skeletonRow" v-if="loading">
-          </el-skeleton>
-          <el-container v-else>
-            <div class="card-box">
-              <el-card
-                class="card"
-                v-for="moduleSearche in moduleSearches"
-                :key="moduleSearche.index"
-              >
-                <template #header>
-                  <div class="card-header">
-                    <div class="card-header-title">
-                      <span>{{ moduleSearche.moduleName }}</span>
+    <el-container :style="{ height: asideHeight + 'px' }">
+      <el-scrollbar :height="asideHeight" :style="{width:100+'%'}">
+        <el-main>
+          <div ref="skele">
+            <el-skeleton animated :rows="skeletonRow" v-if="loading">
+            </el-skeleton>
+            <el-container v-else>
+              <div class="card-box">
+                <el-card
+                  class="card"
+                  v-for="moduleSearche in moduleSearches"
+                  :key="moduleSearche.index"
+                >
+                  <template #header>
+                    <div class="card-header">
+                      <div class="card-header-title">
+                        <span>{{ moduleSearche.moduleName }}</span>
+                      </div>
                     </div>
-                  </div>
-                </template>
-              </el-card>
-            </div>
-          </el-container>
-        </div>
-      </el-main>
-    </el-scrollbar>
+                  </template>
+                </el-card>
+              </div>
+            </el-container>
+          </div>
+        </el-main>
+      </el-scrollbar>
+    </el-container>
     <el-aside
       :width="asideRightWidth + 'px'"
       class="aside-box-right hidden-md-and-down"
@@ -134,6 +136,18 @@ export default {
       console.log(this.asideHeight);
       return row;
       // let boxHeight = 300
+    },
+    asideMainWidth() {
+      if (this.$store.state.windowSize.windowSizeWidth > 1200) {
+        return this.$store.state.windowSize.windowSizeWidth * 0.5;
+      } else if (
+        this.$store.state.windowSize.windowSizeWidth > 992 &&
+        this.$store.state.windowSize.windowSizeWidth < 1200
+      ) {
+        return this.$store.state.windowSize.windowSizeWidth * 0.4;
+      } else {
+        return this.$store.state.windowSize.windowSizeWidth * 0.35;
+      }
     },
   },
   components: {
