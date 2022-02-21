@@ -26,7 +26,7 @@
               <div class="head-box">
                 <head-icon
                   v-for="cooperatorObj in cooperatorObjs"
-                  :key="cooperatorObj.ID"
+                  :key="cooperatorObj.studentId"
                   :userIconHeight="50"
                   :userIconWidth="50"
                   :userIconSrc="cooperatorObj.userIconSrc"
@@ -118,7 +118,7 @@ export default {
         //在store中用户的具体索引
         var users = this.$store.state.users;
         var user = users.filter((user) => {
-          return user.ID == this.cooperator[index];
+          return user.studentId == this.cooperator[index];
         })[0];
         console.log(user);
         temp.push(user);

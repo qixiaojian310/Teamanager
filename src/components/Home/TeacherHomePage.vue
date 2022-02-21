@@ -162,7 +162,7 @@ export default {
             " id pariatur ipsum do dolor nisi sit fugiat esse culpa irure labore. Anim culpa ad cillum dolore ipsum" +
             " velit tempor elit.",
           unCompletedTaskTeamName: "JS Team",
-          cooperator: ["12345", "34567", "34785", "33245"],
+          cooperator: [1,3,5,7],
           deadline: "2022-05-08",
           progress: 10,
         },
@@ -180,15 +180,7 @@ export default {
             " id pariatur ipsum do dolor nisi sit fugiat esse culpa irure labore. Anim culpa ad cillum dolore ipsum" +
             " velit tempor elit.",
           unCompletedTaskTeamName: "JS Team",
-          cooperator: [
-            "12345",
-            "34567",
-            "34785",
-            "33245",
-            "12645",
-            "34895",
-            "34580",
-          ],
+          cooperator: [1,2,3,4,5,6,7],
           deadline: "2022-05-01",
           progress: 20,
         },
@@ -206,7 +198,7 @@ export default {
             " id pariatur ipsum do dolor nisi sit fugiat esse culpa irure labore. Anim culpa ad cillum dolore ipsum" +
             " velit tempor elit.",
           unCompletedTaskTeamName: "JS Team",
-          cooperator: ["12345", "34567", "34785", "34580"],
+          cooperator: [1,2,5],
           deadline: "2022-05-01",
           progress: 30,
         },
@@ -224,7 +216,7 @@ export default {
             " id pariatur ipsum do dolor nisi sit fugiat esse culpa irure labore. Anim culpa ad cillum dolore ipsum" +
             " velit tempor elit.",
           unCompletedTaskTeamName: "JS Team",
-          cooperator: ["12645", "34895", "34580"],
+          cooperator: [1,4,6],
           deadline: "2022-05-01",
           progress: 40,
         },
@@ -242,12 +234,12 @@ export default {
             " id pariatur ipsum do dolor nisi sit fugiat esse culpa irure labore. Anim culpa ad cillum dolore ipsum" +
             " velit tempor elit.",
           unCompletedTaskTeamName: "JS Team",
-          cooperator: ["12345", "34567", "34785", "34895", "34580"],
+          cooperator: [1,2,3,4,5],
           deadline: "2022-05-01",
           progress: 50,
         },
       ],
-      signInStudentId:'12345'
+      signInStudentId:1
     };
   },
   components: {

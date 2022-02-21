@@ -6,29 +6,22 @@
       class="hidden-sm-and-down"
       :style="{ height: asideHeight + 'px' }"
     >
-      <student-toolbar></student-toolbar>
+      <student-toolbar :options="teacherObjs"></student-toolbar>
     </el-aside>
-    <el-container :style="{ height: asideHeight + 'px' }">
-      <el-scrollbar :height="asideHeight" :style="{width:100+'%'}">
+    <el-container :style="{ height: asideHeight - 50 + 'px' }">
+      <el-scrollbar :height="asideHeight - 50" :style="{ width: 100 + '%' }">
         <el-main>
           <div ref="skele">
             <el-skeleton animated :rows="skeletonRow" v-if="loading">
             </el-skeleton>
             <el-container v-else>
               <div class="card-box">
-                <el-card
-                  class="card"
+                <module-card
                   v-for="moduleSearche in moduleSearches"
                   :key="moduleSearche.index"
-                >
-                  <template #header>
-                    <div class="card-header">
-                      <div class="card-header-title">
-                        <span>{{ moduleSearche.moduleName }}</span>
-                      </div>
-                    </div>
-                  </template>
-                </el-card>
+                  @focus-module="focusModule"
+                  :module-searche="moduleSearche"
+                ></module-card>
               </div>
             </el-container>
           </div>
@@ -43,69 +36,72 @@
         transition: 'width 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
       }"
     >
-      <el-scrollbar>
-        <div
-          class="scroll-bar-right"
-          :style="{ height: asideHeight - 50 + 'px' }"
-        >
-          <el-scrollbar :wrap-class="'scroll-bar-right'">
-            <p>{{ ModuleTitle }}</p>
-          </el-scrollbar>
-        </div>
-      </el-scrollbar>
+      <el-button class="close-btn" @click="closeDetail">
+        <el-icon :size="30" :color="'#ffffff'">
+          <close-bold></close-bold>
+        </el-icon>
+      </el-button>
+      <module-detail
+        :focusModuleObj="focusModuleObj"
+        :asideHeight="asideHeight"
+      ></module-detail>
     </el-aside>
   </el-container>
 </template>
 
 <script>
+// import SwiperTest from "../../swiperTest/SwiperComponent.vue";
 import StudentToolbar from "./StudentToolbar.vue";
+import ModuleCard from "../../card/ModuleCard.vue";
+import ModuleDetail from "../slide/ModuleDetail.vue";
+import { CloseBold } from "@element-plus/icons-vue";
+import SwiperComponent from "../../swiperTest/SwiperComponent.vue";
 
 export default {
   name: "StudentModule",
+  methods: {
+    focusModule: function (cardFocusId) {
+      if (this.cardFocusId == cardFocusId && this.cardFocusId != 0) {
+        //点击了相同的id
+        this.cardFocus = this.cardFocus ? false : true;
+      } else {
+        //点击了另一个课程，先要关闭原来的再打开新的
+        this.cardFocus = false;
+        this.cardFocusId = cardFocusId;
+        this.cardFocus = true;
+      }
+      this.cardFocusId = cardFocusId;
+    },
+    closeDetail: function () {
+      this.cardFocus = false;
+    },
+    createTeacherOption: function (id, name, number) {
+      var teacherOption = new Object();
+      teacherOption.teacherName = name;
+      teacherOption.teacherNumber = number;
+      teacherOption.teacherId = id;
+      return teacherOption;
+    },
+    searchTeacher:function(teacherFind){
+      for (var index = 0; index < this.$store.state.teacher.length; index++) {
+        //在store中用户的具体索引;
+        var teacher = this.$store.state.teacher.filter((teacher) => {
+          return teacher.teacherId == teacherFind
+        })[0];
+        console.log(teacher);
+        return teacher;
+      }
+    }
+  },
   data() {
     return {
       ModuleTitle: "Module Title",
       cardFocus: false,
-      loading: true,
+      cardFocusId: 0,
+      loading: false,
+      activeName: "1",
       // NOTE: 后端获取module所有人员使用id返回一个idList
-      moduleSearches: [
-        {
-          moduleName: "Module 1",
-          teacher: "Module 1 teacher",
-          studentIdList: [1, 2, 4],
-          teamIdList: [1],
-        },
-        {
-          moduleName: "Module 1",
-          teacher: "Module 1 teacher",
-          studentIdList: [1, 2, 4],
-          teamIdList: [1],
-        },
-        {
-          moduleName: "Module 1",
-          teacher: "Module 1 teacher",
-          studentIdList: [1, 2, 4],
-          teamIdList: [1],
-        },
-        {
-          moduleName: "Module 1",
-          teacher: "Module 1 teacher",
-          studentIdList: [1, 2, 4],
-          teamIdList: [1],
-        },
-        {
-          moduleName: "Module 1",
-          teacher: "Module 1 teacher",
-          studentIdList: [1, 2, 4],
-          teamIdList: [1],
-        },
-        {
-          moduleName: "Module 1",
-          teacher: "Module 1 teacher",
-          studentIdList: [1, 2, 4],
-          teamIdList: [1],
-        },
-      ],
+      moduleSearches: this.$store.state.signInStudentModule,
     };
   },
   computed: {
@@ -149,9 +145,54 @@ export default {
         return this.$store.state.windowSize.windowSizeWidth * 0.35;
       }
     },
+    focusModuleObj() {
+      if (this.cardFocusId == 0) {
+        return {
+          moduleId: -1,
+          moduleName: "",
+          teacherId: 1,
+          studentIdList: [],
+          teamIds: [],
+        };
+      } else {
+        var focusObj = this.moduleSearches.filter((moduleSearche) => {
+          return moduleSearche.moduleId == this.cardFocusId;
+        });
+        console.log(focusObj);
+        return focusObj[0];
+      }
+    },
+    teacherObjs() {
+      var noRepeatTeachers = [];
+      console.log("length"+noRepeatTeachers.length);
+      //flag 为假表示这个数组从没有找到过这个元素
+      var flag = false;
+      for (var i = 0; i < this.moduleSearches.length; i++) {
+        var key = this.moduleSearches[i].teacherId;
+        //flag 为假表示这个数组从没有找到过这个元素
+        flag = false;
+        console.log(this.searchTeacher(key).teacherName);
+        var teacherObj = this.createTeacherOption(key, this.searchTeacher(key).teacherName, 1);
+        for (var index = 0; index < noRepeatTeachers.length; index++) {
+          if (noRepeatTeachers[index].teacherId == key) {
+            noRepeatTeachers[index].teacherNumber += 1;
+            var flag = true;
+          }
+        }
+        if (!flag) {
+          noRepeatTeachers.push(teacherObj);
+        }
+      }
+      return noRepeatTeachers;
+    },
   },
   components: {
     StudentToolbar,
+    ModuleCard,
+    ModuleDetail,
+    SwiperComponent,
+    SwiperComponent,
+    CloseBold,
   },
 };
 </script>
@@ -196,35 +237,30 @@ export default {
   background: linear-gradient(#df7599, #3994be);
   box-shadow: -1px 0px 7px #888888;
   overflow: hidden;
-}
-.scroll-bar-right {
-  background: #e0e0e0;
-  margin-left: 60px;
-  margin-right: 60px;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  padding-top: 20px;
-  border-radius: 10px;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-.scroll-bar-right > div p {
-  font-size: 20px;
-  font-weight: 700;
-  margin-left: 30px;
+  position: relative;
 }
 .card-box {
   display: flex;
   flex-wrap: wrap;
   align-content: center;
 }
-.card {
-  width: 200px;
-  margin-left: 20px;
-  margin-right: 20px;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  padding-top: 20px;
-  border-radius: 10px;
+.swiper-container {
+  width: 100%;
+  height: 200px;
+}
+.swiper-slide {
+  width: 100% !important;
+  background: red;
+}
+.close-btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0);
+  border: none;
+}
+.close-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
 }
 </style>

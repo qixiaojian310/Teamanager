@@ -1,7 +1,7 @@
 <template>
   <el-scrollbar>
       <head-icon
-    :key="signInStudentObj.ID"
+    :key="signInStudentObj.studentId"
     :userIconHeight="50"
     :userIconWidth="50"
     :userIconSrc="signInStudentObj.userIconSrc"
@@ -64,7 +64,7 @@ export default {
     signInStudentObj() {
       var users = this.$store.state.users;
       var user = users.filter((user) => {
-        return user.ID == this.signInStudentId;
+        return user.studentId == this.signInStudentId;
       })[0];
       return user;
     },

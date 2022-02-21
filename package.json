@@ -9,11 +9,12 @@
     "test:e2e": "vue-cli-service test:e2e"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^0.2.7",
     "aos": "^2.3.4",
     "axios": "^0.25.0",
     "core-js": "^3.6.5",
     "element-plus": "^1.3.0-beta.10",
-    "swiper": "^6.8.1",
+    "swiper": "^7.2.0",
     "vue": "^3.0.0",
     "vue-axios": "^3.4.1",
     "vue-router": "^4.0.0-0",

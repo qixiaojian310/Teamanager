@@ -11,14 +11,26 @@
         :backgroundColor="'#e6e1e1'"
         :inputHeight="2"
       ></sign-input-item>
+      <el-cascader
+        placeholder="Try searchingL Guide"
+        :options="options"
+        v-model="value"
+        :props="props"
+        filterable
+      >
+        <template #default="{ data }">
+      <span>{{ data.teacherName }}</span>
+      <span> ({{ data.teacherNumber }}) </span>
+    </template>
+      </el-cascader>
     </div>
     <div class="toolbar-list">
       <a class="btn-all-module">
         <i class="fa fa-bars"></i>
         ALL Modules
       </a>
-      <a class="btn-add-module" >
-        <i class="fa fa-plus-square-o" ></i>
+      <a class="btn-add-module">
+        <i class="fa fa-plus-square-o"></i>
         ADD Module
       </a>
     </div>
@@ -33,8 +45,17 @@ export default {
   data() {
     return {
       SearchCOntent: "",
+      props:{
+        multiple:true,
+        label:'teacherName'
+      }
     };
   },
+  props:{
+    options:{
+      type:Array,
+    }
+  }
 };
 </script>
 
