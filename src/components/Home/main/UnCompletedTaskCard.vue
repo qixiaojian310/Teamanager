@@ -44,12 +44,12 @@
               <el-scrollbar :height="200">
                 <head-icon
                   v-for="cooperatorObj in cooperatorObjs"
-                  :key="cooperatorObj.ID"
+                  :key="cooperatorObj.studentId"
                   :userIconHeight="50"
                   :userIconWidth="50"
                   :userIconSrc="cooperatorObj.userIconSrc"
-                  :userName="cooperatorObj.name"
-                  :userInfor="cooperatorObj.Infor"
+                  :userName="cooperatorObj.studentId"
+                  :userInfor="cooperatorObj.studentInfo"
                   :widthLess768="widthLess768"
                   :widthMore768Less1200="widthMore768Less1200"
                 ></head-icon>
@@ -62,12 +62,12 @@
               <el-scrollbar :height="200">
                 <head-icon
                   v-for="cooperatorObj in cooperatorObjs"
-                  :key="cooperatorObj.ID"
+                  :key="cooperatorObj.studentId"
                   :userIconHeight="50"
                   :userIconWidth="50"
                   :userIconSrc="cooperatorObj.userIconSrc"
-                  :userName="cooperatorObj.name"
-                  :userInfor="cooperatorObj.Infor"
+                  :userName="cooperatorObj.studentId"
+                  :userInfor="cooperatorObj.studentInfo"
                 ></head-icon>
               </el-scrollbar>
             </div>
@@ -113,17 +113,7 @@ export default {
   },
   computed: {
     cooperatorObjs() {
-      var temp = [];
-      for (var index = 0; index < this.cooperator.length; index++) {
-        //在store中用户的具体索引
-        var users = this.$store.state.users;
-        var user = users.filter((user) => {
-          return user.studentId == this.cooperator[index];
-        })[0];
-        console.log(user);
-        temp.push(user);
-      }
-      return temp;
+      return this.cooperator;
     },
     widthLess768() {
       if (this.$store.state.windowSize.windowSizeWidth < 768) {

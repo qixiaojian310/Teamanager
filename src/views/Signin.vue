@@ -3,7 +3,7 @@
   <div
     class="bg-box"
     :style="{ width: bigBoxWidth + 'px', height: bigBoxHeight + 'px' }"
-    v-if="bigBoxWidth > 1500"
+    v-if="bigBoxWidth > 1200"
   >
     <!-- :style="{width:bigBoxWidth*0.4+'px',height:bigBoxHeight*0.5+'px',marginLeft:-bigBoxWidth*0.2+'px',marginTop:-bigBoxHeight*0.25+'px'}" -->
     <div class="sign-box">
@@ -37,7 +37,10 @@
             ></el-input>
           </el-form-item> -->
           <!-- v-model可以加在需要动态绑定的属性上 -->
-
+          <div class="cascader-box">
+            <span style="margin-right: 1rem">choose your role</span>
+            <el-cascader :options="roleOptions" v-model="role"></el-cascader>
+          </div>
           <sign-input-item
             v-model:inputValue="form.username"
             :name="'Username'"
@@ -101,6 +104,10 @@
               prefix-icon="el-icon-lock"
             ></el-input>
           </el-form-item> -->
+          <div class="cascader-box">
+            <span style="margin-right: 1rem">choose your role</span>
+            <el-cascader :options="roleOptions" v-model="role"></el-cascader>
+          </div>
           <sign-input-item
             v-model:inputValue="form.username"
             :name="'Username'"
@@ -152,27 +159,43 @@ export default {
         username: "",
         password: "",
       },
-      url: "/hello",
       placeholder: {
         username: "Enter your username",
         password: "Enter your password",
       },
+      roleOptions: [
+        {
+          value: "/student",
+          label: "Student",
+        },
+        {
+          value: "/teacher",
+          label: "Teacher",
+        },
+      ],
+      role: "",
     };
   },
   methods: {
     submitForm() {
       //AJAX方式
       this.axios({
-        url: this.url,
+        url: this.role[0],
         data: {
-            username: this.form.username,
-            password: this.form.password,
+          studentId: this.form.username,
+          password: this.form.password,
         },
         method: "post",
-        baseURL: "http://localhost:8089/api/",
+        baseURL: "http://localhost:8080/api/",
         // headers.post['Content-type'] = "application/json",
       }).then((response) => {
         console.log(response);
+        //处理data不同的响应
+        var responseData = response.data;
+        if (responseData == "Match") {
+          this.$store.commit('updateSignInStudentName',this.form.username)
+          this.$router.push(this.role+"/"+this.form.username);
+        }
       });
     },
   },

@@ -175,7 +175,5 @@ export default {
 .head-box {
   margin-bottom: 15px;
   margin-top: 15px;
-  margin-right: 30px;
-  margin-left: 30px;
 }
 </style>

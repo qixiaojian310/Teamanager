@@ -20,5 +20,8 @@ app.use(store)
 app.use(VueAxios,axios)
 app.use(aos)
 app.config.devtools = true;
+axios.defaults.baseURL = "http://localhost:8080/api"
+// ANCHOR 默认情况axios的跨域不会增加cookie，我们需要增加cookie的要求才可以
+axios.defaults.withCredentials=true;
 
 const vm = app.mount('#app')

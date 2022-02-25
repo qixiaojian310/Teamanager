@@ -8,10 +8,10 @@
       <student-info :signInStudentId="signInStudentId"></student-info>
     </el-aside>
     <el-container :style="{ height: asideHeight + 'px' }">
-      <el-scrollbar>
+      <el-scrollbar :style="{width:100+'%'}">
         <el-main>
           <!-- show your task haven't done  -->
-          <el-container>
+          <el-container :style="{ height: asideHeight + 'px' }">
             <el-row style="width: 100%">
               <el-col :span="20" :offset="2">
                 <un-completed-tasks
@@ -66,182 +66,205 @@ export default {
     return {
       country: "china",
       // 左边放module的信息，右边放team的
-      moduleItems: [
-        {
-          item: "JS Class",
-        },
-        {
-          item: "Java Class",
-        },
-        {
-          item: "Matlab Class",
-        },
-        {
-          item: "Python Class",
-        },
-        {
-          item: "JS Class",
-        },
-        {
-          item: "Java Class",
-        },
-        {
-          item: "Matlab Class",
-        },
-        {
-          item: "Python Class",
-        },
-        {
-          item: "JS Class",
-        },
-        {
-          item: "Java Class",
-        },
-        {
-          item: "Matlab Class",
-        },
-        {
-          item: "Python Class",
-        },
-      ],
+      moduleItems: [],
       // 左边放module的信息，右边放team的
-      teamItems: [
-        {
-          item: "JS Team",
-        },
-        {
-          item: "Java Team",
-        },
-        {
-          item: "Matlab Team asdsadas das",
-        },
-        {
-          item: "Python Team",
-        },
-      ],
+      teamItems: [],
+      // taskTitle taskContent taskTeamName progress
       completedTasks: [
-        {
-          taskTitle: "JS Class",
-          taskContent: "JS Class JS Class JS Class JS Class JS Class JS Class",
-          taskTeamName: "JS Team",
-          progress: 100,
-        },
-        {
-          taskTitle: "Java Class",
-          taskContent:
-            "Java Class Java Class Java Class Java Class Java Class Java Class",
-          taskTeamName: "Java Team",
-          progress: 90,
-        },
-        {
-          taskTitle: "Matlab Class",
-          taskContent:
-            "Matlab Class Matlab Class Matlab Class Matlab Class Matlab Class Matlab Class",
-          taskTeamName: "Matlab Team",
-          progress: 70,
-        },
-        {
-          taskTitle: "Python Class",
-          taskContent:
-            "Python Python Python Python Python Python Python Python Python Python",
-          taskTeamName: "Python Team",
-          progress: 10,
-        },
+        // {
+        //   taskTitle: "JS Class",
+        //   taskContent: "JS Class JS Class JS Class JS Class JS Class JS Class",
+        //   taskTeamName: "JS Team",
+        //   progress: 100,
+        // },
+        // {
+        //   taskTitle: "Java Class",
+        //   taskContent:
+        //     "Java Class Java Class Java Class Java Class Java Class Java Class",
+        //   taskTeamName: "Java Team",
+        //   progress: 90,
+        // },
+        // {
+        //   taskTitle: "Matlab Class",
+        //   taskContent:
+        //     "Matlab Class Matlab Class Matlab Class Matlab Class Matlab Class Matlab Class",
+        //   taskTeamName: "Matlab Team",
+        //   progress: 70,
+        // },
+        // {
+        //   taskTitle: "Python Class",
+        //   taskContent:
+        //     "Python Python Python Python Python Python Python Python Python Python",
+        //   taskTeamName: "Python Team",
+        //   progress: 10,
+        // },
       ],
+      // unCompletedTaskName,unCompletedTaskContent,unCompletedTaskTeamName,deadline,progress
       unCompletedTasks: [
-        {
-          unCompletedTaskName: "JS Code Implementation",
-          unCompletedTaskContent:
-            "JS Code Implementation Amet irure laborum magna eiusmod. Nostrud commodo reprehenderit" +
-            "nisi nulla ea esse enim enim reprehenderit ea nulla. Culpa eu anim consectetur nulla nostrud ex" +
-            "Lorem aliqua elit commodo labore sunt incididunt. Consectetur ullamco excepteur ex sint irure dol" +
-            "or voluptate. Esse eiusmod incididunt minim eu quis minim amet. Veniam laboris nulla duis molli" +
-            " consequat cillum eiusmod qui est Lorem nulla reprehenderit. Ea consequat aliqua amet tempor occaecat" +
-            " magna. Esse sunt aute anim deserunt est veniam minim ad incididunt deserunt. Commodo officia" +
-            " excepteur ullamco anim culpa laborum magna in voluptate aute sint proident cillum aliqua. Nisi" +
-            " sit aliqua nisi proident dolor ad.Ex nostrud exercitation occaecat non adipisicing laborum. Aute elit" +
-            " id pariatur ipsum do dolor nisi sit fugiat esse culpa irure labore. Anim culpa ad cillum dolore ipsum" +
-            " velit tempor elit.",
-          unCompletedTaskTeamName: "JS Team",
-          cooperator: [1,3,5,7],
-          deadline: "2022-05-08",
-          progress: 10,
-        },
-        {
-          unCompletedTaskName: "JS Code Implementation",
-          unCompletedTaskContent:
-            "JS Code Implementation Amet irure laborum magna eiusmod. Nostrud commodo reprehenderit" +
-            "nisi nulla ea esse enim enim reprehenderit ea nulla. Culpa eu anim consectetur nulla nostrud ex" +
-            "Lorem aliqua elit commodo labore sunt incididunt. Consectetur ullamco excepteur ex sint irure dol" +
-            "or voluptate. Esse eiusmod incididunt minim eu quis minim amet. Veniam laboris nulla duis molli" +
-            " consequat cillum eiusmod qui est Lorem nulla reprehenderit. Ea consequat aliqua amet tempor occaecat" +
-            " magna. Esse sunt aute anim deserunt est veniam minim ad incididunt deserunt. Commodo officia" +
-            " excepteur ullamco anim culpa laborum magna in voluptate aute sint proident cillum aliqua. Nisi" +
-            " sit aliqua nisi proident dolor ad.Ex nostrud exercitation occaecat non adipisicing laborum. Aute elit" +
-            " id pariatur ipsum do dolor nisi sit fugiat esse culpa irure labore. Anim culpa ad cillum dolore ipsum" +
-            " velit tempor elit.",
-          unCompletedTaskTeamName: "JS Team",
-          cooperator: [1,2,3,4,5,6,7],
-          deadline: "2022-05-01",
-          progress: 20,
-        },
-        {
-          unCompletedTaskName: "JS Code Implementation",
-          unCompletedTaskContent:
-            "JS Code Implementation Amet irure laborum magna eiusmod. Nostrud commodo reprehenderit" +
-            "nisi nulla ea esse enim enim reprehenderit ea nulla. Culpa eu anim consectetur nulla nostrud ex" +
-            "Lorem aliqua elit commodo labore sunt incididunt. Consectetur ullamco excepteur ex sint irure dol" +
-            "or voluptate. Esse eiusmod incididunt minim eu quis minim amet. Veniam laboris nulla duis molli" +
-            " consequat cillum eiusmod qui est Lorem nulla reprehenderit. Ea consequat aliqua amet tempor occaecat" +
-            " magna. Esse sunt aute anim deserunt est veniam minim ad incididunt deserunt. Commodo officia" +
-            " excepteur ullamco anim culpa laborum magna in voluptate aute sint proident cillum aliqua. Nisi" +
-            " sit aliqua nisi proident dolor ad.Ex nostrud exercitation occaecat non adipisicing laborum. Aute elit" +
-            " id pariatur ipsum do dolor nisi sit fugiat esse culpa irure labore. Anim culpa ad cillum dolore ipsum" +
-            " velit tempor elit.",
-          unCompletedTaskTeamName: "JS Team",
-          cooperator: [1,2,5],
-          deadline: "2022-05-01",
-          progress: 30,
-        },
-        {
-          unCompletedTaskName: "JS Code Implementation",
-          unCompletedTaskContent:
-            "JS Code Implementation Amet irure laborum magna eiusmod. Nostrud commodo reprehenderit" +
-            "nisi nulla ea esse enim enim reprehenderit ea nulla. Culpa eu anim consectetur nulla nostrud ex" +
-            "Lorem aliqua elit commodo labore sunt incididunt. Consectetur ullamco excepteur ex sint irure dol" +
-            "or voluptate. Esse eiusmod incididunt minim eu quis minim amet. Veniam laboris nulla duis molli" +
-            " consequat cillum eiusmod qui est Lorem nulla reprehenderit. Ea consequat aliqua amet tempor occaecat" +
-            " magna. Esse sunt aute anim deserunt est veniam minim ad incididunt deserunt. Commodo officia" +
-            " excepteur ullamco anim culpa laborum magna in voluptate aute sint proident cillum aliqua. Nisi" +
-            " sit aliqua nisi proident dolor ad.Ex nostrud exercitation occaecat non adipisicing laborum. Aute elit" +
-            " id pariatur ipsum do dolor nisi sit fugiat esse culpa irure labore. Anim culpa ad cillum dolore ipsum" +
-            " velit tempor elit.",
-          unCompletedTaskTeamName: "JS Team",
-          cooperator: [1,4,6],
-          deadline: "2022-05-01",
-          progress: 40,
-        },
-        {
-          unCompletedTaskName: "JS Code Implementation",
-          unCompletedTaskContent:
-            "JS Code Implementation Amet irure laborum magna eiusmod. Nostrud commodo reprehenderit" +
-            "nisi nulla ea esse enim enim reprehenderit ea nulla. Culpa eu anim consectetur nulla nostrud ex" +
-            "Lorem aliqua elit commodo labore sunt incididunt. Consectetur ullamco excepteur ex sint irure dol" +
-            "or voluptate. Esse eiusmod incididunt minim eu quis minim amet. Veniam laboris nulla duis molli" +
-            " consequat cillum eiusmod qui est Lorem nulla reprehenderit. Ea consequat aliqua amet tempor occaecat" +
-            " magna. Esse sunt aute anim deserunt est veniam minim ad incididunt deserunt. Commodo officia" +
-            " excepteur ullamco anim culpa laborum magna in voluptate aute sint proident cillum aliqua. Nisi" +
-            " sit aliqua nisi proident dolor ad.Ex nostrud exercitation occaecat non adipisicing laborum. Aute elit" +
-            " id pariatur ipsum do dolor nisi sit fugiat esse culpa irure labore. Anim culpa ad cillum dolore ipsum" +
-            " velit tempor elit.",
-          unCompletedTaskTeamName: "JS Team",
-          cooperator: [1,2,3,4,5],
-          deadline: "2022-05-01",
-          progress: 50,
-        },
+        // {
+        //   unCompletedTaskName: "JS Code Implementation",cooperator
+        //   unCompletedTaskContent:
+        //     "JS Code Implementation Amet irure laborum magna eiusmod. Nostrud commodo reprehenderit" +
+        //     "nisi nulla ea esse enim enim reprehenderit ea nulla. Culpa eu anim consectetur nulla nostrud ex" +
+        //     "Lorem aliqua elit commodo labore sunt incididunt. Consectetur ullamco excepteur ex sint irure dol" +
+        //     "or voluptate. Esse eiusmod incididunt minim eu quis minim amet. Veniam laboris nulla duis molli" +
+        //     " consequat cillum eiusmod qui est Lorem nulla reprehenderit. Ea consequat aliqua amet tempor occaecat" +
+        //     " magna. Esse sunt aute anim deserunt est veniam minim ad incididunt deserunt. Commodo officia" +
+        //     " excepteur ullamco anim culpa laborum magna in voluptate aute sint proident cillum aliqua. Nisi" +
+        //     " sit aliqua nisi proident dolor ad.Ex nostrud exercitation occaecat non adipisicing laborum. Aute elit" +
+        //     " id pariatur ipsum do dolor nisi sit fugiat esse culpa irure labore. Anim culpa ad cillum dolore ipsum" +
+        //     " velit tempor elit.",
+        //   unCompletedTaskTeamName: "JS Team",
+        //   cooperator: [1, 2, 3, 4, 5],
+        //   deadline: "2022-05-01",
+        //   progress: 50,
+        // },
       ],
       signInStudentId: 1,
     };
+  },
+  methods: {
+    //该方法负责直接将所有的当前用户的所有组注入到vuex中
+    injectTeams: function () {
+      this.axios({
+        url: "/getAllTeam",
+        data: {
+          studentId: this.$store.state.signInStudent.name,
+        },
+        method: "post",
+      }).then((response) => {
+        var injectTeams = response.data;
+        for (let index = 0; index < injectTeams.length; index++) {
+          var tempTeamObj = new Object();
+          tempTeamObj.name = injectTeams[index].teamName;
+          tempTeamObj.id = injectTeams[index].teamId;
+          tempTeamObj.leaderId = injectTeams[index].leaderId;
+          tempTeamObj.students = injectTeams[index].studentList;
+          tempTeamObj.available = injectTeams[index].available;
+          this.teamItems.push(tempTeamObj);
+          this.$store.state.teams.push(tempTeamObj);
+        }
+      });
+    },
+    //该方法负责直接将所有的当前用户的所有课程注入到vuex中
+    injectModule: function () {
+      this.axios({
+        url: "/getAllModule",
+        data: {
+          studentId: this.$store.state.signInStudent.name,
+        },
+        method: "post",
+      }).then((response) => {
+        var injectModules = response.data;
+        for (let index = 0; index < injectModules.length; index++) {
+          var tempModuleObj = new Object();
+          //绑定name
+          tempModuleObj.moduleName = injectModules[index].moduleName;
+          //绑定id
+          tempModuleObj.moduleId = injectModules[index].moduleId;
+          tempModuleObj.teacher = injectModules[index].teacher;
+          tempModuleObj.students = injectModules[index].studentList;
+          tempModuleObj.teamIds = injectModules[index].teamList;
+          this.moduleItems.push(tempModuleObj);
+          this.$store.state.signInStudentModule.push(tempModuleObj);
+        }
+      });
+    },
+    //该方法负责初始化所有的uncompleted task
+    injectUnCompletedTasks: function () {
+      this.axios({
+        url: "/getUnCompletedTaskByStudentId",
+        data: {
+          studentId: this.$store.state.signInStudent.name,
+        },
+        method: "post",
+        // baseURL: "http://localhost:8080/api/",
+      }).then((response) => {
+        // cooperator unCompletedTaskName,unCompletedTaskContent,unCompletedTaskTeamName,deadline,progress
+        var UnCompletedTasksInject = response.data;
+        for (let index = 0; index < UnCompletedTasksInject.length; index++) {
+          var UnCompletedTaskObj = new Object();
+          UnCompletedTaskObj.unCompletedTaskName =
+            UnCompletedTasksInject[index].taskName;
+          UnCompletedTaskObj.unCompletedTaskContent =
+            UnCompletedTasksInject[index].context;
+          for (let i = 0; i < this.$store.state.teams.length; i++) {
+            if (
+              this.$store.state.teams[i].id ==
+              UnCompletedTasksInject[index].teamId
+            ) {
+              UnCompletedTaskObj.unCompletedTaskName =
+                this.$store.state.teams[i].name;
+            }
+          }
+          UnCompletedTaskObj.progress = UnCompletedTasksInject[index].progress;
+          var deadlineTimestamp = UnCompletedTasksInject[index].deadline;
+          var time = new Date(deadlineTimestamp);
+          var year = time.getFullYear();
+          var month =
+            time.getMonth() + 1 < 10
+              ? "0" + (time.getMonth() + 1)
+              : time.getMonth() + 1;
+          var day = time.getDate();
+          var dateString = year + "-" + month + "-" + day;
+          UnCompletedTaskObj.deadline = dateString;
+          UnCompletedTaskObj.cooperator =
+            UnCompletedTasksInject[index].studentList;
+          this.unCompletedTasks.push(UnCompletedTaskObj);
+        }
+      });
+    },
+    //该方法负责初始化所有的completed task
+    injectCompletedTasks: function () {
+      this.axios({
+        url: "/getCompletedTaskByStudentId",
+        data: {
+          studentId: this.$store.state.signInStudent.name,
+        },
+        method: "post",
+        // baseURL: "http://localhost:8080/api/",
+      }).then((response) => {
+        var completedTasksInject = response.data;
+        for (let index = 0; index < completedTasksInject.length; index++) {
+          var completedTaskObj = new Object();
+          // taskTitle taskContent taskTeamName progress
+          completedTaskObj.taskTitle = completedTasksInject[index].taskName;
+          completedTaskObj.taskContent = completedTasksInject[index].context;
+          for (let i = 0; i < this.$store.state.teams.length; i++) {
+            if (
+              this.$store.state.teams[i].id ==
+              completedTasksInject[index].teamId
+            ) {
+              completedTaskObj.taskTeamName = this.$store.state.teams[i].name;
+            }
+          }
+          completedTaskObj.progress = 100;
+          this.completedTasks.push(completedTaskObj);
+        }
+      });
+    },
+    injectUserInfo: function () {
+      this.axios({
+        url: "/getStudentInfo",
+        data: {
+          studentId: this.$route.params.id,
+        },
+        method: "post",
+        // baseURL: "http://localhost:8080/api/",
+      }).then((response) => {
+        var userInfoInject = response.data;
+        this.$store.commit('updateSignInStudentInfo',userInfoInject.studentInfo);
+        this.$store.commit('updateSignInStudentUserIcon',userInfoInject.userIconSrc);
+        this.$store.commit('selectRole',"student")
+      });
+    }
+  },
+  created() {
+    this.injectUserInfo();
+    this.injectModule();
+    this.injectTeams();
+    this.injectUnCompletedTasks();
+    this.injectCompletedTasks();
   },
   components: {
     AsideModules,
@@ -268,15 +291,18 @@ export default {
         return this.$store.state.windowSize.windowSizeWidth * 0.3;
       }
     },
-    asideMainWidth(){
+    asideMainWidth() {
       if (this.$store.state.windowSize.windowSizeWidth > 1200) {
         return this.$store.state.windowSize.windowSizeWidth * 0.5;
-      } else if(this.$store.state.windowSize.windowSizeWidth > 992&&this.$store.state.windowSize.windowSizeWidth < 1200){
+      } else if (
+        this.$store.state.windowSize.windowSizeWidth > 992 &&
+        this.$store.state.windowSize.windowSizeWidth < 1200
+      ) {
         return this.$store.state.windowSize.windowSizeWidth * 0.4;
       } else {
         return this.$store.state.windowSize.windowSizeWidth * 0.35;
       }
-    }
+    },
   },
 };
 </script>
@@ -331,7 +357,7 @@ export default {
   margin-left: 30px;
 }
 .el-main {
-  background: #9EB8D2;
+  background: #9eb8d2;
   color: black;
   font-size: large;
   background-size: 50px 50px, 50px 50px; /* grid size */

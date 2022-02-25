@@ -60,7 +60,7 @@
             This is an app for team.
             
           </div>
-          <el-button color="#626aef" style="color: white" size="large" >Start now</el-button>
+          <el-button color="#626aef" style="color: white" size="large" @click="jumpSign" >Start now</el-button>
         </div>
       </el-col>
     </el-row>
@@ -151,6 +151,9 @@ export default {
       window.scrollY = scrollParams.scrollTop;
       AOS.refresh();
     },
+    jumpSign:function(){
+      this.$router.push("/signin")
+    }
   },
 };
 </script>

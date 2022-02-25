@@ -1,6 +1,12 @@
 .bg-box {
   background-color: #4d58b5;
 }
+.sign-up-box{
+  background-color: rgb(255, 255, 255);
+  padding: 20px;
+  border-radius: 10px;
+  height: 400px;
+}
 
 .no-bg-box {
   background-color: #fff;
@@ -87,4 +93,13 @@ a:hover{
   transition: background-color 0.35s ease-in-out, color 0.35s ease-in-out;
   background-color: #65b54d;
   color: #fff;
+}
+.login-form{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.cascader-box{
+  margin-right: 2rem;
+  margin-left: 2rem;
+  display: inline-block;
 }

@@ -24,7 +24,7 @@
             :type="'text'"
           >
           </sign-input-item>
-          <textarea>
+          <textarea :value="signInStudentObj.info" @input="setUserInfo">
 
           </textarea>
           <div class="submit-box">
@@ -55,18 +55,31 @@ export default {
   data(){
     return{
       form: {
-        username: "",
-        password: "",
+        username: this.$store.state.signInStudent.name,
+        info: "",
       },
+    }
+  },
+  methods:{
+    setUserInfo:function(e){
+      this.form.info = e.target.value;
+    },
+    submitForm:function () {
+      this.axios({
+        url: "/setStudentNoPwd",
+        data: {
+          studentId: this.form.username,
+          studentInfo:this.form.info,
+        },
+        method: "post",
+      }).then(res => {
+        
+      });
     }
   },
   computed: {
     signInStudentObj() {
-      var users = this.$store.state.users;
-      var user = users.filter((user) => {
-        return user.studentId == this.signInStudentId;
-      })[0];
-      return user;
+      return this.$store.state.signInStudent
     },
   },
 };

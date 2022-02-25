@@ -3,7 +3,7 @@
     <team-item
       v-for="teamItem in teamItems"
       :key="teamItem.index"
-      :team-name="teamItem.item"
+      :team-name="teamItem.name"
     ></team-item>
   </ul>
 </template>

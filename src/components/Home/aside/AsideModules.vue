@@ -3,7 +3,7 @@
     <module-item
       v-for="moduleItem in moduleItems"
       :key="moduleItem.index"
-      :module-name="moduleItem.item"
+      :module-name="moduleItem.moduleName"
     ></module-item>
   </ul>
 </template>

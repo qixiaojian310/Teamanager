@@ -37,7 +37,7 @@ export default {
   },
   data(){
     return {
-      teachers : this.$store.state.teacher
+      teachers : this.$store.state.teacher,
 }
   },
   methods: {

@@ -6,7 +6,7 @@
       class="hidden-sm-and-down"
       :style="{ height: asideHeight + 'px' }"
     >
-      <student-toolbar :options="teacherObjs"></student-toolbar>
+      <module-toolbar :options="teacherObjs" @show-list="showList" @add-module="addModule" @ensure-choice="selectModule"></module-toolbar>
     </el-aside>
     <el-container :style="{ height: asideHeight - 50 + 'px' }">
       <el-scrollbar :height="asideHeight - 50" :style="{ width: 100 + '%' }">
@@ -51,7 +51,7 @@
 
 <script>
 // import SwiperTest from "../../swiperTest/SwiperComponent.vue";
-import StudentToolbar from "./StudentToolbar.vue";
+import ModuleToolbar from "../toolbar/ModuleToolbar.vue";
 import ModuleCard from "../../card/ModuleCard.vue";
 import ModuleDetail from "../slide/ModuleDetail.vue";
 import { CloseBold } from "@element-plus/icons-vue";
@@ -60,6 +60,10 @@ import SwiperComponent from "../../swiperTest/SwiperComponent.vue";
 export default {
   name: "StudentModule",
   methods: {
+    showList:function(){
+      this.isCardBox = true;
+      this.title = "Your Module"
+    },
     focusModule: function (cardFocusId) {
       if (this.cardFocusId == cardFocusId && this.cardFocusId != 0) {
         //点击了相同的id
@@ -91,6 +95,19 @@ export default {
         console.log(teacher);
         return teacher;
       }
+    },
+    selectModule:function(teacherIds){
+      //NOTE 检查级联选择器的值
+      // NOTE teacherIds是一个数组
+      var res = [];
+      res = this.$store.state.signInStudentModule.filter((module)=>{
+        for (let index = 0; index < teacherIds.length; index++) {
+          if(module.teacherId == teacherIds[index]){
+            return module
+          }
+        }
+      })
+      this.moduleSearches = res
     }
   },
   data() {
@@ -167,8 +184,8 @@ export default {
       console.log("length"+noRepeatTeachers.length);
       //flag 为假表示这个数组从没有找到过这个元素
       var flag = false;
-      for (var i = 0; i < this.moduleSearches.length; i++) {
-        var key = this.moduleSearches[i].teacherId;
+      for (var i = 0; i < this.$store.state.signInStudentModule.length; i++) {
+        var key = this.$store.state.signInStudentModule[i].teacherId;
         //flag 为假表示这个数组从没有找到过这个元素
         flag = false;
         console.log(this.searchTeacher(key).teacherName);
@@ -187,7 +204,7 @@ export default {
     },
   },
   components: {
-    StudentToolbar,
+    ModuleToolbar,
     ModuleCard,
     ModuleDetail,
     SwiperComponent,

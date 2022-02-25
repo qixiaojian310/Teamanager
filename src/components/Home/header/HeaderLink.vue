@@ -1,17 +1,17 @@
 <template>
-  <router-link to="/chat">
+  <router-link :to="linkBase+'/chat'">
     <i class="fa fa-user"></i>
     <span>Chat</span>
   </router-link>
-  <router-link to="/module">
+  <router-link :to="linkBase+'/module'">
     <i class="fa fa-user"></i> 
     <span>Module</span>
     </router-link>
-  <router-link to="/team">
+  <router-link :to="linkBase+'/team'">
     <i class="fa fa-user"></i> 
     <span>Team</span>
     </router-link>
-  <router-link to="/user">
+  <router-link :to="linkBase+'/user'">
     <i class="fa fa-user"></i>
     <span>User</span>
   </router-link>
@@ -20,6 +20,11 @@
 <script>
 export default {
   name: "HeaderLink",
+  computed:{
+    linkBase(){
+      return "/"+this.$store.state.role+"/"+this.$store.state.signInStudent.name
+    }
+  }
 };
 </script>
 
@@ -39,5 +44,4 @@ a:hover{
   background: #fac1d3;
   color: #000000;
 }
-
 </style>
