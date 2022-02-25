@@ -20,13 +20,13 @@
     </resultMap>
 
     <select id="getStudentList" resultMap="studentResultMap">
-    select * from student where student_id=(select student_id from task_student_link where task_id=#{taskId})
+    select student_id,info,user_icon_src from student where student_id in (select student_id from task_student_link where task_id=#{taskId})
     </select>
 
     <resultMap id="studentResultMap" type="com.jian.pojo.Student">
-        <id property="studentId" column="member_id"/>
-        <result property="password" column="password"/>
+        <id property="studentId" column="student_id"/>
         <result property="studentInfo" column="info"/>
+        <result property="userIconSrc" column="user_icon_src" />
     </resultMap>
 
     <insert id="addTask" parameterType="com.jian.pojo.Task">
@@ -41,6 +41,6 @@
     </insert>
 
     <select id="getTaskProgress" resultType="java.lang.Integer">
-        select progress from task_student_link where student_id=#{studentId} and task_id=#{taskId}
+        select progress from task_student_link where student_id=#{arg1} and task_id=#{arg0}
     </select>
 </mapper>

@@ -7,7 +7,7 @@ public class Module {
     private String moduleName;
     private Teacher teacher;
     private List<Student> studentList;
-    private List<Team> teamList;
+    private List<Integer> teamIdList;
 
 
     public Integer getModuleId() {
@@ -42,11 +42,11 @@ public class Module {
         this.studentList = studentList;
     }
 
-    public List<Team> getTeamList() {
-        return teamList;
+    public List<Integer> getTeamIdList() {
+        return teamIdList;
     }
 
-    public void setTeamList(List<Team> teamList) {
-        this.teamList = teamList;
+    public void setTeamIdList(List<Integer> teamIdList) {
+        this.teamIdList = teamIdList;
     }
 }

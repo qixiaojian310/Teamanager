@@ -6,8 +6,8 @@
     <!--    id就是方法名字-->
     <!--    Type是类型只有一个，Map是一个list-->
 
-    <select id="getTaskIdList"  resultType="java.lang.Integer">
-        select * from task_student_link where student_id=#{studentId}
+    <select id="getUnCompletedTaskIdList"  resultType="java.lang.Integer">
+        select task_student_link.task_id from task_student_link join task on task.task_id = task_student_link.task_id where student_id = #{arg0} and task.completed = #{arg1}
     </select>
 
 
@@ -17,7 +17,7 @@
 
 <!--    this colomn called student_link, but it's fine to change the input parameter as studentId-->
     <select id="getTeamList"  resultType="java.lang.Integer">
-        select team_id from student_team_link where student_id=#{studentId}
+        select student_team_link.team_id from student_team_link where student_team_link.student_id=#{studentId}
     </select>
 
     <select id="getStudent"  resultMap="StudentResultMap">
@@ -28,7 +28,17 @@
         <id property="studentId" column="student_id"/>
         <result property="password" column="password" />
         <result property="studentInfo" column="info"/>
+        <result property="userIconSrc" column="user_icon_src" />
+    </resultMap>
 
+    <select id="getStduentNoPwd" resultMap="StudentNoPwdMap" >
+        select student_id,info,user_icon_src from student where student_id = #{studentId}
+    </select>
+
+    <resultMap id="StudentNoPwdMap" type="com.jian.pojo.Student">
+        <id property="studentId" column="student_id"/>
+        <result property="studentInfo" column="info"/>
+        <result property="userIconSrc" column="user_icon_src" />
     </resultMap>
 
     <select id="getStudentPwd" resultType="String">
@@ -36,7 +46,7 @@
     </select>
 
     <insert id="addStudent" parameterType="com.jian.pojo.Student">
-        insert into student values (#{studentId},#{password},#{studentInfo})
+        insert into student values (#{studentId},#{password},#{studentInfo},#{userIconSrc})
     </insert>
 
     <insert id="addTeam" >
@@ -46,4 +56,13 @@
     <insert id="addModule" >
         insert into student_module_link(module_id, student_id) values(#{moduleId},#{studentId})
     </insert>
+
+    <update id="setStudentNoPwd">
+        update student
+        <set>
+            <if test="#{arg0} != null">student_id=#{arg0},</if>
+            <if test="#{arg1} != null">info=#{arg1}</if>
+        </set>
+        where student_id= #{arg2}
+    </update>
 </mapper>

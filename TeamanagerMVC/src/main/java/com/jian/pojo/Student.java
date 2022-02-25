@@ -5,6 +5,15 @@ public class Student {
     private String studentId;
     private String studentInfo;
     private String password;
+    private String userIconSrc;
+
+    public String getUserIconSrc() {
+        return userIconSrc;
+    }
+
+    public void setUserIconSrc(String userIconSrc) {
+        this.userIconSrc = userIconSrc;
+    }
 
     public String getPassword() {
         return password;
@@ -31,6 +40,12 @@ public class Student {
         this.studentId = studentid;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Student{" +
+                "studentId='" + studentId + '\'' +
+                ", studentInfo='" + studentInfo + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

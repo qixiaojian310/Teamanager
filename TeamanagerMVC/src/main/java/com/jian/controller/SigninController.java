@@ -1,38 +1,54 @@
 package com.jian.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jian.pojo.Student;
-import com.jian.service.StudentService;
+import com.jian.service.SignStudentService;
+import com.jian.service.StudentShowService;
+import com.jian.utils.GetSessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 
-@CrossOrigin(origins = "*", maxAge = 3600, methods = {RequestMethod.DELETE,RequestMethod.GET,RequestMethod.OPTIONS,RequestMethod.POST,RequestMethod.PUT})
+
+@CrossOrigin(origins = "http://localhost:8088", maxAge = 3600, methods = {RequestMethod.DELETE,RequestMethod.GET,RequestMethod.OPTIONS,RequestMethod.POST,RequestMethod.PUT},allowCredentials = "true")
 @Controller
 //RestController不会加载视图，而是直接响应
 //@RestController
 public class SigninController {
 
+
+    @Autowired
+    @Qualifier("studentShowServiceImpl")
+    private StudentShowService studentshowService;
+
     @Autowired
     @Qualifier("signinStudentServiceImpl")
-    private StudentService studentService;
+    private SignStudentService signStudentService;
 
-    @RequestMapping(value = "/hello", method = RequestMethod.POST)
+    @RequestMapping(value = "/hello2", method = RequestMethod.POST)
     @ResponseBody
     public String hello(@RequestBody String userString) throws JsonProcessingException {
         System.out.println(userString);
         return userString;
     }
 
-    @RequestMapping(value = "/hello2", method = RequestMethod.POST)
+    @RequestMapping(value = "/student", method = RequestMethod.POST)
     @ResponseBody
     public String hello2(@RequestBody Student userString) throws JsonProcessingException {
         System.out.println(userString.getPassword());
-        if (studentService.ifStudentExist(userString.getStudentId())){
-            if(userString.getPassword().equals(studentService.getStudentPwd(userString.getStudentId()))){
+        System.out.println("查询的用户名为"+userString);
+        Student loginStudent = signStudentService.ifStudentExist(userString.getStudentId());
+        if (loginStudent!=null){
+            if(userString.getPassword().equals(signStudentService.getStudentPwd(userString.getStudentId()))){
+                HttpSession session = GetSessionUtil.getSession();
+                System.out.println(session);
+                session.setAttribute("loginStudent",loginStudent);
+                Student studentTest = (Student) session.getAttribute("loginStudent");
+                System.out.println("session的测试"+studentTest.getStudentInfo());
                 return "Match";
             }
             else return "NoMatch";
@@ -42,6 +58,7 @@ public class SigninController {
         }
 
     }
+
 
 
     @RequestMapping(value = "/test", method = RequestMethod.POST)

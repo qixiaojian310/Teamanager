@@ -7,7 +7,7 @@
     <!--    Type是类型只有一个，Map是一个list-->
 
     <select id="getModuleId"  resultType="java.lang.Integer">
-        select module_id from student_model_link where student_id=#{studentId} join module on module_name=#{moduleName}
+        SELECT student_id, student_module_link.module_id FROM (student_module_link JOIN module ON student_module_link.module_id = module.module_id) WHERE student_id = #{studentId} AND student_module_link.module_id = #{moduleId}
     </select>
 
 
@@ -27,8 +27,7 @@
     </insert>
 
     <select id="getTask" resultType="java.lang.Integer">
-    select task_id from task_student_link where student_id=#{studentId} join task on team_id=(select team_id from team where module_id=#{moduleId})
-    </select>
+        SELECT task_id FROM task_student_link JOIN (student JOIN student_module_link ON student.student_id = student_module_link.student_id) on task_student_link.student_id = student.student_id WHERE student.student_id = #{studentId} and student_module_link.module_id=#{moduleId}    </select>
 
     <select id="getModuleStudent" resultMap="ModuleResultMap">
         select * from module where module_id = (select module_id from student_module_link where student_id=#{studentId})
@@ -39,6 +38,19 @@
         <result property="moduleName" column="module_name" />
     </resultMap>
 
+    <select id="getTeacherByModuleId" resultMap="TeacherResultMap">
+        select * from teacher where teacher_id in (select teacher_id from module where module_id = #{moduleId})
+    </select>
+
+    <resultMap id="TeacherResultMap" type="com.jian.pojo.Teacher" >
+        <id property="teacherId" column="teacher_id" />
+        <result property="password" column="password" />
+    </resultMap>
+
+    <select id="getStudentsByModuleId" resultType="java.lang.String">
+        select student_id from student_module_link where module_id = #{moduleId}
+    </select>
+
     <select id="getModuleTeacher" resultMap="ModuleResultMap">
         select * from module where teacher_id=#{teacherId}
     </select>
@@ -48,6 +60,6 @@
     </select>
 
     <select id="getStudent" resultType="java.lang.Integer">
-        select student_id from student_module_link where moudle_id={moduleId}
+        select student_id from student_module_link where module_id=#{moduleId}
     </select>
 </mapper>

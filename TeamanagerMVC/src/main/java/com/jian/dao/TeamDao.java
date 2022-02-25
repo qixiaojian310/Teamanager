@@ -19,5 +19,5 @@ public interface TeamDao {
   //通过teamid得到整个team的信息
   public Team getTeamById(int teamId);
   //跟据teamid得到当前team有多个队友
-  public List<Integer> getTeammate(int teamId);
+  public List<String> getTeammate(int teamId);
 }

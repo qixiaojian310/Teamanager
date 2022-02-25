@@ -48,9 +48,10 @@
         <id property="teamId" column="team_id"/>
         <result property="teamName" column="team_name"/>
         <result property="moduleId" column="module_id"/>
+        <result property="leaderId" column="leader_id"/>
     </resultMap>
 
-    <select id="getTeammate" resultType="java.lang.Integer">
+    <select id="getTeammate" resultType="java.lang.String">
         select student_id from student_team_link where team_id=#{teamId}
     </select>
 

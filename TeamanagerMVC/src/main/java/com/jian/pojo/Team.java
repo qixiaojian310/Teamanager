@@ -15,7 +15,7 @@ public class Team {
     private Integer moduleId;
     private List<Student> studentList;
     private List<Task> taskList;
-    private Student leader;
+    private String leaderId;
 
 
     public String getTeamName() {
@@ -50,12 +50,12 @@ public class Team {
         this.studentList = studentList;
     }
 
-    public Student getLeader() {
-        return leader;
+    public String getLeaderId() {
+        return leaderId;
     }
 
-    public void setLeader(Student leader) {
-        this.leader = leader;
+    public void setLeaderId(String leaderId) {
+        this.leaderId = leaderId;
     }
 
     public List<Task> getTaskList() {

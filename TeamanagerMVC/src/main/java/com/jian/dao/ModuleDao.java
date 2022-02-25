@@ -2,6 +2,8 @@ package com.jian.dao;
 
 
 import com.jian.pojo.Module;
+import com.jian.pojo.Student;
+import com.jian.pojo.Teacher;
 
 import java.util.List;
 
@@ -21,7 +23,11 @@ public interface ModuleDao {
     //老师需要知道他上了什么课
     public List<Module> getModuleTeacher(String teacherId);
     //跟据moduleid得到对应的所有的team的id
-    public List<Integer> getTeamByModule(String moduleId);
+    public List<Integer> getTeamByModule(Integer moduleId);
     //跟据课程id得到该课程包含的所有的学生
     public List<Integer> getStudent(String moduleId);
+    //获得对应的老师(通过课程名）
+    public Teacher getTeacherByModuleId(Integer moduleId);
+    //通过课程ID获得所有的学生Id
+    public List<String> getStudentsByModuleId(Integer moduleId);
 }

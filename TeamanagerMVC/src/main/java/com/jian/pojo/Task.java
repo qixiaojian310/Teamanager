@@ -16,7 +16,17 @@ public class Task {
     private Date deadline;
     private String context;
     private List<Student> studentList;
+    //true 为完成
+    private boolean completed;
+    private Integer progress = 0;
 
+    public Integer getProgress() {
+        return progress;
+    }
+
+    public void setProgress(Integer progress) {
+        this.progress = progress;
+    }
 
     public String getTaskName() {
         return taskName;
@@ -64,5 +74,26 @@ public class Task {
 
     public void setStudentList(List<Student> studentList) {
         this.studentList = studentList;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "taskId=" + taskId +
+                ", taskName='" + taskName + '\'' +
+                ", teamId=" + teamId +
+                ", deadline=" + deadline +
+                ", context='" + context + '\'' +
+                ", studentList=" + studentList +
+                ", completed=" + completed +
+                '}';
     }
 }

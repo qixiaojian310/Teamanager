@@ -5,14 +5,16 @@ import com.jian.pojo.Student;
 import java.util.List;
 
 public interface StudentDao {
-    //得到该学生的task id的list
-    public List<Integer> getTaskIdList(String studentId);
+    //得到该学生的未完成task id的list
+    public List<Integer> getUnCompletedTaskIdList(String studentId,boolean completed);
     //得到该学生的module id的list
     public List<Integer> getModuleList(String studentId);
     //得到该学生的team id的list
     public List<Integer> getTeamList(String studentId);
     //得到当前student的信息
     public Student getStudent(String studentId);
+    //得到一个没有密码的student对象
+    public Student getStduentNoPwd(String studentId);
     //得到当前student的密码
     public String getStudentPwd(String studentId);
     //增加一个student
@@ -21,4 +23,6 @@ public interface StudentDao {
     public boolean addTeam(String studentId,int teamId);
     //给学生增加module
     public boolean addModule(String studentId,int moduleId);
+    //修改学生的信息
+    public int setStudentNoPwd(String newStudentId,String studentInfo,String oldStudentId);
 }

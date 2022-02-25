@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service("signinStudentServiceImpl")
-public class SigninStudentServiceImpl implements StudentService {
+public class SigninStudentServiceImpl implements SignStudentService {
 
 
 
@@ -25,16 +25,10 @@ public class SigninStudentServiceImpl implements StudentService {
 
 
     @Override
-    public boolean ifStudentExist(String username) {
+    public Student ifStudentExist(String username) {
     //  如果查询到当前id有人使用
         Student student = studentDao.getStudent(username);
-
-        if(student==null) {
-            return false;
-        }
-        else {
-            return true;
-        }
+        return student;
     }
 
     @Override
