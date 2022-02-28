@@ -136,38 +136,39 @@ export default createStore({
         //   teamIds: [1, 2, 3],
         // },
       ],
-      signInTeacherModule: [{
-          moduleId: 1,
-          moduleName: "Module 1",
-          teacherId: 1,
-          studentIdList: [1, 2, 3, 4, 5, 6, 7],
-          teamIds: [1, 2, 3],
-        },
-        {
-          moduleId: 3,
-          moduleName: "Module 3",
-          teacherId: 1,
-          studentIdList: [1, 2, 3, 4, 5, 6, 7],
-          teamIds: [1, 2, 3],
-        },
-        {
-          moduleId: 6,
-          moduleName: "Module 6",
-          teacherId: 1,
-          studentIdList: [1, 2, 3, 4, 5, 6, 7],
-          teamIds: [1, 2, 3],
-        },
-        {
-          moduleId: 7,
-          moduleName: "Module 7",
-          teacherId: 1,
-          studentIdList: [1, 2, 3, 4, 5, 6, 7],
-          teamIds: [1, 2, 3],
-        },
+      signInTeacherModule: [
+        // {
+        //   moduleId: 1,
+        //   moduleName: "Module 1",
+        //   teacherId: 1,
+        //   studentIdList: [1, 2, 3, 4, 5, 6, 7],
+        //   teamIds: [1, 2, 3],
+        // },
+        // {
+        //   moduleId: 3,
+        //   moduleName: "Module 3",
+        //   teacherId: 1,
+        //   studentIdList: [1, 2, 3, 4, 5, 6, 7],
+        //   teamIds: [1, 2, 3],
+        // },
+        // {
+        //   moduleId: 6,
+        //   moduleName: "Module 6",
+        //   teacherId: 1,
+        //   studentIdList: [1, 2, 3, 4, 5, 6, 7],
+        //   teamIds: [1, 2, 3],
+        // },
+        // {
+        //   moduleId: 7,
+        //   moduleName: "Module 7",
+        //   teacherId: 1,
+        //   studentIdList: [1, 2, 3, 4, 5, 6, 7],
+        //   teamIds: [1, 2, 3],
+        // },
       ],
+      //TODO need fix
       signInTeacher: {
-        teacherId: 1,
-        teacherName: "Amy",
+        name:"5678"
       },
       signInStudent:{
         name:"aaababy",
@@ -182,6 +183,9 @@ export default createStore({
     updateSignInStudentName(state,name){
       state.signInStudent.name = name;
     },
+    updateSignInTeacherName(state,name){
+      state.signInTeacher.name = name;
+    },
     //用来更行签到的学生信息（info）
     updateSignInStudentInfo(state,name){
       state.signInStudent.info = name;
@@ -191,6 +195,28 @@ export default createStore({
     },
     selectRole(state,role){
       state.role = role;
+    },
+    pushTeacherModule(state,tempModuleObj){
+      state.signInTeacherModule.push(tempModuleObj);
+    },
+    pushTeacherTeams(state,tempTeamsObj){
+      state.teams.push(tempTeamsObj);
+    },
+    pushStudentModule(state,tempModuleObj){
+      state.signInStudentModule.push(tempModuleObj);
+    },
+    // 传入课程的id和要删除的studentIds
+    deleteModuleStudents(state,moduleId,studentIds){
+      var focusModuleIndex = state.signInStudentModule.findIndex((item)=>{
+        return item.moduleId == moduleId;
+      })
+      for (let index = 0; index < state.signInTeacherModule[focusModuleIndex].students.length; index++) {
+        for (let i = 0; i < studentIds.length; i++) {
+          if (state.signInTeacherModule[focusModuleIndex].students[index].studentId == studentIds[i]) {
+            state.signInTeacherModule[focusModuleIndex].students.splice(index, 1);
+          }
+        }
+      }
     }
   },
   actions: {},

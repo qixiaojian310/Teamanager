@@ -21,6 +21,7 @@
             :height="transferHeight"
             style="overflow-y: hidden"
           >
+            <p style="text-align:center; font-size:2rem">Delete some student</p>
             <el-transfer
               v-model="module.studentIdList"
               style="text-align: left; display: inline-block"
@@ -41,16 +42,11 @@
             >
               <!-- NOTE 学生的name和id -->
               <template #default="{ option }">
-                <span>{{ option.studentId }} - {{ option.name }}</span>
-              </template>
-              <template #left-footer>
-                <el-button class="transfer-footer" size="small"
-                  >Operation</el-button
-                >
+                <span>{{ option.studentId }}</span>
               </template>
               <template #right-footer>
-                <el-button class="transfer-footer" size="small"
-                  >Operation</el-button
+                <el-button class="transfer-footer" size="small" @click="deleteSelectStudent"
+                  >Delete them</el-button
                 >
               </template>
             </el-transfer>
@@ -70,8 +66,15 @@
 </template>
 
 <script>
+import qs from 'qs'
+
 export default {
   name: "RegisterModule",
+  props:{
+    focusModuleId: {
+      type: Number,
+    },
+  },
   data() {
     return {
       module: {
@@ -82,33 +85,64 @@ export default {
       },
       cascaderProps: {
         multiple: true,
-        label: "leaderName",
+        label: "leaderId",
         value: "leaderId",
       },
       leaderIds: [],
-      StudentListAll: this.$store.state.users,
     };
   },
   methods: {
-    createLeaderOption: function (id, name) {
+    //TODO 后端没写
+    deleteSelectStudent(){
+      this.axios({
+        url:"/deleteSelectStudent",
+        method:"post",
+        data:qs.stringify({
+          moduleId:this.focusModuleId,
+          studentIds:this.module.studentIdList,
+        },{indices:false}),
+        headers:{
+          "Content-Type":"application/x-www-form-urlencoded",
+        }
+      }).then((res)=>{
+        if(res.data){
+          this.$store.commit("deleteSelectStudent",this.focusModuleId,this.module.studentIdList);
+          this.module.studentIdList = [];                       
+        }
+      })
+    },
+    createLeaderOption: function (id) {
       var leader = new Object();
-      leader.leaderName = name;
       leader.leaderId = id;
       return leader;
     },
   },
   computed: {
+    StudentListAll(){
+      var module = this.$store.state.signInTeacherModule.filter(
+        (item) => {
+          return item.moduleId == this.focusModuleId;
+        }
+      )[0];
+      if(module == null){
+        return this.$store.state.users;
+      }
+      return module.students;
+    },
     transferHeight() {
       return this.$store.state.windowSize.windowSizeHeight - 120;
     },
     cascaderOptions() {
+      var module = this.$store.state.signInTeacherModule.filter(
+        (item) => {
+          return item.moduleId == this.focusModuleId;
+        }
+      )[0];
+
       var temp = [];
-      for (let index = 0; index < this.module.studentIdList.length; index++) {
-        var studentId = this.module.studentIdList[index];
-        var studentObj = this.$store.state.users.filter((user)=>{
-          return user.studentId == studentId;
-        })[0];
-        temp.push(this.createLeaderOption(studentObj.studentId, studentObj.name));        
+      for (let index = 0; index < module.students.length; index++) {
+        var studentObj = module.students[index];
+        temp.push(this.createLeaderOption(studentObj.studentId));        
       }
       return temp;
     },
@@ -122,6 +156,7 @@ export default {
   display: flex;
   align-content: center;
   margin-bottom: 20px;
+  width: 100%;
 }
 .el-input {
   align-self: center;

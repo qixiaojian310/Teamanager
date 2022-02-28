@@ -6,6 +6,7 @@ import Signup from "../views/Signup.vue"
 import TeacherModule from '../components/Module/Teacher/TeacherModule'
 import TeacherHomePage from '../components/Home/TeacherHomePage'
 import StudentHomePage from '../components/Home/StudentHomePage'
+import StudentTeamPage from '../components/team/StudentTeamPage.vue'
 import StudentModule from '../components/Module/Student/StudentModule'
 
 const routes = [
@@ -23,6 +24,11 @@ const routes = [
         path: 'module',
         name: 'StudentModule',
         component: StudentModule
+      },
+      {
+        path: 'team',
+        name: 'StudentTeam',
+        component:StudentTeamPage
       }
     ]
 

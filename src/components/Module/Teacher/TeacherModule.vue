@@ -11,10 +11,11 @@
         @show-list="showList"
         @register-module="registerModule"
         @ensure-choice="selectModule"
+        @create-module="createModule"
       ></module-toolbar>
     </el-aside>
-    <el-container :style="{ height: asideHeight + 'px' }">
-      <div :height="asideHeight" :style="{ width: 100 + '%' }">
+    <el-container :style="{ height: asideHeight - 50 + 'px' }">
+      <div :height="asideHeigh - 50" :style="{ width: 100 + '%' }">
         <el-main>
           <div ref="skele">
             <el-skeleton animated :rows="skeletonRow" v-if="loading">
@@ -25,15 +26,20 @@
                 :height="asideHeight - 80 + 'px'"
                 :style="{ width: 100 + '%' }"
               >
-                <div class="card-box" v-if="isCardBox">
-                  <module-card
-                    v-for="moduleSearche in moduleSearches"
-                    :key="moduleSearche.index"
-                    @focus-module="focusModule"
-                    :module-searche="moduleSearche"
-                  ></module-card>
-                </div>
-                <register-module v-else></register-module>
+                <el-scrollbar class="main-box">
+                  <el-scrollbar>
+                    <div :class="{'all-module-card-box':!editBox,'edit-box-card-box':editBox}" v-if="mainBox == 1">
+                    <module-card
+                      v-for="moduleSearche in moduleSearches"
+                      :key="moduleSearche.index"
+                      @focus-module="focusModule"
+                      :module-searche="moduleSearche"
+                    ></module-card>
+                  </div>
+                  </el-scrollbar>
+                  <register-module v-if="editBox" :focusModuleId="focusModuleObj.moduleId"></register-module>
+                </el-scrollbar>
+                <create-module v-if="mainBox == 2"></create-module>
               </el-scrollbar>
             </el-container>
           </div>
@@ -54,8 +60,9 @@
         </el-icon>
       </el-button>
       <module-detail
-        :focusModuleObj="focusModuleObj"
-        :asideHeight="asideHeight"
+        :focus-module-obj="focusModuleObj"
+        :aside-height="asideHeight"
+        :team-objs="focusModuleTeams"
       ></module-detail>
     </el-aside>
   </el-container>
@@ -69,28 +76,57 @@ import ModuleDetail from "../slide/ModuleDetail.vue";
 import { CloseBold } from "@element-plus/icons-vue";
 import SwiperComponent from "../../swiperTest/SwiperComponent.vue";
 import RegisterModule from "../joinModule/RegisterModule.vue";
+import qs from "qs";
+import CreateModule from "../joinModule/CreateModule.vue";
 
 export default {
   name: "TeacherModule",
   methods: {
-    focusModule: function (cardFocusId) {
-      if (this.cardFocusId == cardFocusId && this.cardFocusId != 0) {
+    showList: function () {
+      this.isCardBox = true;
+      this.title = "Your Module";
+    },
+    //该方法通过点击的module的组信息获取组对象
+    setTeamObj(cardFocusObjInject) {
+      var injectData = {};
+      injectData.teamIds = cardFocusObjInject.teamIds;
+      this.axios({
+        url: "/getAllTeamByTeamIds",
+        data: qs.stringify(injectData, { indices: false }),
+        method: "post",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }).then((res) => {
+        this.focusModuleTeams = res.data;
+      });
+    },
+    focusModule(cardFocusObjInject) {
+      var cardFocusObj = cardFocusObjInject;
+      if (this.cardFocusId == cardFocusObj.moduleId && this.cardFocusId != 0) {
+        // this.cardFocus = this.cardFocus ? false : true;
         //点击了相同的id
-        this.cardFocus = this.cardFocus ? false : true;
+        if (this.cardFocus == true) {
+          this.cardFocus = false;
+        } else {
+          //打开了详细信息
+          this.cardFocus = true;
+          this.setTeamObj(cardFocusObj);
+        }
       } else {
         //点击了另一个课程，先要关闭原来的再打开新的
         this.cardFocus = false;
-        this.cardFocusId = cardFocusId;
+        this.cardFocusId = cardFocusObj.moduleId;
         this.cardFocus = true;
+        this.setTeamObj(cardFocusObj);
       }
-      this.cardFocusId = cardFocusId;
+      this.cardFocusObj = cardFocusObj;
     },
     closeDetail: function () {
       this.cardFocus = false;
     },
-    createTeacherOption: function (id, name, number) {
+    createTeacherOption: function (id, number) {
       var teacherOption = new Object();
-      teacherOption.teacherName = name;
       teacherOption.teacherNumber = number;
       teacherOption.teacherId = id;
       return teacherOption;
@@ -119,17 +155,23 @@ export default {
       this.moduleSearches = res;
     },
     registerModule: function () {
-      this.isCardBox = false;
+      this.editBox = true;
       this.title = "Register Center";
     },
+    createModule: function () {
+      this.editBox = false;
+      this.mainBox = 2;
+      this.title = "Create Center";
+    },
     showList: function () {
-      this.isCardBox = true;
+      this.editBox = false;
+      this.mainBox = 1;
       this.title = "Your Module";
     },
   },
   data() {
     return {
-      isCardBox: true,
+      mainBox: 1,
       ModuleTitle: "Module Title",
       cardFocus: false,
       cardFocusId: 0,
@@ -138,6 +180,9 @@ export default {
       // NOTE: 后端获取module所有人员使用id返回一个idList
       moduleSearches: this.$store.state.signInTeacherModule,
       title: "Your Teams",
+      cardFocusObj: {},
+      focusModuleTeams: [],
+      editBox: false,
     };
   },
   computed: {
@@ -186,16 +231,17 @@ export default {
         return {
           moduleId: -1,
           moduleName: "",
-          teacherId: 1,
-          studentIdList: [],
+          teacher: {},
+          studentS: [],
           teamIds: [],
         };
       } else {
-        var focusObj = this.moduleSearches.filter((moduleSearche) => {
-          return moduleSearche.moduleId == this.cardFocusId;
-        });
-        console.log(focusObj);
-        return focusObj[0];
+        // var focusObj = this.moduleSearches.filter((moduleSearche) => {
+        //   return moduleSearche.moduleId == this.cardFocusId;
+        // });
+        // console.log(focusObj);
+        // return focusObj[0];
+        return this.cardFocusObj;
       }
     },
     teacherObjs() {
@@ -207,14 +253,21 @@ export default {
         var key = this.$store.state.signInStudentModule[i].teacherId;
         //flag 为假表示这个数组从没有找到过这个元素
         flag = false;
-        console.log(this.searchTeacher(key).teacherName);
-        var teacherObj = this.createTeacherOption(
-          key,
-          this.searchTeacher(key).teacherName,
-          1
-        );
+        // console.log(this.searchTeacher(key).teacherName);
+        // var teacherObj = this.createTeacherOption(
+        //   key,
+        //   this.searchTeacher(key).teacherName,
+        //   1
+        // );
+        // for (var index = 0; index < noRepeatTeachers.length; index++) {
+        //   if (noRepeatTeachers[index].teacherId == key) {
+        //     noRepeatTeachers[index].teacherNumber += 1;
+        //     var flag = true;
+        //   }
+        // }
+        var teacherObj = this.createTeacherOption(teacher.teacherId, 1);
         for (var index = 0; index < noRepeatTeachers.length; index++) {
-          if (noRepeatTeachers[index].teacherId == key) {
+          if (noRepeatTeachers[index].teacherId == teacher.teacherId) {
             noRepeatTeachers[index].teacherNumber += 1;
             var flag = true;
           }
@@ -234,9 +287,11 @@ export default {
     SwiperComponent,
     CloseBold,
     RegisterModule,
+    CreateModule,
   },
 };
-</script>
+</script>,
+    CreateModule
 
 <style scoped>
 .title {
@@ -288,10 +343,17 @@ export default {
   overflow: hidden;
   position: relative;
 }
-.card-box {
+.all-module-card-box {
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
-  align-content: center;
+}
+.edit-box-card-box{
+  height: 200px;
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
 }
 .swiper-container {
   width: 100%;
@@ -311,5 +373,9 @@ export default {
 }
 .close-btn:hover {
   background: rgba(0, 0, 0, 0.1);
+}
+.main-box {
+  display: flex;
+  flex-direction: column;
 }
 </style>

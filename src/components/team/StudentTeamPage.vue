@@ -6,12 +6,12 @@
       class="hidden-sm-and-down"
       :style="{ height: asideHeight + 'px' }"
     >
-      <module-toolbar
+      <team-toolbar
         :options="teacherObjs"
         @show-list="showList"
-        @add-module="addModule"
-        @ensure-choice="selectModule"
-      ></module-toolbar>
+        @add-team="addTeam"
+        @ensure-choice="selectTeam"
+      ></team-toolbar>
     </el-aside>
     <el-container :style="{ height: asideHeight - 50 + 'px' }">
       <el-scrollbar :height="asideHeight - 50" :style="{ width: 100 + '%' }">
@@ -22,22 +22,13 @@
             <el-container v-else>
               <el-header class="title">{{ title }}</el-header>
               <div class="card-box" v-if="mainCard == 1 || mainCard == 2">
-                <module-card
-                  v-for="moduleSearche in moduleSearches"
-                  :key="moduleSearche.index"
-                  @focus-module="focusModule"
-                  :module-searche="moduleSearche"
-                ></module-card>
+                <team-card
+                  v-for="teamSearche in teamSearches"
+                  :key="teamSearche.index"
+                  @focus-team="focusTeam"
+                  :team-searche="teamSearche"
+                ></team-card>
               </div>
-              <!-- 加入课程需要显示所有的课程 -->
-              <!-- <div class="card-box" v-else>
-                <module-card
-                  v-for="moduleSearche in moduleSearches"
-                  :key="moduleSearche.index"
-                  @focus-module="focusModule"
-                  :module-searche="moduleSearche"
-                ></module-card>
-              </div> -->
             </el-container>
           </div>
         </el-main>
@@ -56,110 +47,79 @@
           <close-bold></close-bold>
         </el-icon>
       </el-button>
-      <module-detail
-        :focusModuleObj="focusModuleObj"
-        :teamObjs="focusModuleTeams"
-        :asideHeight="asideHeight"
-      ></module-detail>
+      <team-detail
+        v-if="cardFocus"
+        :focus-team-obj="focusTeamObj"
+        :team-objs="focusModuleTeams"
+        :aside-height="asideHeight"
+        :aside-width="asideRightWidth"
+      ></team-detail>
     </el-aside>
   </el-container>
 </template>
 
+
+
 <script>
+
+      // var taskList = this.focusTeamObj.taskList;
+      // var contextList = [];
+      // var taskDataList = [];
+      // for (let index = 0; index < taskList.length; index++) {
+      //   contextList.push(taskList[index].context)
+      //   var taskData = new Object();
+      //   taskData.x = taskList[index].startTime;
+      //   taskData.x2 = taskList[index].deadline;
+      //   taskData.y = index;
+      //   taskDataList.push(taskData);
+      // }
+
 // import SwiperTest from "../../swiperTest/SwiperComponent.vue";
-import ModuleToolbar from "../toolbar/ModuleToolbar.vue";
-import ModuleCard from "../../card/ModuleCard.vue";
-import ModuleDetail from "../slide/ModuleDetail.vue";
+import TeamToolbar from "./TeamToolBar.vue";
+import TeamCard from "../card/TeamCard.vue";
 import { CloseBold } from "@element-plus/icons-vue";
-import SwiperComponent from "../../swiperTest/SwiperComponent.vue";
+import TeamDetail from "./TeamDetail.vue";
 import qs from "qs";
 
 export default {
-  name: "StudentModule",
+  // id leaderId name students
+  name: "StudentTeamPage",
   methods: {
-    teacherObjsGet(showList) {
-      var noRepeatTeachers = [];
-      console.log("length" + noRepeatTeachers.length);
-      //flag 为假表示这个数组从没有找到过这个元素
-      var flag = false;
-      //this.$store.state.signInStudentModule
-      for (var i = 0; i < showList.length; i++) {
-        // 学生上课的老师
-        var teacher = showList[i].teacher;
-        //flag 为假表示这个数组从没有找到过这个元素
-        flag = false;
-        var teacherObj = this.createTeacherOption(teacher.teacherId, 1);
-        for (var index = 0; index < noRepeatTeachers.length; index++) {
-          if (noRepeatTeachers[index].teacherId == teacher.teacherId) {
-            noRepeatTeachers[index].teacherNumber += 1;
-            var flag = true;
-          }
-        }
-        if (!flag) {
-          noRepeatTeachers.push(teacherObj);
-        }
-      }
-      return noRepeatTeachers;
-    },
     showList: function () {
       this.mainCard = 1;
-      this.title = "Your Module";
-      this.moduleSearches = this.$store.state.signInStudentModule;
+      this.title = "Your Team";
+      this.teamSearches = this.$store.state.signInStudentTeam;
     },
-    addModule: function () {
+    addTeam: function () {
       this.mainCard = 2;
-      this.title = "All Module";
+      this.title = "All Team";
       this.axios({
-        url: "/getAllModuleSearch",
+        url: "/getAllTeamSearch",
         method: "post",
       }).then((res) => {
-        this.moduleSearches = res.data;
+        this.teamSearches = res.data;
         //存一份拷贝，方便在同步修改的时候可以确保基础的总选项不会发生改变
-        this.allModule = res.data;
-        //moduleId moduleName students teacher teamIds
+        this.allTeam = res.data;
+        //teamId teamName students teacher teamIds
       });
     },
-    //该方法通过点击的module的组信息获取组对象
-    setTeamObj(cardFocusObjInject) {
-      var injectData = {};
-      if (this.mainCard == 1) {
-        injectData.teamIds = cardFocusObjInject.teamIds;
-      } else {
-        injectData.teamIds = cardFocusObjInject.teamIdList;
-      }
-      this.axios({
-        url: "/getAllTeamByTeamIds",
-        data: qs.stringify(injectData, { indices: false }),
-        method: "post",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      })
-        .then((res) => {
-          this.focusModuleTeams = res.data;
-        })
-        .catch((error) =>{
-          this.focusModuleTeams = [];
-        });
-    },
-    focusModule(cardFocusObjInject) {
+    //该方法通过点击的team的组信息获取组对象
+    focusTeam(cardFocusObjInject) {
       var cardFocusObj = cardFocusObjInject;
       console.log(cardFocusObj);
-      if (this.cardFocusId == cardFocusObj.moduleId && this.cardFocusId != 0) {
+      if (this.cardFocusId == cardFocusObj.teamId && this.cardFocusId != 0) {
         //点击了相同的id
         if (this.cardFocus == true) {
           this.cardFocus = false;
         } else {
           //打开了详细信息
           this.cardFocus = true;
-          this.setTeamObj(cardFocusObj);
         }
       } else {
         //点击了另一个课程，先要关闭原来的再打开新的
         this.cardFocus = false;
-        this.cardFocusId = cardFocusObj.moduleId;
+        this.cardFocusId = cardFocusObj.teamId;
         this.cardFocus = true;
-        this.setTeamObj(cardFocusObj);
       }
       this.cardFocusObj = cardFocusObj;
     },
@@ -176,11 +136,11 @@ export default {
     searchTeacher: function (teacherFind) {
       for (
         var index = 0;
-        index < this.$store.state.signInStudentModule.length;
+        index < this.$store.state.signInStudentTeam.length;
         index++
       ) {
         //在store中用户的具体索引;
-        var teacher = this.$store.state.signInStudentModule.filter(
+        var teacher = this.$store.state.signInStudentTeam.filter(
           (teacher) => {
             return teacher.teacherId == teacherFind;
           }
@@ -189,41 +149,41 @@ export default {
         return teacher;
       }
     },
-    selectModule: function (teacherIds) {
+    selectTeam: function (teacherIds) {
       //NOTE 检查级联选择器的值
       // NOTE teacherIds是一个数组
-      var allModule = [];
+      var allTeam = [];
       if (this.mainCard == 1) {
-        allModule = this.$store.state.signInStudentModule;
+        allTeam = this.$store.state.signInStudentTeam;
       } else {
-        allModule = this.allModule;
+        allTeam = this.allTeam;
       }
       var res = [];
-      res = allModule.filter((module) => {
+      res = allTeam.filter((team) => {
         for (let index = 0; index < teacherIds.length; index++) {
-          if (module.teacher.teacherId == teacherIds[index]) {
-            return module;
+          if (team.teacher.teacherId == teacherIds[index]) {
+            return team;
           }
         }
       });
-      this.moduleSearches = res;
+      this.teamSearches = res;
     },
   },
   data() {
     return {
-      ModuleTitle: "Module Title",
+      TeamTitle: "Team Title",
       cardFocus: false,
       loading: false,
       activeName: "1",
-      // NOTE: 后端获取module所有人员使用id返回一个idList
-      moduleSearches: this.$store.state.signInStudentModule,
+      // NOTE: 后端获取team所有人员使用id返回一个idList
+      teamSearches: this.$store.state.teams,
       cardFocusId: 0,
       cardFocusObj: {},
-      focusModuleTeams: [],
+      focusTeamTeams: [],
       //默认的队伍卡片
       mainCard: 1,
-      title: "Your Module",
-      allModule: [],
+      title: "Your Team",
+      allTeam: [],
     };
   },
   computed: {
@@ -240,9 +200,9 @@ export default {
     asideRightWidth() {
       if (this.cardFocus) {
         if (this.$store.state.windowSize.windowSizeWidth > 992) {
-          return this.$store.state.windowSize.windowSizeWidth * 0.3;
+          return this.$store.state.windowSize.windowSizeWidth * 0.55;
         } else {
-          return this.$store.state.windowSize.windowSizeWidth * 0.35;
+          return this.$store.state.windowSize.windowSizeWidth * 0.65;
         }
       } else {
         return 0;
@@ -267,41 +227,30 @@ export default {
         return this.$store.state.windowSize.windowSizeWidth * 0.35;
       }
     },
-    focusModuleObj() {
+    focusTeamObj() {
       if (this.cardFocusId == 0) {
         return {
-          moduleId: -1,
-          moduleName: "",
-          teacher: {},
+          teamId: -1,
+          name: "",
+          leaderId: "",
           students: [],
-          teamIds: [],
+          taskList: [],
         };
       } else {
-        // var focusObj = this.moduleSearches.filter((moduleSearche) => {
-        //   return moduleSearche.moduleId == this.cardFocusId;
+        // var focusObj = this.teamSearches.filter((teamSearche) => {
+        //   return teamSearche.teamId == this.cardFocusId;
         // });
         // console.log(focusObj);
         // return focusObj[0];
         return this.cardFocusObj;
       }
     },
-    teacherObjs() {
-      if (this.mainCard == 1) {
-        return this.teacherObjsGet(this.$store.state.signInStudentModule);
-      } else if (this.mainCard == 2) {
-        return this.teacherObjsGet(this.allModule);
-      } else {
-        return null;
-      }
-    },
   },
   components: {
-    ModuleToolbar,
-    ModuleCard,
-    ModuleDetail,
-    SwiperComponent,
-    SwiperComponent,
+    TeamToolbar,
+    TeamCard,
     CloseBold,
+    TeamDetail
   },
 };
 </script>

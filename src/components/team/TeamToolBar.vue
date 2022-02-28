@@ -13,7 +13,7 @@
       ></sign-input-item>
       <div v-if="isStudent">
         <el-cascader
-          placeholder="Try searchingL Guide"
+          placeholder="Try searching Guide"
           :options="options"
           v-model="value"
           :props="props"
@@ -30,30 +30,30 @@
       </div>
     </div>
     <div class="toolbar-list">
-      <button class="btn-all-module" @click="showList">
+      <button class="btn-all-team" @click="showList">
         <i class="fa fa-bars"></i>
-        <span>ALL Modules</span>
+        <span>ALL teams</span>
       </button>
       <!-- TODO对于老师要执行添加的效果，可以提交不同的事件到上层当中就可以实现 -->
-      <button class="btn-add-module" @click="add">
+      <button class="btn-add-team" @click="add">
         <i class="fa fa-edit"></i>
-        <span v-if="isTeacher">Edit a Module</span>
-        <span v-else>Add Module</span>
+        <span v-if="isTeacher">Edit a team</span>
+        <span v-else>Add team</span>
       </button>
-      <button class="btn-add-module" @click="create">
+      <button class="btn-add-team" @click="create">
         <i class="fa fa-building-o"></i>
-        <span v-if="isTeacher">Create a Module</span>
+        <span v-if="isTeacher">Create a team</span>
       </button>
     </div>
   </div>
 </template>
 
 <script>
-import SignInputItem from "../../sign/SignInputItem.vue";
+import SignInputItem from "../sign/SignInputItem.vue";
 import { DocumentChecked } from "@element-plus/icons-vue";
 export default {
   components: { SignInputItem, DocumentChecked },
-  name: "ModuleToolbar",
+  name: "TeamToolBar",
   data() {
     return {
       SearchContent: "",
@@ -86,14 +86,14 @@ export default {
     },
     add: function () {
       if (this.isTeacher) {
-        this.$emit("registerModule");
+        this.$emit("registerteam");
       } else {
-        this.$emit("addModule");
+        this.$emit("addteam");
       }
     },
     create:function(){
       if(this.isTeacher){
-        this.$emit("createModule");
+        this.$emit("createteam");
       }
     },
     showList: function () {
@@ -102,7 +102,7 @@ export default {
   },
   mounted() {
     // 用路由信息判断是老师还是学生
-    if (this.$route.name == "StudentModule") {
+    if (this.$route.name == "StudentTeam") {
       this.isTeacher = false;
       this.isStudent = true;
     } else {
@@ -127,7 +127,7 @@ export default {
   width: 90%;
 }
 
-.btn-all-module {
+.btn-all-team {
   transition: background-color 0.35s ease-in-out, color 0.35s ease-in-out;
   color: #df7599;
   background-color: #fac1d3;
@@ -140,7 +140,7 @@ export default {
   font-size: 1.2rem;
 }
 
-.btn-add-module {
+.btn-add-team {
   transition: background-color 0.35s ease-in-out, color 0.35s ease-in-out;
   color: #066e14;
   background-color: #65b54d56;

@@ -137,10 +137,12 @@ export default {
         for (let index = 0; index < injectTeams.length; index++) {
           var tempTeamObj = new Object();
           tempTeamObj.name = injectTeams[index].teamName;
-          tempTeamObj.id = injectTeams[index].teamId;
+          tempTeamObj.teamId = injectTeams[index].teamId;
           tempTeamObj.leaderId = injectTeams[index].leaderId;
           tempTeamObj.students = injectTeams[index].studentList;
           tempTeamObj.available = injectTeams[index].available;
+          tempTeamObj.moduleId = injectTeams[index].moduleId;
+          tempTeamObj.taskList = injectTeams[index].taskList;
           this.teamItems.push(tempTeamObj);
           this.$store.state.teams.push(tempTeamObj);
         }
@@ -164,9 +166,9 @@ export default {
           tempModuleObj.moduleId = injectModules[index].moduleId;
           tempModuleObj.teacher = injectModules[index].teacher;
           tempModuleObj.students = injectModules[index].studentList;
-          tempModuleObj.teamIds = injectModules[index].teamList;
+          tempModuleObj.teamIds = injectModules[index].teamIdList;
           this.moduleItems.push(tempModuleObj);
-          this.$store.state.signInStudentModule.push(tempModuleObj);
+          this.$store.commit("pushStudentModule",tempModuleObj);
         }
       });
     },
@@ -190,7 +192,7 @@ export default {
             UnCompletedTasksInject[index].context;
           for (let i = 0; i < this.$store.state.teams.length; i++) {
             if (
-              this.$store.state.teams[i].id ==
+              this.$store.state.teams[i].teamId ==
               UnCompletedTasksInject[index].teamId
             ) {
               UnCompletedTaskObj.unCompletedTaskName =
@@ -232,7 +234,7 @@ export default {
           completedTaskObj.taskContent = completedTasksInject[index].context;
           for (let i = 0; i < this.$store.state.teams.length; i++) {
             if (
-              this.$store.state.teams[i].id ==
+              this.$store.state.teams[i].teamId ==
               completedTasksInject[index].teamId
             ) {
               completedTaskObj.taskTeamName = this.$store.state.teams[i].name;

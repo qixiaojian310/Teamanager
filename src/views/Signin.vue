@@ -177,24 +177,38 @@ export default {
     };
   },
   methods: {
+    adaptUserData() {
+      if (this.role[0] == "/student") {
+        return {
+          studentId: this.form.username,
+          password: this.form.password,
+        };
+      } else {
+        return {
+          teacherId: this.form.username,
+          password: this.form.password,
+        };
+      }
+    },
     submitForm() {
       //AJAX方式
       this.axios({
         url: this.role[0],
-        data: {
-          studentId: this.form.username,
-          password: this.form.password,
-        },
+        data: this.adaptUserData(),
         method: "post",
-        baseURL: "http://localhost:8080/api/",
+        baseURL: "http://localhost:8080/api",
         // headers.post['Content-type'] = "application/json",
       }).then((response) => {
         console.log(response);
         //处理data不同的响应
         var responseData = response.data;
         if (responseData == "Match") {
-          this.$store.commit('updateSignInStudentName',this.form.username)
-          this.$router.push(this.role+"/"+this.form.username);
+          if (this.role[0] == "/student") {
+            this.$store.commit("updateSignInStudentName", this.form.username);
+          } else {
+            this.$store.commit("updateSignInTeacherName", this.form.username);
+          }
+          this.$router.push(this.role + "/" + this.form.username);
         }
       });
     },
