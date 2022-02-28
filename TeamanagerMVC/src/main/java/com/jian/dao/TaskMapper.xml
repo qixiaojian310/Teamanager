@@ -16,6 +16,7 @@
         <result property="context" column="content"/>
         <result property="deadline" column="deadline"/>
         <result property="teamId" column="team_id"/>
+        <result property="startTime" column="start_time" />
 
     </resultMap>
 
@@ -42,5 +43,8 @@
 
     <select id="getTaskProgress" resultType="java.lang.Integer">
         select progress from task_student_link where student_id=#{arg1} and task_id=#{arg0}
+    </select>
+    <select id="getTaskProgressAvg" resultType="java.lang.Integer">
+        select AVG(progress) from task_student_link where task_id=#{taskId}
     </select>
 </mapper>

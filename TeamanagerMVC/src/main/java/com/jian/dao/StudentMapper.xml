@@ -3,6 +3,18 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jian.dao.StudentDao">
+
+    <delete id="deleteModuleByStudentId">
+        delete from student_module_link where student_id = #{arg0} and module_id = #{arg1};
+    </delete>
+
+    <delete id="deleteStudentInTeam">
+        delete from student_team_link where team_id in (select team_id from team where module_id = #{arg1}) and student_id = #{arg0}
+    </delete>
+
+    <delete id="deleteStudentInTask">
+        delete from task_student_link where task_id in (select task_id from task where team_id in (select team_id from team where module_id = #{arg1})) and student_id = #{arg0}
+    </delete>
     <!--    id就是方法名字-->
     <!--    Type是类型只有一个，Map是一个list-->
 
@@ -54,7 +66,7 @@
     </insert>
 
     <insert id="addModule" >
-        insert into student_module_link(module_id, student_id) values(#{moduleId},#{studentId})
+        insert into student_module_link(module_id, student_id) values(#{arg1},#{arg0})
     </insert>
 
     <update id="setStudentNoPwd">

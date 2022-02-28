@@ -21,6 +21,11 @@ public class Teacher {
         this.teacherId = teacherid;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "teacherId='" + teacherId + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

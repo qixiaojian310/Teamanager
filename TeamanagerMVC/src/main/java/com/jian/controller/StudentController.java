@@ -118,6 +118,25 @@ public class StudentController {
         return studentshowService.setStudentNoPwd(studentId,studentInfo,loginStudentId);
     }
 
+    @RequestMapping(value = "getAllModuleSearch",method = RequestMethod.POST)
+    @ResponseBody
+    public List<Module> getAllModuleSearch(){
+        List<Module> moduleList = studentModuleService.getAllModuleSearch();
+        return moduleList;
+    }
+
+    @RequestMapping(value = "joinModule",method = RequestMethod.POST)
+    @ResponseBody
+    public boolean joinModule(@RequestParam(value = "studentId",required = true) String studentId,@RequestParam(value = "moduleId",required = true) Integer moduleId){
+        return studentModuleService.joinModule(studentId,moduleId);
+    }
+
+
+    @RequestMapping(value = "deleteSelectStudent",method = RequestMethod.POST)
+    @ResponseBody
+    public boolean deleteSelectStudent(@RequestParam("moduleId") int moduleId, @RequestParam("studentIds") String[] studentIds){
+        return studentModuleService.deleteStudentInModule(studentIds,moduleId);
+    }
 
 
 

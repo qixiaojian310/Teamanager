@@ -25,4 +25,8 @@ public interface StudentDao {
     public boolean addModule(String studentId,int moduleId);
     //修改学生的信息
     public int setStudentNoPwd(String newStudentId,String studentInfo,String oldStudentId);
+    //删除学生的指定课程
+    public boolean deleteModuleByStudentId(String studentId,int moduleId);
+    public boolean deleteStudentInTeam(String studentId,int moduleId);
+    public boolean deleteStudentInTask(String studentId,int moduleId);
 }

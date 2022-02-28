@@ -35,7 +35,7 @@
     <select id="getTaskList" resultType="java.lang.Integer">
         select task_id
         from task
-        where team_id = #{teamId}
+        where team_id = #{arg0} and completed=#{arg1}
     </select>
 
     <select id="getTeamById" resultMap="teamResultMap">

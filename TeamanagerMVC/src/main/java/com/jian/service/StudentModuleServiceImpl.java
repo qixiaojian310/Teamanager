@@ -60,4 +60,44 @@ public class StudentModuleServiceImpl implements StudentModuleService {
         }
         return moduleList;
     }
+
+    @Override
+    public List<Module> getAllModuleSearch() {
+        List<Module> moduleList = moduleDao.getAllModule();
+        for (Module module : moduleList) {
+            System.out.println(module);
+            Teacher teacher = moduleDao.getTeacherByModuleId(module.getModuleId());
+            module.setTeacher(teacher);
+            //获得所有的StudentId
+            List<String> studentIds = moduleDao.getStudentsByModuleId(module.getModuleId());
+            List<Student> studentList = new LinkedList<Student>();
+            for (String sid : studentIds) {
+                Student student = studentDao.getStduentNoPwd(sid);
+                studentList.add(student);
+            }
+            module.setStudentList(studentList);
+            module.setTeamIdList(moduleDao.getTeamByModule(module.getModuleId()));
+        }
+        return moduleList;
+    }
+
+    @Override
+    public boolean joinModule(String studentId, Integer moduleId) {
+        return studentDao.addModule(studentId,moduleId);
+    }
+
+    @Override
+    public boolean deleteStudentInModule(String[] studentIds, int moduleId) {
+        for (String studentId : studentIds) {
+            boolean status1 = studentDao.deleteStudentInTask(studentId,moduleId);
+            boolean status2 = studentDao.deleteStudentInTeam(studentId,moduleId);
+            boolean status3 = studentDao.deleteModuleByStudentId(studentId,moduleId);
+            if(!status3){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
 }

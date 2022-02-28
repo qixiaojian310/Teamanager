@@ -16,6 +16,7 @@ public class Task {
     private Date deadline;
     private String context;
     private List<Student> studentList;
+    private Date startTime;
     //true 为完成
     private boolean completed;
     private Integer progress = 0;
@@ -82,6 +83,14 @@ public class Task {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
     @Override

@@ -11,11 +11,11 @@
     </select>
 
 
-    <insert id="addModule" parameterType="com.jian.pojo.Module">
-        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="moduleId">
-            SELECT LAST_INSERT_ID()
-        </selectKey>
-        insert into module values (#{teacherId},#{moduleName})
+    <insert id="addModule" useGeneratedKeys="true" keyColumn="module_id">
+<!--        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="moduleId">-->
+<!--            SELECT LAST_INSERT_ID()-->
+<!--        </selectKey>-->
+        insert into module(teacher_id, module_name, module_size) values (#{arg0},#{arg1},#{arg2})
     </insert>
 
     <select id="getModuleIdbyTeacher" resultType="String">
@@ -30,12 +30,13 @@
         SELECT task_id FROM task_student_link JOIN (student JOIN student_module_link ON student.student_id = student_module_link.student_id) on task_student_link.student_id = student.student_id WHERE student.student_id = #{studentId} and student_module_link.module_id=#{moduleId}    </select>
 
     <select id="getModuleStudent" resultMap="ModuleResultMap">
-        select * from module where module_id = (select module_id from student_module_link where student_id=#{studentId})
+        select * from module where module_id in (select module_id from student_module_link where student_id=#{studentId})
     </select>
 
     <resultMap id="ModuleResultMap" type="com.jian.pojo.Module">
         <id property="moduleId" column="module_id"/>
         <result property="moduleName" column="module_name" />
+        <result property="moduleSize" column="module_size" />
     </resultMap>
 
     <select id="getTeacherByModuleId" resultMap="TeacherResultMap">
@@ -59,7 +60,10 @@
         select team_id from team where module_id=#{moduleId}
     </select>
 
-    <select id="getStudent" resultType="java.lang.Integer">
+    <select id="getStudent" resultType="java.lang.String">
         select student_id from student_module_link where module_id=#{moduleId}
+    </select>
+    <select id="getAllModule" resultMap="ModuleResultMap">
+        select * from module
     </select>
 </mapper>

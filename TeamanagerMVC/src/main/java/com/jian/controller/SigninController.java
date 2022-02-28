@@ -2,7 +2,9 @@ package com.jian.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jian.pojo.Student;
+import com.jian.pojo.Teacher;
 import com.jian.service.SignStudentService;
+import com.jian.service.SignTeacherService;
 import com.jian.service.StudentShowService;
 import com.jian.utils.GetSessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,10 @@ public class SigninController {
     @Autowired
     @Qualifier("signinStudentServiceImpl")
     private SignStudentService signStudentService;
+
+    @Autowired
+    @Qualifier("signTeacherServiceImpl")
+    private SignTeacherService signTeacherService;
 
     @RequestMapping(value = "/hello2", method = RequestMethod.POST)
     @ResponseBody
@@ -60,6 +66,28 @@ public class SigninController {
     }
 
 
+    @RequestMapping(value = "/teacher", method = RequestMethod.POST)
+    @ResponseBody
+    public String hello3(@RequestBody Teacher userString) throws JsonProcessingException {
+        System.out.println(userString.getPassword());
+        System.out.println("查询的用户名为"+userString);
+        Teacher loginTeacher = signTeacherService.ifTeacherExist(userString.getTeacherId());
+        if (loginTeacher!=null){
+            if(userString.getPassword().equals(signTeacherService.getTeacherPwd(userString.getTeacherId()))){
+                HttpSession session = GetSessionUtil.getSession();
+                System.out.println(session);
+                session.setAttribute("loginTeacher",loginTeacher);
+                Teacher teacherTest = (Teacher) session.getAttribute("loginTeacher");
+                System.out.println("session的测试"+teacherTest.toString());
+                return "Match";
+            }
+            else return "NoMatch";
+        }
+        else{
+            return "NoExit";
+        }
+
+    }
 
     @RequestMapping(value = "/test", method = RequestMethod.POST)
     @ResponseBody

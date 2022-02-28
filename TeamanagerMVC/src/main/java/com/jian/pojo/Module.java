@@ -8,7 +8,16 @@ public class Module {
     private Teacher teacher;
     private List<Student> studentList;
     private List<Integer> teamIdList;
+    private Integer moduleSize;
 
+
+    public Integer getModuleSize() {
+        return moduleSize;
+    }
+
+    public void setModuleSize(Integer moduleSize) {
+        this.moduleSize = moduleSize;
+    }
 
     public Integer getModuleId() {
         return moduleId;
@@ -48,5 +57,17 @@ public class Module {
 
     public void setTeamIdList(List<Integer> teamIdList) {
         this.teamIdList = teamIdList;
+    }
+
+    @Override
+    public String toString() {
+        return "Module{" +
+                "moduleId=" + moduleId +
+                ", moduleName='" + moduleName + '\'' +
+                ", teacher=" + teacher +
+                ", studentList=" + studentList +
+                ", teamIdList=" + teamIdList +
+                ", moduleSize=" + moduleSize +
+                '}';
     }
 }

@@ -1,8 +1,10 @@
 package com.jian.service;
 
 import com.jian.dao.StudentDao;
+import com.jian.dao.TaskDao;
 import com.jian.dao.TeamDao;
 import com.jian.pojo.Student;
+import com.jian.pojo.Task;
 import com.jian.pojo.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,6 +24,26 @@ public class StudentTeamServiceImpl implements StudentTeamService{
     @Autowired
     @Qualifier("teamDao")
     private TeamDao teamDao;
+
+    @Autowired
+    @Qualifier("taskDao")
+    private TaskDao taskDao;
+
+    public TaskDao getTaskDao() {
+        return taskDao;
+    }
+
+    public void setTaskDao(TaskDao taskDao) {
+        this.taskDao = taskDao;
+    }
+
+    public TeamDao getTeamDao() {
+        return teamDao;
+    }
+
+    public void setTeamDao(TeamDao teamDao) {
+        this.teamDao = teamDao;
+    }
 
     public StudentDao getStudentDao() {
         return studentDao;
@@ -48,8 +70,27 @@ public class StudentTeamServiceImpl implements StudentTeamService{
                 teammateObjs.add(student);
             }
             team.setStudentList(teammateObjs);
+            List<Integer> taskIdList = teamDao.getTask(teamId,studentId);
+            List<Task> taskList = new LinkedList<Task>();
+            for (Integer taskId : taskIdList) {
+                Task task = taskDao.getTask(taskId);
+                task.setStudentList(taskDao.getStudentList(taskId));
+                taskList.add(task);
+            }
+            team.setTaskList(taskList);
             teamList.add(team);
         }
         return teamList;
+    }
+
+    public Team getTeamByTeamId(Integer teamId){
+        Team team = teamDao.getTeamById(teamId);
+        List<String> studentIds = teamDao.getTeammate(teamId);
+        List<Student> students = new LinkedList<Student>();
+        for (String studentId : studentIds) {
+            students.add(studentDao.getStduentNoPwd(studentId));
+        }
+        team.setStudentList(students);
+        return team;
     }
 }
