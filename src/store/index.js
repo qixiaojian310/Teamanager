@@ -93,48 +93,7 @@ export default createStore({
         }
       ],
       signInStudentModule: [
-        // {
-        //   moduleId: 1,
-        //   moduleName: "Module 1",
-        //   teacherId: 1,
-        //   studentIdList: [1, 2, 3, 4, 5, 6, 7],
-        //   teamIds: [1, 2, 3],
-        // },
-        // {
-        //   moduleId: 2,
-        //   moduleName: "Module 2",
-        //   teacherId: 2,
-        //   studentIdList: [1, 2, 3, 4, 5, 6, 7],
-        //   teamIds: [1, 2, 3],
-        // },
-        // {
-        //   moduleId: 3,
-        //   moduleName: "Module 3",
-        //   teacherId: 1,
-        //   studentIdList: [1, 2, 3, 4, 5, 6, 7],
-        //   teamIds: [1, 2, 3],
-        // },
-        // {
-        //   moduleId: 5,
-        //   moduleName: "Module 5",
-        //   teacherId: 2,
-        //   studentIdList: [1, 2, 3, 4, 5, 6, 7],
-        //   teamIds: [1, 2, 3],
-        // },
-        // {
-        //   moduleId: 6,
-        //   moduleName: "Module 6",
-        //   teacherId: 1,
-        //   studentIdList: [1, 2, 3, 4, 5, 6, 7],
-        //   teamIds: [1, 2, 3],
-        // },
-        // {
-        //   moduleId: 7,
-        //   moduleName: "Module 7",
-        //   teacherId: 1,
-        //   studentIdList: [1, 2, 3, 4, 5, 6, 7],
-        //   teamIds: [1, 2, 3],
-        // },
+        //NOTE signInStudentModule接口 Interface moduleName moduleId teacher students teamIds teamNum moduleSize
       ],
       signInTeacherModule: [
         // {
@@ -171,7 +130,7 @@ export default createStore({
         name:"5678"
       },
       signInStudent:{
-        name:"aaababy",
+        name:"",
         info:"",
         userIconSrc:""
       },
@@ -200,6 +159,9 @@ export default createStore({
       state.signInTeacherModule.push(tempModuleObj);
     },
     pushTeacherTeams(state,tempTeamsObj){
+      state.teams.push(tempTeamsObj);
+    },
+    pushStudentTeams(state,tempTeamsObj){
       state.teams.push(tempTeamsObj);
     },
     pushStudentModule(state,tempModuleObj){

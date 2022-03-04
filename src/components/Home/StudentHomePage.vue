@@ -70,35 +70,7 @@ export default {
       // 左边放module的信息，右边放team的
       teamItems: [],
       // taskTitle taskContent taskTeamName progress
-      completedTasks: [
-        // {
-        //   taskTitle: "JS Class",
-        //   taskContent: "JS Class JS Class JS Class JS Class JS Class JS Class",
-        //   taskTeamName: "JS Team",
-        //   progress: 100,
-        // },
-        // {
-        //   taskTitle: "Java Class",
-        //   taskContent:
-        //     "Java Class Java Class Java Class Java Class Java Class Java Class",
-        //   taskTeamName: "Java Team",
-        //   progress: 90,
-        // },
-        // {
-        //   taskTitle: "Matlab Class",
-        //   taskContent:
-        //     "Matlab Class Matlab Class Matlab Class Matlab Class Matlab Class Matlab Class",
-        //   taskTeamName: "Matlab Team",
-        //   progress: 70,
-        // },
-        // {
-        //   taskTitle: "Python Class",
-        //   taskContent:
-        //     "Python Python Python Python Python Python Python Python Python Python",
-        //   taskTeamName: "Python Team",
-        //   progress: 10,
-        // },
-      ],
+      completedTasks: [],
       // unCompletedTaskName,unCompletedTaskContent,unCompletedTaskTeamName,deadline,progress
       unCompletedTasks: [
         // {
@@ -124,7 +96,7 @@ export default {
     };
   },
   methods: {
-    //该方法负责直接将所有的当前用户的所有组注入到vuex中
+    //TODO - 该方法负责直接将所有的当前用户的所有组注入到vuex中
     injectTeams: function () {
       this.axios({
         url: "/getAllTeam",
@@ -148,7 +120,7 @@ export default {
         }
       });
     },
-    //该方法负责直接将所有的当前用户的所有课程注入到vuex中
+    // TODO - 该方法负责直接将所有的当前用户的所有课程注入到vuex中
     injectModule: function () {
       this.axios({
         url: "/getAllModule",
@@ -167,6 +139,8 @@ export default {
           tempModuleObj.teacher = injectModules[index].teacher;
           tempModuleObj.students = injectModules[index].studentList;
           tempModuleObj.teamIds = injectModules[index].teamIdList;
+          tempModuleObj.teamNum = injectModules[index].teamNum;
+          tempModuleObj.moduleSize = injectModules[index].moduleSize;
           this.moduleItems.push(tempModuleObj);
           this.$store.commit("pushStudentModule",tempModuleObj);
         }

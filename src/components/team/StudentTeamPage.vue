@@ -113,15 +113,18 @@ export default {
           this.cardFocus = false;
         } else {
           //打开了详细信息
+          this.cardFocusObj = cardFocusObj;
           this.cardFocus = true;
         }
       } else {
         //点击了另一个课程，先要关闭原来的再打开新的
         this.cardFocus = false;
         this.cardFocusId = cardFocusObj.teamId;
-        this.cardFocus = true;
+        this.cardFocusObj = cardFocusObj;
+        setTimeout(()=>{
+          this.cardFocus = true;
+        },400)
       }
-      this.cardFocusObj = cardFocusObj;
     },
     closeDetail: function () {
       this.cardFocus = false;

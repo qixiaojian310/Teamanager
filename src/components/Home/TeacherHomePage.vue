@@ -83,6 +83,8 @@ export default {
           tempModuleObj.teacher = injectModules[index].teacher;
           tempModuleObj.students = injectModules[index].studentList;
           tempModuleObj.teamIds = injectModules[index].teamIdList;
+          tempModuleObj.teamNum = injectModules[index].teamNum;
+          tempModuleObj.moduleSize = injectModules[index].moduleSize;
           this.moduleItems.push(tempModuleObj);
           this.$store.commit("pushTeacherModule", tempModuleObj);
         }
@@ -243,79 +245,7 @@ export default {
         //   cooperator: [1, 3, 5, 7],
         //   deadline: "2022-05-08",
         //   progress: 10,
-        // },
-        // {
-        //   unCompletedTaskName: "JS Code Implementation",
-        //   unCompletedTaskContent:
-        //     "JS Code Implementation Amet irure laborum magna eiusmod. Nostrud commodo reprehenderit" +
-        //     "nisi nulla ea esse enim enim reprehenderit ea nulla. Culpa eu anim consectetur nulla nostrud ex" +
-        //     "Lorem aliqua elit commodo labore sunt incididunt. Consectetur ullamco excepteur ex sint irure dol" +
-        //     "or voluptate. Esse eiusmod incididunt minim eu quis minim amet. Veniam laboris nulla duis molli" +
-        //     " consequat cillum eiusmod qui est Lorem nulla reprehenderit. Ea consequat aliqua amet tempor occaecat" +
-        //     " magna. Esse sunt aute anim deserunt est veniam minim ad incididunt deserunt. Commodo officia" +
-        //     " excepteur ullamco anim culpa laborum magna in voluptate aute sint proident cillum aliqua. Nisi" +
-        //     " sit aliqua nisi proident dolor ad.Ex nostrud exercitation occaecat non adipisicing laborum. Aute elit" +
-        //     " id pariatur ipsum do dolor nisi sit fugiat esse culpa irure labore. Anim culpa ad cillum dolore ipsum" +
-        //     " velit tempor elit.",
-        //   unCompletedTaskTeamName: "JS Team",
-        //   cooperator: [1, 2, 3, 4, 5, 6, 7],
-        //   deadline: "2022-05-01",
-        //   progress: 20,
-        // },
-        // {
-        //   unCompletedTaskName: "JS Code Implementation",
-        //   unCompletedTaskContent:
-        //     "JS Code Implementation Amet irure laborum magna eiusmod. Nostrud commodo reprehenderit" +
-        //     "nisi nulla ea esse enim enim reprehenderit ea nulla. Culpa eu anim consectetur nulla nostrud ex" +
-        //     "Lorem aliqua elit commodo labore sunt incididunt. Consectetur ullamco excepteur ex sint irure dol" +
-        //     "or voluptate. Esse eiusmod incididunt minim eu quis minim amet. Veniam laboris nulla duis molli" +
-        //     " consequat cillum eiusmod qui est Lorem nulla reprehenderit. Ea consequat aliqua amet tempor occaecat" +
-        //     " magna. Esse sunt aute anim deserunt est veniam minim ad incididunt deserunt. Commodo officia" +
-        //     " excepteur ullamco anim culpa laborum magna in voluptate aute sint proident cillum aliqua. Nisi" +
-        //     " sit aliqua nisi proident dolor ad.Ex nostrud exercitation occaecat non adipisicing laborum. Aute elit" +
-        //     " id pariatur ipsum do dolor nisi sit fugiat esse culpa irure labore. Anim culpa ad cillum dolore ipsum" +
-        //     " velit tempor elit.",
-        //   unCompletedTaskTeamName: "JS Team",
-        //   cooperator: [1, 2, 5],
-        //   deadline: "2022-05-01",
-        //   progress: 30,
-        // },
-        // {
-        //   unCompletedTaskName: "JS Code Implementation",
-        //   unCompletedTaskContent:
-        //     "JS Code Implementation Amet irure laborum magna eiusmod. Nostrud commodo reprehenderit" +
-        //     "nisi nulla ea esse enim enim reprehenderit ea nulla. Culpa eu anim consectetur nulla nostrud ex" +
-        //     "Lorem aliqua elit commodo labore sunt incididunt. Consectetur ullamco excepteur ex sint irure dol" +
-        //     "or voluptate. Esse eiusmod incididunt minim eu quis minim amet. Veniam laboris nulla duis molli" +
-        //     " consequat cillum eiusmod qui est Lorem nulla reprehenderit. Ea consequat aliqua amet tempor occaecat" +
-        //     " magna. Esse sunt aute anim deserunt est veniam minim ad incididunt deserunt. Commodo officia" +
-        //     " excepteur ullamco anim culpa laborum magna in voluptate aute sint proident cillum aliqua. Nisi" +
-        //     " sit aliqua nisi proident dolor ad.Ex nostrud exercitation occaecat non adipisicing laborum. Aute elit" +
-        //     " id pariatur ipsum do dolor nisi sit fugiat esse culpa irure labore. Anim culpa ad cillum dolore ipsum" +
-        //     " velit tempor elit.",
-        //   unCompletedTaskTeamName: "JS Team",
-        //   cooperator: [1, 4, 6],
-        //   deadline: "2022-05-01",
-        //   progress: 40,
-        // },
-        // {
-        //   unCompletedTaskName: "JS Code Implementation",
-        //   unCompletedTaskContent:
-        //     "JS Code Implementation Amet irure laborum magna eiusmod. Nostrud commodo reprehenderit" +
-        //     "nisi nulla ea esse enim enim reprehenderit ea nulla. Culpa eu anim consectetur nulla nostrud ex" +
-        //     "Lorem aliqua elit commodo labore sunt incididunt. Consectetur ullamco excepteur ex sint irure dol" +
-        //     "or voluptate. Esse eiusmod incididunt minim eu quis minim amet. Veniam laboris nulla duis molli" +
-        //     " consequat cillum eiusmod qui est Lorem nulla reprehenderit. Ea consequat aliqua amet tempor occaecat" +
-        //     " magna. Esse sunt aute anim deserunt est veniam minim ad incididunt deserunt. Commodo officia" +
-        //     " excepteur ullamco anim culpa laborum magna in voluptate aute sint proident cillum aliqua. Nisi" +
-        //     " sit aliqua nisi proident dolor ad.Ex nostrud exercitation occaecat non adipisicing laborum. Aute elit" +
-        //     " id pariatur ipsum do dolor nisi sit fugiat esse culpa irure labore. Anim culpa ad cillum dolore ipsum" +
-        //     " velit tempor elit.",
-        //   unCompletedTaskTeamName: "JS Team",
-        //   cooperator: [1, 2, 3, 4, 5],
-        //   deadline: "2022-05-01",
-        //   progress: 50,
-        // },
+        // }
       ],
       signInStudentId: 1,
     };

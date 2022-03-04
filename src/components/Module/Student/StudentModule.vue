@@ -30,14 +30,6 @@
                 ></module-card>
               </div>
               <!-- 加入课程需要显示所有的课程 -->
-              <!-- <div class="card-box" v-else>
-                <module-card
-                  v-for="moduleSearche in moduleSearches"
-                  :key="moduleSearche.index"
-                  @focus-module="focusModule"
-                  :module-searche="moduleSearche"
-                ></module-card>
-              </div> -->
             </el-container>
           </div>
         </el-main>
@@ -56,6 +48,7 @@
           <close-bold></close-bold>
         </el-icon>
       </el-button>
+      <!-- NOTE - 会传入一个被点击的课程对象 -->
       <module-detail
         :focusModuleObj="focusModuleObj"
         :teamObjs="focusModuleTeams"
@@ -116,9 +109,11 @@ export default {
         this.moduleSearches = res.data;
         //存一份拷贝，方便在同步修改的时候可以确保基础的总选项不会发生改变
         this.allModule = res.data;
+        
         //moduleId moduleName students teacher teamIds
       });
     },
+
     //该方法通过点击的module的组信息获取组对象
     setTeamObj(cardFocusObjInject) {
       var injectData = {};
@@ -127,6 +122,7 @@ export default {
       } else {
         injectData.teamIds = cardFocusObjInject.teamIdList;
       }
+      // NOTE - 通过id获取组对象的列表
       this.axios({
         url: "/getAllTeamByTeamIds",
         data: qs.stringify(injectData, { indices: false }),
@@ -136,9 +132,31 @@ export default {
         },
       })
         .then((res) => {
+          //比较一下课程定义的组数量和获取到的总的组的数量
+
+          if (res.data.length < this.focusModuleObj.teamNum) {
+            for (
+              let index = res.data.length;
+              index < this.focusModuleObj.teamNum;
+              index++
+            ) {
+              //如果获取到的组数量小于定义的组数量，说明组的数量不够，手动添加组
+              var teamInject = new Object();
+              teamInject.teamId = 0;
+              teamInject.taskList = [];
+              teamInject.moduleId = this.focusModuleObj.moduleId;
+              teamInject.teamName = "a empty team";
+              //算出teamSize
+              teamInject.teamSize = Math.ceil(
+                this.focusModuleObj.moduleSize / this.focusModuleObj.teamNum
+              );
+              teamInject.studentList = [];
+              res.data.push(teamInject);
+            }
+          }
           this.focusModuleTeams = res.data;
         })
-        .catch((error) =>{
+        .catch((error) => {
           this.focusModuleTeams = [];
         });
     },

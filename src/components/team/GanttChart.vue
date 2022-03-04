@@ -7,7 +7,9 @@
 <script>
 import Highcharts from "highcharts/highstock";
 import gantt from 'highcharts/modules/gantt';
+import noDataToDisplay from "highcharts/modules/no-data-to-display";
 gantt(Highcharts);
+noDataToDisplay(Highcharts);
 
 export default {
   name: "GanttChart",

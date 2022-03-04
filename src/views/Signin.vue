@@ -89,21 +89,6 @@
           label-width="0px"
           class="login-form"
         >
-          <!-- <el-form-item label="Username">
-            <el-input
-              v-model="form.username"
-              placeholder="placeholder.username"
-              prefix-icon="el-icon-user"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="password">
-            <el-input
-              v-model="form.password"
-              type="password"
-              placeholder="placeholder.password"
-              prefix-icon="el-icon-lock"
-            ></el-input>
-          </el-form-item> -->
           <div class="cascader-box">
             <span style="margin-right: 1rem">choose your role</span>
             <el-cascader :options="roleOptions" v-model="role"></el-cascader>
@@ -191,6 +176,7 @@ export default {
       }
     },
     submitForm() {
+      //TODO 加一个判断用户是否选择自己身份的警告
       //AJAX方式
       this.axios({
         url: this.role[0],

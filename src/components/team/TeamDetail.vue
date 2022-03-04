@@ -7,6 +7,7 @@
         <div class="student-box"></div>
         <div class="team-box">
           <gantt-chart :id="'gantt'" :option="ganttOption"></gantt-chart>
+          <!-- <gantt-chart-frappe></gantt-chart-frappe> -->
         </div>
       </el-scrollbar>
     </div>
@@ -14,7 +15,8 @@
 </template>
 
 <script>
-import ganttChart from "./GanttChart.vue";
+import GanttChart from './GanttChart.vue';
+import GanttChartFrappe from "./GanttChartFrappe.vue";
 
 export default {
   name: "TeamDetail",
@@ -40,7 +42,7 @@ export default {
       ganttOption:{
         chart: {
           type: "xrange",
-          width:800,
+          width:200,
         },
         title: {
           text: "",
@@ -72,6 +74,13 @@ export default {
           },
           categories: [],
           reversed: true,
+        },
+        noData: {
+          style: {
+            fontWeight: "bold",
+            fontSize: "15px",
+            color: "#303030",
+          },
         },
         credits: {
           enabled: false, // 隐藏右下角水印
@@ -111,7 +120,6 @@ export default {
 
   },
   beforeMount(){
-    console.log(this.focusTeamObj.taskList)
       var taskList = this.focusTeamObj.taskList;
       var contextList = [];
       var taskDataList = [];
@@ -125,9 +133,11 @@ export default {
       }
       this.ganttOption.series[0].data = taskDataList;
       this.ganttOption.yAxis.categories = contextList;
+      this.ganttOption.chart.width = this.asideWidth-160;
   },
   components: {
-    ganttChart,
+    GanttChart,
+    GanttChartFrappe
   },
 };
 </script>
