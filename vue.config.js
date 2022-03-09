@@ -1,6 +1,6 @@
 'use strict'
 module.exports = {
-    publicPath: '/',
+    publicPath: '/api',
     pages: {
         index: {
             // page 的入口
@@ -23,16 +23,5 @@ module.exports = {
     },
     devServer: {
         port:8088,
-        proxy: {
-            '/api': {
-                // 此处的写法，目的是为了 将 /api 替换成 https://www.baidu.com/
-                target: 'http://localhost:8088',
-                // 允许跨域
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/api': ''
-                }
-            }
-        }
     }
 }

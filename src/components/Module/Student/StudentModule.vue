@@ -117,11 +117,8 @@ export default {
     //该方法通过点击的module的组信息获取组对象
     setTeamObj(cardFocusObjInject) {
       var injectData = {};
-      if (this.mainCard == 1) {
-        injectData.teamIds = cardFocusObjInject.teamIds;
-      } else {
-        injectData.teamIds = cardFocusObjInject.teamIdList;
-      }
+      injectData.teamIds = cardFocusObjInject.teamIds;
+
       // NOTE - 通过id获取组对象的列表
       this.axios({
         url: "/getAllTeamByTeamIds",

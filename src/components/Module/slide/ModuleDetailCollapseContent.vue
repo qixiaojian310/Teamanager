@@ -22,7 +22,7 @@
     <div class="button-box">
       <el-button type="primary" @click="joinTeam" :disabled = "haveJoinTeam">
         <el-icon><Edit /></el-icon>
-        <span>Join this module</span>
+        <span>Join this team</span>
         <span>{{ studentListLength + "/" + teamSize }}</span>
       </el-button>
     </div>

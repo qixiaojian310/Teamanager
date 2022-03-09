@@ -29,7 +29,7 @@
       <el-main>
         <!-- show your task haven't done  -->
         <el-container :style="{ height: asideHeight + 'px' }">
-      <el-scrollbar :style="{width:100+'%'}">
+          <el-scrollbar :style="{ width: 100 + '%' }">
             <el-row style="width: 100%">
               <el-col :span="20" :offset="2">
                 <un-completed-tasks
@@ -56,38 +56,68 @@ import AsideModules from "../Home/aside/AsideModules.vue";
 import AsideTeams from "../Home/aside/AsideTeams.vue";
 import AsideCompletedTasks from "../Home/aside/AsideCompletedTasks.vue";
 import UnCompletedTasks from "../Home/main/UnCompletedTasks.vue";
-import StudentInfo from "../Home/aside/StudentInfo.vue";
+import { getCookie } from "../../util/cookieUtil";
+import qs from "qs";
 
 export default {
   name: "TeacherHomePage",
   created() {
-    this.$store.commit('selectRole',"teacher")
-    this.injectModule();
-    this.injectTeams();
-    this.injectCompletedTasks();
-    this.injectUnCompletedTasks();
+    this.$store.commit("selectRole", "teacher");
+    this.checkTeacherCookie();
   },
   methods: {
+    checkTeacherCookie() {
+      var teacherCookie = getCookie("teacherId");
+      if (this.$route.params.id == teacherCookie) {
+        //该用户已经登陆
+        this.$store.commit("updateSignInTeacherName",teacherCookie)
+        this.axios({
+          url: "/teacher",
+          method: "post",
+          data: qs.stringify({
+            teacherId: this.$route.params.id,
+            password: getCookie("teacherPassword"),
+            rememberCode: true,
+          }),
+          headers:{
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        }).then((response) => {
+          //执行注入的操作
+          this.injectModule();
+          this.injectTeams();
+          this.injectCompletedTasks();
+          this.injectUnCompletedTasks();
+        });
+        return true;
+      }else{
+        //该用户未登陆
+        this.$router.push("/signin");
+        return false;
+      }
+    },
     injectModule: function () {
       this.axios({
         url: "/getAllTeacherModule",
         method: "post",
       }).then((response) => {
         var injectModules = response.data;
-        for (let index = 0; index < injectModules.length; index++) {
-          var tempModuleObj = new Object();
-          //绑定name
-          tempModuleObj.moduleName = injectModules[index].moduleName;
-          //绑定id
-          tempModuleObj.moduleId = injectModules[index].moduleId;
-          tempModuleObj.teacher = injectModules[index].teacher;
-          tempModuleObj.students = injectModules[index].studentList;
-          tempModuleObj.teamIds = injectModules[index].teamIdList;
-          tempModuleObj.teamNum = injectModules[index].teamNum;
-          tempModuleObj.moduleSize = injectModules[index].moduleSize;
-          this.moduleItems.push(tempModuleObj);
-          this.$store.commit("pushTeacherModule", tempModuleObj);
-        }
+        this.moduleItems = response.data;
+        this.$store.commit("injectTeacherModules", injectModules);
+        // for (let index = 0; index < injectModules.length; index++) {
+        //   var tempModuleObj = new Object();
+        //   //绑定name
+        //   tempModuleObj.moduleName = injectModules[index].moduleName;
+        //   //绑定id
+        //   tempModuleObj.moduleId = injectModules[index].moduleId;
+        //   tempModuleObj.teacher = injectModules[index].teacher;
+        //   tempModuleObj.students = injectModules[index].students;
+        //   tempModuleObj.teamIds = injectModules[index].teamIds;
+        //   tempModuleObj.teamNum = injectModules[index].teamNum;
+        //   tempModuleObj.moduleSize = injectModules[index].moduleSize;
+        //   this.moduleItems.push(tempModuleObj);
+        //   this.$store.commit("pushTeacherModule", tempModuleObj);
+        // }
       });
     },
     injectTeams: function () {
@@ -99,6 +129,7 @@ export default {
         method: "post",
       }).then((response) => {
         var injectTeams = response.data;
+        this.$store.commit("clearTeams");
         for (let index = 0; index < injectTeams.length; index++) {
           var tempTeamObj = new Object();
           tempTeamObj.name = injectTeams[index].teamName;
@@ -255,7 +286,6 @@ export default {
     AsideTeams,
     AsideCompletedTasks,
     UnCompletedTasks,
-    StudentInfo,
   },
   computed: {
     asideHeight() {

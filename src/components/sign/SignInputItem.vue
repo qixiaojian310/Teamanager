@@ -1,6 +1,6 @@
 <template>
   <div class="sign-input-item" :class="{ 'sign-input-item-focus': focusState }" :style="{height:inputHeight+'rem'}">
-    <label :class="{ 'new-label': focusState }" :for="name" :style="{fontSize:fontSize,transition:' font-size 0.5s cubic-bezier(0.4, 0, 0.2, 1)'}">{{ name }}</label>
+    <label :class="{ 'new-label': focusState+inputLengthState }" :for="name" :style="{fontSize:fontSize,transition:' font-size 0.5s cubic-bezier(0.4, 0, 0.2, 1)'}">{{ name }}</label>
     <input
       :type="type"
       :id="name"
@@ -48,30 +48,30 @@ export default {
   },
   data() {
     return {
+      // focusState 为 true 时，展示new label
       focusState: false,
       emptyState: true,
     };
   },
   methods: {
+    // focus执行
     changeStyleFocus: function () {
       this.focusState = true;
     },
+    // blur失去焦点执行
     changeStyleBlur: function () {
-      this.emptyState == false
-        ? (this.focusState = true)
-        : (this.focusState = false);
-      this.inputValue.length > 0
-        ? (this.focusState = true)
-        : (this.focusState = false);
+      this.focusState = false;
     },
+    // input执行
     changeStyleChange: function (event) {
-      this.inputValue.length > 0
-        ? (this.focusState = true)
-        : (this.focusState = false);
       this.$emit("update:inputValue", event.target.value);
     },
   },
-
+  computed:{
+    inputLengthState(){
+      return this.inputValue.length > 0;
+    }
+  },
   mounted() {
     this.inputValue.length > 0
       ? (this.focusState = true)

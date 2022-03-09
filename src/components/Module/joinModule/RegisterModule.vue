@@ -21,7 +21,9 @@
             :height="transferHeight"
             style="overflow-y: hidden"
           >
-            <p style="text-align:center; font-size:2rem">Delete some student</p>
+            <p style="text-align: center; font-size: 2rem">
+              Delete some student
+            </p>
             <el-transfer
               v-model="module.studentIdList"
               style="text-align: left; display: inline-block"
@@ -45,7 +47,10 @@
                 <span>{{ option.studentId }}</span>
               </template>
               <template #right-footer>
-                <el-button class="transfer-footer" size="small" @click="deleteSelectStudent"
+                <el-button
+                  class="transfer-footer"
+                  size="small"
+                  @click="deleteSelectStudent"
                   >Delete them</el-button
                 >
               </template>
@@ -66,11 +71,11 @@
 </template>
 
 <script>
-import qs from 'qs'
+import qs from "qs";
 
 export default {
   name: "RegisterModule",
-  props:{
+  props: {
     focusModuleId: {
       type: Number,
     },
@@ -92,24 +97,29 @@ export default {
     };
   },
   methods: {
-    //TODO 后端没写
-    deleteSelectStudent(){
+    deleteSelectStudent() {
       this.axios({
-        url:"/deleteSelectStudent",
-        method:"post",
-        data:qs.stringify({
-          moduleId:this.focusModuleId,
-          studentIds:this.module.studentIdList,
-        },{indices:false}),
-        headers:{
-          "Content-Type":"application/x-www-form-urlencoded",
+        url: "/deleteSelectStudent",
+        method: "post",
+        data: qs.stringify(
+          {
+            moduleId: this.focusModuleId,
+            studentIds: this.module.studentIdList,
+          },
+          { indices: false }
+        ),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }).then((res) => {
+        if (res.data) {
+          this.$store.commit("deleteModuleStudents", {
+            moduleId: this.focusModuleId,
+            studentIdList: this.module.studentIdList,
+          });
+          this.module.studentIdList = [];
         }
-      }).then((res)=>{
-        if(res.data){
-          this.$store.commit("deleteSelectStudent",this.focusModuleId,this.module.studentIdList);
-          this.module.studentIdList = [];                       
-        }
-      })
+      });
     },
     createLeaderOption: function (id) {
       var leader = new Object();
@@ -118,13 +128,11 @@ export default {
     },
   },
   computed: {
-    StudentListAll(){
-      var module = this.$store.state.signInTeacherModule.filter(
-        (item) => {
-          return item.moduleId == this.focusModuleId;
-        }
-      )[0];
-      if(module == null){
+    StudentListAll() {
+      var module = this.$store.state.signInTeacherModule.filter((item) => {
+        return item.moduleId == this.focusModuleId;
+      })[0];
+      if (module == null) {
         return this.$store.state.users;
       }
       return module.students;
@@ -133,16 +141,14 @@ export default {
       return this.$store.state.windowSize.windowSizeHeight - 120;
     },
     cascaderOptions() {
-      var module = this.$store.state.signInTeacherModule.filter(
-        (item) => {
-          return item.moduleId == this.focusModuleId;
-        }
-      )[0];
+      var module = this.$store.state.signInTeacherModule.filter((item) => {
+        return item.moduleId == this.focusModuleId;
+      })[0];
 
       var temp = [];
       for (let index = 0; index < module.students.length; index++) {
         var studentObj = module.students[index];
-        temp.push(this.createLeaderOption(studentObj.studentId));        
+        temp.push(this.createLeaderOption(studentObj.studentId));
       }
       return temp;
     },

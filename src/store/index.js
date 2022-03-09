@@ -127,7 +127,7 @@ export default createStore({
       ],
       //TODO need fix
       signInTeacher: {
-        name:"5678"
+        name:""
       },
       signInStudent:{
         name:"",
@@ -158,6 +158,16 @@ export default createStore({
     pushTeacherModule(state,tempModuleObj){
       state.signInTeacherModule.push(tempModuleObj);
     },
+    injectTeacherModules(state,tempModuleObjs){
+      state.signInTeacherModule = tempModuleObjs;
+    },
+    injectStudentModules(state,tempModuleObjs){
+      state.signInStudentModule = tempModuleObjs;
+    },
+    clearTeams(state){
+      //将数据置空
+      state.teams = [];
+    },
     pushTeacherTeams(state,tempTeamsObj){
       state.teams.push(tempTeamsObj);
     },
@@ -168,13 +178,14 @@ export default createStore({
       state.signInStudentModule.push(tempModuleObj);
     },
     // 传入课程的id和要删除的studentIds
-    deleteModuleStudents(state,moduleId,studentIds){
-      var focusModuleIndex = state.signInStudentModule.findIndex((item)=>{
-        return item.moduleId == moduleId;
+    // 提交两个东西的时候必须要用对象的方式提交
+    deleteModuleStudents(state,payload){
+      var focusModuleIndex = state.signInTeacherModule.findIndex((item)=>{
+        return item.moduleId == payload.moduleId;
       })
       for (let index = 0; index < state.signInTeacherModule[focusModuleIndex].students.length; index++) {
-        for (let i = 0; i < studentIds.length; i++) {
-          if (state.signInTeacherModule[focusModuleIndex].students[index].studentId == studentIds[i]) {
+        for (let i = 0; i < payload.studentIdList.length; i++) {
+          if (state.signInTeacherModule[focusModuleIndex].students[index].studentId == payload.studentIdList[i]) {
             state.signInTeacherModule[focusModuleIndex].students.splice(index, 1);
           }
         }

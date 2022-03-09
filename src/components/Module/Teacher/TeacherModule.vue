@@ -290,8 +290,7 @@ export default {
     CreateModule,
   },
 };
-</script>,
-    CreateModule
+</script>
 
 <style scoped>
 .title {

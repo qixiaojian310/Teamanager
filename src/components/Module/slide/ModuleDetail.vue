@@ -239,6 +239,7 @@ export default {
   margin-left: 30px;
 }
 .btn-box {
+  margin-top: 10px;
   width: 100%;
   display: flex;
   justify-content: center;

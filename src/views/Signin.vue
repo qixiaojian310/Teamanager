@@ -21,25 +21,10 @@
           label-width="0px"
           class="login-form"
         >
-          <!-- <el-form-item label="Username">
-            <el-input
-              v-model="form.username"
-              placeholder="placeholder.username"
-              prefix-icon="el-icon-user"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="password">
-            <el-input
-              v-model="form.password"
-              type="password"
-              placeholder="placeholder.password"
-              prefix-icon="el-icon-lock"
-            ></el-input>
-          </el-form-item> -->
-          <!-- v-model可以加在需要动态绑定的属性上 -->
+
           <div class="cascader-box">
             <span style="margin-right: 1rem">choose your role</span>
-            <el-cascader :options="roleOptions" v-model="role"></el-cascader>
+            <el-cascader :options="roleOptions" v-model="role" @change="rememberCodeInject"></el-cascader>
           </div>
           <sign-input-item
             v-model:inputValue="form.username"
@@ -55,11 +40,15 @@
           </sign-input-item>
           <div class="submit-box">
             <input
-              class="btn-submit"
+              class="btn-submit sign-in-btn-submit"
               type="button"
               @click="submitForm"
               value="Sign up your Team"
             />
+            <el-checkbox border v-model="rememberCode">
+              <i class="fa fa-unlock-alt"></i>
+              <span>Remember code</span>
+            </el-checkbox>
           </div>
         </el-form>
       </div>
@@ -91,7 +80,7 @@
         >
           <div class="cascader-box">
             <span style="margin-right: 1rem">choose your role</span>
-            <el-cascader :options="roleOptions" v-model="role"></el-cascader>
+            <el-cascader :options="roleOptions" v-model="role" @change="rememberCodeInject"></el-cascader>
           </div>
           <sign-input-item
             v-model:inputValue="form.username"
@@ -107,11 +96,15 @@
           </sign-input-item>
           <div class="submit-box">
             <input
-              class="btn-submit"
+              class="btn-submit sign-in-btn-submit"
               type="button"
               @click="submitForm"
               value="Sign up your Team"
             />
+            <el-checkbox border v-model="rememberCode">
+              <i class="fa fa-unlock-alt"></i>
+              <span>Remember code</span>
+            </el-checkbox>
           </div>
         </el-form>
       </div>
@@ -126,6 +119,8 @@
 
 <script>
 import SignInputItem from "../components/sign/SignInputItem.vue";
+import {getCookie} from "../util/cookieUtil"
+import qs from "qs";
 
 export default {
   components: { SignInputItem },
@@ -140,6 +135,7 @@ export default {
   },
   data() {
     return {
+      rememberCode: false,
       form: {
         username: "",
         password: "",
@@ -164,15 +160,27 @@ export default {
   methods: {
     adaptUserData() {
       if (this.role[0] == "/student") {
-        return {
+        return qs.stringify({
           studentId: this.form.username,
           password: this.form.password,
-        };
+          rememberCode: this.rememberCode
+        },{indices:false});
       } else {
-        return {
+        return qs.stringify({
           teacherId: this.form.username,
           password: this.form.password,
-        };
+          rememberCode:this.rememberCode
+        },{indices:false});
+      }
+    },
+    rememberCodeInject(){
+      console.log("执行cookie探测");
+      if(this.role[0]=="/student"){
+        this.form.username = getCookie("studentId")
+        this.form.password = getCookie("studentPassword")
+      }else if(this.role[0]=="/teacher"){
+        this.form.username = getCookie("teacherId")
+        this.form.password = getCookie("teacherPassword")
       }
     },
     submitForm() {
@@ -183,6 +191,9 @@ export default {
         data: this.adaptUserData(),
         method: "post",
         baseURL: "http://localhost:8080/api",
+        headers:{
+          'Content-Type':'application/x-www-form-urlencoded'
+        }
         // headers.post['Content-type'] = "application/json",
       }).then((response) => {
         console.log(response);
@@ -203,4 +214,12 @@ export default {
 </script>
 
 <style scoped src="../assets/css/sign-css.css">
+</style>
+<style scoped>
+.sign-in-btn-submit{
+  width: 50% !important;
+}
+i{
+  margin-right: 0.5rem;
+}
 </style>
