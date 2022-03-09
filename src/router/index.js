@@ -8,6 +8,7 @@ import TeacherHomePage from '../components/Home/TeacherHomePage'
 import StudentHomePage from '../components/Home/StudentHomePage'
 import StudentTeamPage from '../components/team/StudentTeamPage.vue'
 import StudentModule from '../components/Module/Student/StudentModule'
+import ModulePage from '../components/Module/modulePage/ModulePage.vue'
 
 const routes = [
   {
@@ -23,7 +24,7 @@ const routes = [
       {
         path: 'module',
         name: 'StudentModule',
-        component: StudentModule
+        component: StudentModule,
       },
       {
         path: 'team',

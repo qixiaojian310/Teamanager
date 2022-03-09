@@ -73,26 +73,7 @@ export default {
       // taskTitle taskContent taskTeamName progress
       completedTasks: [],
       // unCompletedTaskName,unCompletedTaskContent,unCompletedTaskTeamName,deadline,progress
-      unCompletedTasks: [
-        // {
-        //   unCompletedTaskName: "JS Code Implementation",cooperator
-        //   unCompletedTaskContent:
-        //     "JS Code Implementation Amet irure laborum magna eiusmod. Nostrud commodo reprehenderit" +
-        //     "nisi nulla ea esse enim enim reprehenderit ea nulla. Culpa eu anim consectetur nulla nostrud ex" +
-        //     "Lorem aliqua elit commodo labore sunt incididunt. Consectetur ullamco excepteur ex sint irure dol" +
-        //     "or voluptate. Esse eiusmod incididunt minim eu quis minim amet. Veniam laboris nulla duis molli" +
-        //     " consequat cillum eiusmod qui est Lorem nulla reprehenderit. Ea consequat aliqua amet tempor occaecat" +
-        //     " magna. Esse sunt aute anim deserunt est veniam minim ad incididunt deserunt. Commodo officia" +
-        //     " excepteur ullamco anim culpa laborum magna in voluptate aute sint proident cillum aliqua. Nisi" +
-        //     " sit aliqua nisi proident dolor ad.Ex nostrud exercitation occaecat non adipisicing laborum. Aute elit" +
-        //     " id pariatur ipsum do dolor nisi sit fugiat esse culpa irure labore. Anim culpa ad cillum dolore ipsum" +
-        //     " velit tempor elit.",
-        //   unCompletedTaskTeamName: "JS Team",
-        //   cooperator: [1, 2, 3, 4, 5],
-        //   deadline: "2022-05-01",
-        //   progress: 50,
-        // },
-      ],
+      unCompletedTasks: [],
       signInStudentId: 1,
     };
   },
