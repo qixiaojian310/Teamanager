@@ -74,7 +74,7 @@ public class StudentController {
 
     @RequestMapping(value = "/getCompletedTaskByStudentId", method = RequestMethod.POST)
     @ResponseBody
-    //学生一登陆就可以获得自己所有的未完成task
+    //学生一登陆就可以获得自己所有的完成task
     public List<Task> getCompletedTaskByStudentId(@RequestBody Student student){
         List<Task> taskList = studentshowService.getTaskListCompleted(student.getStudentId());
         for (Task task : taskList) {
@@ -139,6 +139,33 @@ public class StudentController {
     }
 
 
+    @RequestMapping(value = "createTeam",method = RequestMethod.POST)
+    @ResponseBody
+    public Team createTeam(@RequestParam("moduleId") int moduleId,@RequestParam("leaderId") String leaderId, @RequestParam("teamName") String teamName){
+        Team res = studentTeamService.createTeam(moduleId,leaderId,teamName);
+        if(res == null){
+            Team team = new Team();
+            team.setTeamId(-1);
+            return team;
+        }else {
+            return res;
+        }
+    }
+
+    @RequestMapping(value = "joinTeam",method = RequestMethod.POST)
+    @ResponseBody
+    public Team joinTeam(@RequestParam("studentId") String studentId, @RequestParam("teamId") int teamId){
+        Team res = studentTeamService.joinTeam(teamId,studentId);
+        if(res == null){
+            Team team = new Team();
+            team.setTeamId(-1);
+            return team;
+        }else {
+            return res;
+        }
+    }
+
+
 
     //学生通过moduleid得到在该课程下的所有task
 //    @RequestMapping(value = "/gettaskbymodule", method = RequestMethod.POST)
@@ -151,7 +178,7 @@ public class StudentController {
 //            int taskid = taskidList.get(i);
 //            Task task ;
 //            task = taskService.getTask(taskid);
-//            task.setStudentList(taskService.getStudentList(taskid));
+//            task.setStudents(taskService.getStudents(taskid));
 //            taskList.add(task);
 //        }
 //        return taskList;
@@ -168,7 +195,7 @@ public class StudentController {
 //            int taskid = taskidList.get(i);
 //            Task task ;
 //            task = taskService.getTask(taskid);
-//            task.setStudentList(taskService.getStudentList(taskid));
+//            task.setStudents(taskService.getStudents(taskid));
 //            taskList.add(task);
 //        }
 //        return taskList;

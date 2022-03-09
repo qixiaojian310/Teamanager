@@ -12,12 +12,17 @@ public interface TeamDao {
   public  String isLeader(int teamId);
   //得到该学生的所有队伍id
   public List<Integer> getTeam(String studentId);
-  //老师有权限给某课程添加team
-  public boolean addTeam(String leaderId,int moduleId,String teamName);
+  //插入一个新的team,返回team的id
+  public Integer addTeam(Team team);
+  //学生加入一个team
+  public boolean joinTeam(String studentId, int teamId);
   //老师有权查询该team下的所有task
   public List<Integer> getTaskList(int teamId,boolean completed);
   //通过teamid得到整个team的信息
   public Team getTeamById(int teamId);
   //跟据teamid得到当前team有多个队友
   public List<String> getTeammate(int teamId);
+  //得到当前team的额定大小
+  public Integer getTeamNum(int teamId);
+
 }

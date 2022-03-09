@@ -10,7 +10,7 @@ public interface ModuleDao {
     //通过学生id和课程名确定一下课程的id
     public Integer getModuleId(String moduleName,String studentId);
     //增加一个课程 返回他的moduleid
-    public int addModule(String teacherId, String moduleName, Integer moduleSize);
+    public int addModule(String teacherId, String moduleName, Integer moduleSize, Integer teamNum);
     //通过老师id和课程名确定一下课程的id
     public String getModuleIdbyTeacher(String teacherId,String moduleName);
     //给课程里加入学生(需知道课程id）
@@ -31,4 +31,6 @@ public interface ModuleDao {
     public List<String> getStudentsByModuleId(Integer moduleId);
 
     public List<Module> getAllModule();
+    //通过课程Id获取课程的额定人数‘
+    public Integer getModuleSizeInteger(Integer moduleId);
 }

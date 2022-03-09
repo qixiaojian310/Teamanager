@@ -27,9 +27,12 @@
         where student_id = #{studentId}
     </select>
 
-    <insert id="addTeam">
+    <insert id="addTeam" useGeneratedKeys="true" keyProperty="teamId" keyColumn="team_id">
         insert into team(leader_id, module_id, team_name)
         values (#{leaderId}, #{moduleId}, #{teamName})
+    </insert>
+    <insert id="joinTeam">
+        insert into student_team_link(student_id, team_id) values (#{arg0},#{arg1})
     </insert>
 
     <select id="getTaskList" resultType="java.lang.Integer">
@@ -53,6 +56,9 @@
 
     <select id="getTeammate" resultType="java.lang.String">
         select student_id from student_team_link where team_id=#{teamId}
+    </select>
+    <select id="getTeamNum" resultType="java.lang.Integer">
+        select team_num from module where module_id = (select module_id from team where team_id = #{teamId})
     </select>
 
 </mapper>

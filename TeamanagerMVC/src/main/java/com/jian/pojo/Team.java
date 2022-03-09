@@ -16,7 +16,16 @@ public class Team {
     private List<Student> studentList;
     private List<Task> taskList;
     private String leaderId;
+    private Integer teamSize;
 
+
+    public Integer getTeamSize() {
+        return teamSize;
+    }
+
+    public void setTeamSize(Integer teamSize) {
+        this.teamSize = teamSize;
+    }
 
     public String getTeamName() {
         return teamName;

@@ -6,10 +6,18 @@ public class Module {
     private Integer moduleId;
     private String moduleName;
     private Teacher teacher;
-    private List<Student> studentList;
-    private List<Integer> teamIdList;
+    private List<Student> students;
+    private List<Integer> teamIds;
     private Integer moduleSize;
+    private Integer teamNum;
 
+    public Integer getTeamNum() {
+        return teamNum;
+    }
+
+    public void setTeamNum(Integer teamNum) {
+        this.teamNum = teamNum;
+    }
 
     public Integer getModuleSize() {
         return moduleSize;
@@ -43,20 +51,20 @@ public class Module {
         this.teacher = teacher;
     }
 
-    public List<Student> getStudentList() {
-        return studentList;
+    public List<Student> getStudents() {
+        return students;
     }
 
-    public void setStudentList(List<Student> studentList) {
-        this.studentList = studentList;
+    public void setStudents(List<Student> students) {
+        this.students = students;
     }
 
-    public List<Integer> getTeamIdList() {
-        return teamIdList;
+    public List<Integer> getTeamIds() {
+        return teamIds;
     }
 
-    public void setTeamIdList(List<Integer> teamIdList) {
-        this.teamIdList = teamIdList;
+    public void setTeamIds(List<Integer> teamIds) {
+        this.teamIds = teamIds;
     }
 
     @Override
@@ -65,8 +73,8 @@ public class Module {
                 "moduleId=" + moduleId +
                 ", moduleName='" + moduleName + '\'' +
                 ", teacher=" + teacher +
-                ", studentList=" + studentList +
-                ", teamIdList=" + teamIdList +
+                ", students=" + students +
+                ", teamIds=" + teamIds +
                 ", moduleSize=" + moduleSize +
                 '}';
     }

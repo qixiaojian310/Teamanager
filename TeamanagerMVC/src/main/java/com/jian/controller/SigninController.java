@@ -13,6 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
@@ -44,17 +47,29 @@ public class SigninController {
 
     @RequestMapping(value = "/student", method = RequestMethod.POST)
     @ResponseBody
-    public String hello2(@RequestBody Student userString) throws JsonProcessingException {
-        System.out.println(userString.getPassword());
-        System.out.println("查询的用户名为"+userString);
-        Student loginStudent = signStudentService.ifStudentExist(userString.getStudentId());
+    public String hello2(@RequestParam("studentId") String studentId, @RequestParam("password") String password, @RequestParam("rememberCode") boolean rememberCode, HttpServletResponse response) throws JsonProcessingException {
+        System.out.println("查询的用户名为"+studentId);
+        Student loginStudent = signStudentService.ifStudentExist(studentId);
         if (loginStudent!=null){
-            if(userString.getPassword().equals(signStudentService.getStudentPwd(userString.getStudentId()))){
+            if(password.equals(signStudentService.getStudentPwd(studentId))){
                 HttpSession session = GetSessionUtil.getSession();
                 System.out.println(session);
                 session.setAttribute("loginStudent",loginStudent);
                 Student studentTest = (Student) session.getAttribute("loginStudent");
                 System.out.println("session的测试"+studentTest.getStudentInfo());
+
+                //TODO 保存一下cookie
+                if (rememberCode == true){
+                    //需要保存
+                    Cookie studentIdCookie = new Cookie("studentId",studentId);
+                    Cookie studentPasswordCookie = new Cookie("studentPassword", password);
+                    studentIdCookie.setMaxAge(60 * 60 * 24 * 10);
+                    studentPasswordCookie.setMaxAge(60 * 60 * 24 * 10);
+                    response.addCookie(studentIdCookie);
+                    response.addCookie(studentPasswordCookie);
+                }else {
+                    //移除cookie
+                }
                 return "Match";
             }
             else return "NoMatch";
@@ -68,17 +83,29 @@ public class SigninController {
 
     @RequestMapping(value = "/teacher", method = RequestMethod.POST)
     @ResponseBody
-    public String hello3(@RequestBody Teacher userString) throws JsonProcessingException {
-        System.out.println(userString.getPassword());
-        System.out.println("查询的用户名为"+userString);
-        Teacher loginTeacher = signTeacherService.ifTeacherExist(userString.getTeacherId());
+    public String hello3(@RequestParam("teacherId") String teacherId, @RequestParam("password") String password, @RequestParam("rememberCode") boolean rememberCode, HttpServletResponse response) throws JsonProcessingException {
+        System.out.println(password);
+        System.out.println("查询的用户名为"+teacherId);
+        Teacher loginTeacher = signTeacherService.ifTeacherExist(teacherId);
         if (loginTeacher!=null){
-            if(userString.getPassword().equals(signTeacherService.getTeacherPwd(userString.getTeacherId()))){
+            if(password.equals(signTeacherService.getTeacherPwd(teacherId))){
                 HttpSession session = GetSessionUtil.getSession();
                 System.out.println(session);
                 session.setAttribute("loginTeacher",loginTeacher);
                 Teacher teacherTest = (Teacher) session.getAttribute("loginTeacher");
                 System.out.println("session的测试"+teacherTest.toString());
+
+                //TODO 保存一下cookie
+                if (rememberCode == true){
+                    //需要保存
+                    Cookie teacherIdCookie = new Cookie("teacherId",teacherId);
+                    Cookie teacherPasswordCookie = new Cookie("teacherPassword", password);
+                    teacherIdCookie.setMaxAge(60 * 60 * 24 * 10);
+                    teacherPasswordCookie.setMaxAge(60 * 60 * 24 * 10);
+                    response.addCookie(teacherIdCookie);
+                    response.addCookie(teacherPasswordCookie);
+
+                }
                 return "Match";
             }
             else return "NoMatch";

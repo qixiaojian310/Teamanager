@@ -64,7 +64,7 @@ public class TeacherController {
 
     @RequestMapping(value = "createModuleByTeacher", method = RequestMethod.POST)
     @ResponseBody
-    public Integer createModuleByTeacher(@RequestParam(value = "moduleName", required = false) String moduleName, @RequestParam(value = "teacherId") String teacherId, @RequestParam(value = "moduleSize") Integer moduleSize) {
-        return teacherShowService.createModuleByTeacher(moduleName,moduleSize,teacherId);
+    public Integer createModuleByTeacher(@RequestParam(value = "moduleName", required = false) String moduleName, @RequestParam(value = "teacherId") String teacherId, @RequestParam(value = "moduleSize") Integer moduleSize,@RequestParam(value = "teamNum") Integer teamNum) {
+        return teacherShowService.createModuleByTeacher(moduleName,moduleSize,teacherId,teamNum);
     }
 }

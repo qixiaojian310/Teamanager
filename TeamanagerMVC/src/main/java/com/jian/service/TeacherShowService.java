@@ -11,5 +11,5 @@ public interface TeacherShowService {
     public List<Module> getAllModuleTeacher(Teacher teacher);
     public List<Team> getAllTeamTeacher(Teacher teacher);
     public List<Task> getAllTask(Teacher teacher,boolean completed);
-    public Integer createModuleByTeacher(String moduleName,Integer moduleSize,String teacherId);
+    public Integer createModuleByTeacher(String moduleName,Integer moduleSize,String teacherId,Integer teamNum);
 }

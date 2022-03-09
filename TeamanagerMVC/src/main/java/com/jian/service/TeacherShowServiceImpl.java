@@ -77,8 +77,8 @@ public class TeacherShowServiceImpl implements TeacherShowService{
                 Student student = studentDao.getStduentNoPwd(sid);
                 students.add(student);
             }
-            module.setStudentList(students);
-            module.setTeamIdList(moduleDao.getTeamByModule(module.getModuleId()));
+            module.setStudents(students);
+            module.setTeamIds(moduleDao.getTeamByModule(module.getModuleId()));
         }
         return moduleList;
     }
@@ -124,7 +124,7 @@ public class TeacherShowServiceImpl implements TeacherShowService{
     }
 
     @Override
-    public Integer createModuleByTeacher(String moduleName,Integer moduleSize,String teacherId) {
-        return moduleDao.addModule(teacherId,moduleName,moduleSize);
+    public Integer createModuleByTeacher(String moduleName,Integer moduleSize,String teacherId,Integer teamNum) {
+        return moduleDao.addModule(teacherId,moduleName,moduleSize,teamNum);
     }
 }

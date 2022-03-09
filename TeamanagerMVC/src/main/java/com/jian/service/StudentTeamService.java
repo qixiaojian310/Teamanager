@@ -14,4 +14,8 @@ public interface StudentTeamService {
     //根据组号列表返回组的对象
     public Team getTeamByTeamId(Integer teamId);
 
+    //学生加入一个空组
+    public Team createTeam(int moduleId,String leaderId,String teamName);
+    //学生加入一个存在的组
+    public Team joinTeam(int teamId,String studentId);
 }

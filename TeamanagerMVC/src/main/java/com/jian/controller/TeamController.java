@@ -36,10 +36,15 @@ public class TeamController {
     @ResponseBody
     public List<Team> getTeamsByTeamIds(@RequestParam(value = "teamIds",required = false) int[] teamIds) throws NullPointerException{
         List<Team> TeamList = new LinkedList<Team>();
+        //这说明teamIds没有传值这时候直接返回一个空的对象
+        if(teamIds == null){
+            return TeamList;
+        }
         for (int teamId : teamIds) {
             TeamList.add(studentTeamService.getTeamByTeamId(teamId));
         }
         return TeamList;
-
     }
+
+
 }

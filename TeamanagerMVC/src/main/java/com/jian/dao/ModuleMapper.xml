@@ -15,7 +15,7 @@
 <!--        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="moduleId">-->
 <!--            SELECT LAST_INSERT_ID()-->
 <!--        </selectKey>-->
-        insert into module(teacher_id, module_name, module_size) values (#{arg0},#{arg1},#{arg2})
+        insert into module(teacher_id, module_name, module_size,team_num) values (#{arg0},#{arg1},#{arg2},#{arg3})
     </insert>
 
     <select id="getModuleIdbyTeacher" resultType="String">
@@ -37,6 +37,7 @@
         <id property="moduleId" column="module_id"/>
         <result property="moduleName" column="module_name" />
         <result property="moduleSize" column="module_size" />
+        <result property="teamNum" column="team_num" />
     </resultMap>
 
     <select id="getTeacherByModuleId" resultMap="TeacherResultMap">
@@ -65,5 +66,8 @@
     </select>
     <select id="getAllModule" resultMap="ModuleResultMap">
         select * from module
+    </select>
+    <select id="getModuleSizeInteger" resultType="java.lang.Integer">
+        select module_size from module where module_id = #{moduleId}
     </select>
 </mapper>

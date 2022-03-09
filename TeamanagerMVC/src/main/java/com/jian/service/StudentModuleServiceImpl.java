@@ -55,8 +55,8 @@ public class StudentModuleServiceImpl implements StudentModuleService {
                 Student student = studentDao.getStduentNoPwd(sid);
                 studentList.add(student);
             }
-            module.setStudentList(studentList);
-            module.setTeamIdList(moduleDao.getTeamByModule(module.getModuleId()));
+            module.setStudents(studentList);
+            module.setTeamIds(moduleDao.getTeamByModule(module.getModuleId()));
         }
         return moduleList;
     }
@@ -75,8 +75,8 @@ public class StudentModuleServiceImpl implements StudentModuleService {
                 Student student = studentDao.getStduentNoPwd(sid);
                 studentList.add(student);
             }
-            module.setStudentList(studentList);
-            module.setTeamIdList(moduleDao.getTeamByModule(module.getModuleId()));
+            module.setStudents(studentList);
+            module.setTeamIds(moduleDao.getTeamByModule(module.getModuleId()));
         }
         return moduleList;
     }

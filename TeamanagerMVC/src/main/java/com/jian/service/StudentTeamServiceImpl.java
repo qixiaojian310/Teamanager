@@ -1,5 +1,6 @@
 package com.jian.service;
 
+import com.jian.dao.ModuleDao;
 import com.jian.dao.StudentDao;
 import com.jian.dao.TaskDao;
 import com.jian.dao.TeamDao;
@@ -28,6 +29,18 @@ public class StudentTeamServiceImpl implements StudentTeamService{
     @Autowired
     @Qualifier("taskDao")
     private TaskDao taskDao;
+
+    @Autowired
+    @Qualifier("moduleDao")
+    private ModuleDao moduleDao;
+
+    public ModuleDao getModuleDao() {
+        return moduleDao;
+    }
+
+    public void setModuleDao(ModuleDao moduleDao) {
+        this.moduleDao = moduleDao;
+    }
 
     public TaskDao getTaskDao() {
         return taskDao;
@@ -78,6 +91,10 @@ public class StudentTeamServiceImpl implements StudentTeamService{
                 taskList.add(task);
             }
             team.setTaskList(taskList);
+            // TODO 向组中注入组大小
+            double moduleSize = moduleDao.getModuleSizeInteger(team.getModuleId());
+            double size = moduleSize/(double)teamDao.getTeamNum(teamId);
+            team.setTeamSize((int) Math.ceil(size));
             teamList.add(team);
         }
         return teamList;
@@ -91,6 +108,36 @@ public class StudentTeamServiceImpl implements StudentTeamService{
             students.add(studentDao.getStduentNoPwd(studentId));
         }
         team.setStudentList(students);
+        double moduleSize = moduleDao.getModuleSizeInteger(team.getModuleId());
+        double size = moduleSize/(double)teamDao.getTeamNum(teamId);
+        team.setTeamSize((int) Math.ceil(size));
         return team;
+    }
+
+    @Override
+    public Team createTeam(int moduleId, String leaderId, String teamName) {
+        Team teamInject = new Team();
+        teamInject.setLeaderId(leaderId);
+        teamInject.setModuleId(moduleId);
+        teamInject.setTeamName(teamName);
+        teamDao.addTeam(teamInject);
+        Integer teamId = teamInject.getTeamId();
+        System.out.println("teamID"+teamId);
+        if(teamDao.joinTeam(leaderId,teamId)){
+            Team team = getTeamByTeamId(teamId);
+            return team;
+        }else {
+            return null;
+        }
+    }
+
+    @Override
+    public Team joinTeam(int teamId, String studentId) {
+        if(teamDao.joinTeam(studentId,teamId)){
+            Team team = getTeamByTeamId(teamId);
+            return team;
+        }else {
+            return null;
+        }
     }
 }
