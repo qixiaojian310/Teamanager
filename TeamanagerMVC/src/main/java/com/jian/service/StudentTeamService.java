@@ -1,5 +1,6 @@
 package com.jian.service;
 
+import com.jian.pojo.OutputTeamMemberData;
 import com.jian.pojo.Team;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,17 @@ public interface StudentTeamService {
     public Team getTeamByTeamId(Integer teamId);
 
     //学生加入一个空组
-    public Team createTeam(int moduleId,String leaderId,String teamName);
+    public Team createTeam(int moduleId, String leaderId, String teamName);
+
     //学生加入一个存在的组
-    public Team joinTeam(int teamId,String studentId);
+    public Team joinTeam(int teamId, String studentId);
+
+    //获取所有组员的id
+    public List<String> getTeamMateByTeamId(Integer teamId);
+
+    //获取某个组员的投票情况
+    public OutputTeamMemberData getOneVoteState(Integer teamId, String studentId);
+
+    //获取某个用户的投票情况
+    public String getOneVoteStudent(Integer teamId, String studentId);
 }

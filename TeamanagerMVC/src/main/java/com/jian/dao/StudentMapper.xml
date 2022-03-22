@@ -56,6 +56,12 @@
     <select id="getStudentPwd" resultType="String">
         select password from student where student_id=#{studentId}
     </select>
+    <select id="getVoteName" resultType="java.lang.String">
+        select vote_leader from student_team_link where student_id=#{arg0} and team_id = #{arg1}
+    </select>
+    <select id="getVoteNumber" resultType="java.lang.Integer">
+        select count(*) from student_team_link where vote_leader=#{arg0} and team_id = #{arg1}
+    </select>
 
     <insert id="addStudent" parameterType="com.jian.pojo.Student">
         insert into student values (#{studentId},#{password},#{studentInfo},#{userIconSrc})

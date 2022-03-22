@@ -29,4 +29,8 @@ public interface StudentDao {
     public boolean deleteModuleByStudentId(String studentId,int moduleId);
     public boolean deleteStudentInTeam(String studentId,int moduleId);
     public boolean deleteStudentInTask(String studentId,int moduleId);
+    //获取一个学生的投票结果
+    public String getVoteName(String studentId,int teamId);
+    //获取投票某个学生的总人数
+    public Integer getVoteNumber(String studentId, int teamId);
 }

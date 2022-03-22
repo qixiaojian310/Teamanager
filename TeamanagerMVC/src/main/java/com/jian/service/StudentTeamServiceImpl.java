@@ -4,6 +4,7 @@ import com.jian.dao.ModuleDao;
 import com.jian.dao.StudentDao;
 import com.jian.dao.TaskDao;
 import com.jian.dao.TeamDao;
+import com.jian.pojo.OutputTeamMemberData;
 import com.jian.pojo.Student;
 import com.jian.pojo.Task;
 import com.jian.pojo.Team;
@@ -11,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 
 @Service("studentTeamServiceImpl")
@@ -75,11 +78,9 @@ public class StudentTeamServiceImpl implements StudentTeamService{
         for (Integer teamId : teamIdList) {
             Team team = teamDao.getTeamById(teamId);
             List<String> teammateId = teamDao.getTeammate(teamId);
-            List<Student> teammateObjs = new LinkedList<Student>();
+            List<Student> teammateObjs = new LinkedList<>();
             for (String sid : teammateId) {
-                Student student = new Student();
-                student.setStudentId(sid);
-                System.out.println("sid"+sid);
+                Student student = studentDao.getStduentNoPwd(sid);
                 teammateObjs.add(student);
             }
             team.setStudentList(teammateObjs);
@@ -103,15 +104,32 @@ public class StudentTeamServiceImpl implements StudentTeamService{
     public Team getTeamByTeamId(Integer teamId){
         Team team = teamDao.getTeamById(teamId);
         List<String> studentIds = teamDao.getTeammate(teamId);
-        List<Student> students = new LinkedList<Student>();
+        List<Student> students = new LinkedList<>();
         for (String studentId : studentIds) {
-            students.add(studentDao.getStduentNoPwd(studentId));
+            Student student = studentDao.getStduentNoPwd(studentId);
+            students.add(student);
         }
         team.setStudentList(students);
         double moduleSize = moduleDao.getModuleSizeInteger(team.getModuleId());
         double size = moduleSize/(double)teamDao.getTeamNum(teamId);
         team.setTeamSize((int) Math.ceil(size));
         return team;
+    }
+
+    public List<String> getTeamMateByTeamId(Integer teamId){
+        List<String> studentIds = teamDao.getTeammate(teamId);
+        return studentIds;
+    }
+
+    @Override
+    public OutputTeamMemberData getOneVoteState(Integer teamId, String studentId) {
+        Integer voteNumber = studentDao.getVoteNumber(studentId,teamId);
+        return new OutputTeamMemberData(voteNumber);
+    }
+
+    @Override
+    public String getOneVoteStudent(Integer teamId, String studentId) {
+        return studentDao.getVoteName(studentId,teamId);
     }
 
     @Override
@@ -140,4 +158,6 @@ public class StudentTeamServiceImpl implements StudentTeamService{
             return null;
         }
     }
+
+
 }

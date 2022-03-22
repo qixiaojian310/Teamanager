@@ -165,7 +165,11 @@ public class StudentController {
         }
     }
 
-
+//    @RequestMapping(value = "getStudent",method = RequestMethod.POST)
+//    @ResponseBody
+//    public Student getStudent(@RequestParam("studentId") String studentId){
+//
+//    }
 
     //学生通过moduleid得到在该课程下的所有task
 //    @RequestMapping(value = "/gettaskbymodule", method = RequestMethod.POST)

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Component
@@ -18,6 +19,13 @@ public class Team {
     private String leaderId;
     private Integer teamSize;
 
+    public List<Student> getStudentList() {
+        return studentList;
+    }
+
+    public void setStudentList(List<Student> studentList) {
+        this.studentList = studentList;
+    }
 
     public Integer getTeamSize() {
         return teamSize;
@@ -49,14 +57,6 @@ public class Team {
 
     public void setModuleId(Integer moduleId) {
         this.moduleId = moduleId;
-    }
-
-    public List<Student> getStudentList() {
-        return studentList;
-    }
-
-    public void setStudentList(List<Student> studentList) {
-        this.studentList = studentList;
     }
 
     public String getLeaderId() {

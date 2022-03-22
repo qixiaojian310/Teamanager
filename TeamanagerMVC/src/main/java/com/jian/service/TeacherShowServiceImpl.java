@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 
 @Service("teacherShowServiceImpl")
@@ -93,7 +95,7 @@ public class TeacherShowServiceImpl implements TeacherShowService{
                 Team team = teamDao.getTeamById(integer);
                 //注入队友的信息
                 List<String> teammateId = teamDao.getTeammate(team.getTeamId());
-                List<Student> teammate = new LinkedList<Student>();
+                List<Student> teammate = new LinkedList<>();
                 for (String sid : teammateId) {
                     Student student = studentDao.getStduentNoPwd(sid);
                     teammate.add(student);
