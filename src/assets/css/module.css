@@ -1,0 +1,32 @@
+.aside-box-left {
+  /* box-shadow: 1px 0px 7px #888888; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(#df7599, #3994be);
+}
+.aside-box-left > div {
+  height: 80%;
+  width: 80%;
+  /* box-shadow: 0px 0px 14px 2px #3994BE inset; */
+  background: #fff;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding-top: 20px;
+  border-radius: 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.aside-box-left > div p {
+  font-size: 20px;
+  font-weight: 700;
+  margin-left: 30px;
+}
+.aside-box-right {
+  background: linear-gradient(#df7599, #3994be);
+  box-shadow: -1px 0px 7px #888888;
+  overflow: hidden;
+  position: relative;
+}

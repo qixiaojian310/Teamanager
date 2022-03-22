@@ -26,7 +26,7 @@
         :md="{ span: 9, offset: 9 }"
         :lg="{ span: 9, offset: 12 }"
       >
-        <el-row :justify="drawerBtnJustify" align="middle">
+        <el-row class="header-link-box" :justify="drawerBtnJustify" align="middle">
           <header-link v-if="windowSizeBoolean"></header-link>
           <el-button @click="drawer = true" style="margin-right:20px" v-else>
             <i class="fa fa-bars"></i>
@@ -72,6 +72,9 @@ export default {
 </script>
 
 <style scoped>
+.header-link-box{
+  justify-content: end;
+}
 .el-row {
   height: 100%;
   width: 100%;

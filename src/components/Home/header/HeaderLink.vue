@@ -1,17 +1,9 @@
 <template>
   <router-link :to="linkBase + '/chat'">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-wechat"></i>
     <span>Chat</span>
   </router-link>
-  <router-link :to="linkBase + '/module'">
-    <i class="fa fa-user"></i>
-    <span>Module</span>
-  </router-link>
-  <router-link :to="linkBase + '/team'">
-    <i class="fa fa-user"></i>
-    <span>Team</span>
-  </router-link>
-  <router-link :to="linkBase + '/user'">
+  <router-link :to="linkBase">
     <i class="fa fa-user"></i>
     <span>User</span>
   </router-link>

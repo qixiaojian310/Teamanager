@@ -1,5 +1,6 @@
 <template>
   <el-container>
+    <strip-toolbar></strip-toolbar>
     <el-aside
       :width="asideLeftWidth + 'px'"
       class="aside-box-left hidden-sm-and-down"
@@ -56,6 +57,7 @@ import AsideModules from "../Home/aside/AsideModules.vue";
 import AsideTeams from "../Home/aside/AsideTeams.vue";
 import AsideCompletedTasks from "../Home/aside/AsideCompletedTasks.vue";
 import UnCompletedTasks from "../Home/main/UnCompletedTasks.vue";
+import StripToolbar from "../toolbar/StripToolbar.vue"
 import { getCookie } from "../../util/cookieUtil";
 import qs from "qs";
 
@@ -104,20 +106,6 @@ export default {
         var injectModules = response.data;
         this.moduleItems = response.data;
         this.$store.commit("injectTeacherModules", injectModules);
-        // for (let index = 0; index < injectModules.length; index++) {
-        //   var tempModuleObj = new Object();
-        //   //绑定name
-        //   tempModuleObj.moduleName = injectModules[index].moduleName;
-        //   //绑定id
-        //   tempModuleObj.moduleId = injectModules[index].moduleId;
-        //   tempModuleObj.teacher = injectModules[index].teacher;
-        //   tempModuleObj.students = injectModules[index].students;
-        //   tempModuleObj.teamIds = injectModules[index].teamIds;
-        //   tempModuleObj.teamNum = injectModules[index].teamNum;
-        //   tempModuleObj.moduleSize = injectModules[index].moduleSize;
-        //   this.moduleItems.push(tempModuleObj);
-        //   this.$store.commit("pushTeacherModule", tempModuleObj);
-        // }
       });
     },
     injectTeams: function () {
@@ -216,67 +204,10 @@ export default {
       moduleItems: [],
       // 左边放module的信息，右边放team的
       teamItems: [
-        // {
-        //   item: "JS Team",
-        // },
-        // {
-        //   item: "Java Team",
-        // },
-        // {
-        //   item: "Matlab Team asdsadas das",
-        // },
-        // {
-        //   item: "Python Team",
-        // },
       ],
       completedTasks: [
-        // {
-        //   taskTitle: "JS Class",
-        //   taskContent: "JS Class JS Class JS Class JS Class JS Class JS Class",
-        //   taskTeamName: "JS Team",
-        //   progress: 100,
-        // },
-        // {
-        //   taskTitle: "Java Class",
-        //   taskContent:
-        //     "Java Class Java Class Java Class Java Class Java Class Java Class",
-        //   taskTeamName: "Java Team",
-        //   progress: 90,
-        // },
-        // {
-        //   taskTitle: "Matlab Class",
-        //   taskContent:
-        //     "Matlab Class Matlab Class Matlab Class Matlab Class Matlab Class Matlab Class",
-        //   taskTeamName: "Matlab Team",
-        //   progress: 70,
-        // },
-        // {
-        //   taskTitle: "Python Class",
-        //   taskContent:
-        //     "Python Python Python Python Python Python Python Python Python Python",
-        //   taskTeamName: "Python Team",
-        //   progress: 10,
-        // },
       ],
       unCompletedTasks: [
-        // {
-        //   unCompletedTaskName: "JS Code Implementation",
-        //   unCompletedTaskContent:
-        //     "JS Code Implementation Amet irure laborum magna eiusmod. Nostrud commodo reprehenderit" +
-        //     "nisi nulla ea esse enim enim reprehenderit ea nulla. Culpa eu anim consectetur nulla nostrud ex" +
-        //     "Lorem aliqua elit commodo labore sunt incididunt. Consectetur ullamco excepteur ex sint irure dol" +
-        //     "or voluptate. Esse eiusmod incididunt minim eu quis minim amet. Veniam laboris nulla duis molli" +
-        //     " consequat cillum eiusmod qui est Lorem nulla reprehenderit. Ea consequat aliqua amet tempor occaecat" +
-        //     " magna. Esse sunt aute anim deserunt est veniam minim ad incididunt deserunt. Commodo officia" +
-        //     " excepteur ullamco anim culpa laborum magna in voluptate aute sint proident cillum aliqua. Nisi" +
-        //     " sit aliqua nisi proident dolor ad.Ex nostrud exercitation occaecat non adipisicing laborum. Aute elit" +
-        //     " id pariatur ipsum do dolor nisi sit fugiat esse culpa irure labore. Anim culpa ad cillum dolore ipsum" +
-        //     " velit tempor elit.",
-        //   unCompletedTaskTeamName: "JS Team",
-        //   cooperator: [1, 3, 5, 7],
-        //   deadline: "2022-05-08",
-        //   progress: 10,
-        // }
       ],
       signInStudentId: 1,
     };
@@ -286,6 +217,7 @@ export default {
     AsideTeams,
     AsideCompletedTasks,
     UnCompletedTasks,
+    StripToolbar
   },
   computed: {
     asideHeight() {

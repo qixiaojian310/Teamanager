@@ -9,6 +9,8 @@ import StudentHomePage from '../components/Home/StudentHomePage'
 import StudentTeamPage from '../components/team/StudentTeamPage.vue'
 import StudentModule from '../components/Module/Student/StudentModule'
 import ModulePage from '../components/Module/modulePage/ModulePage.vue'
+import TeamHome from '../components/team/TeamHome.vue'
+import VotePage from '../components/team/vote/VotePage.vue'
 
 const routes = [
   {
@@ -28,8 +30,25 @@ const routes = [
       },
       {
         path: 'team',
-        name: 'StudentTeam',
-        component:StudentTeamPage
+        name: 'TeamHome',
+        component:TeamHome,
+        children:[
+          {
+            path: 'vote',
+            name: 'VotePage',
+            component: VotePage
+          },
+          {
+            path: '',
+            name: 'StudentTeamPage',
+            component: StudentTeamPage
+          }
+        ]
+      },
+      {
+        path: 'module/:moduleId',
+        name: 'ModulePage',
+        component: ModulePage
       }
     ]
 

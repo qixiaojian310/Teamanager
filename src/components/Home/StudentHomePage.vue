@@ -1,5 +1,6 @@
 <template>
   <el-container>
+    <strip-toolbar></strip-toolbar>
     <el-aside
       :width="asideLeftWidth + 'px'"
       class="aside-box-left hidden-sm-and-down"
@@ -60,6 +61,7 @@ import AsideCompletedTasks from "../Home/aside/AsideCompletedTasks.vue";
 import UnCompletedTasks from "../Home/main/UnCompletedTasks.vue";
 import StudentInfo from "../Home/aside/StudentInfo.vue";
 import { getCookie } from "../../util/cookieUtil";
+import StripToolbar from "../toolbar/StripToolbar.vue";
 
 export default {
   name: "StudentHomePage",
@@ -242,6 +244,7 @@ export default {
         });
       } else {
         //验证失败
+        //TODO - 没有cookie会有两种情况，一种是直接输入url一种是通过signin没选择remembercode登录需要区分
         this.$router.push("/signin");
       }
     },
@@ -255,6 +258,7 @@ export default {
     AsideCompletedTasks,
     UnCompletedTasks,
     StudentInfo,
+    StripToolbar
   },
   computed: {
     asideHeight() {

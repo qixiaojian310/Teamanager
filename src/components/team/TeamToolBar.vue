@@ -11,39 +11,57 @@
         :backgroundColor="'#e6e1e1'"
         :inputHeight="2"
       ></sign-input-item>
-      <div v-if="isStudent">
-        <el-cascader
+      <div v-if="isStudent" style="background-color: #fff">
+        <el-cascader-panel
           placeholder="Try searching Guide"
           :options="options"
           v-model="value"
           :props="props"
           filterable
         >
-          <template #default="{ data }">
+          <template #default="{ data }" v-if="isModule">
             <span>{{ data.teacherId }}</span>
             <span> ({{ data.teacherNumber }}) </span>
           </template>
-        </el-cascader>
-        <el-button @click="ensureChoice">
+          <template #default="{ data }" v-else>
+            <span>{{ data.leaderId }}</span>
+            <span> ({{ data.leaderNumber }}) </span>
+          </template>
+        </el-cascader-panel>
+        <el-button style="width: 100%" @click="ensureChoice">
           <el-icon><document-checked /></el-icon>
+          Filter your team
         </el-button>
       </div>
     </div>
     <div class="toolbar-list">
-      <button class="btn-all-team" @click="showList">
-        <i class="fa fa-bars"></i>
-        <span>ALL teams</span>
-      </button>
+      <div class="btn-box">
+        <transition name="team-detail" mode="in-out">
+          <button class="btn-all-team" @click="showDetail" v-if="isDetail">
+            <i class="fa fa-bars"></i>
+            <span>See details</span>
+          </button>
+          <button class="btn-all-team" @click="showList" v-else>
+            <i class="fa fa-bars"></i>
+            <span>ALL teams</span>
+          </button>
+        </transition>
+      </div>
       <!-- TODO对于老师要执行添加的效果，可以提交不同的事件到上层当中就可以实现 -->
-      <button class="btn-add-team" @click="add">
-        <i class="fa fa-edit"></i>
-        <span v-if="isTeacher">Edit a team</span>
-        <span v-else>Add team</span>
-      </button>
-      <button class="btn-add-team" @click="create">
-        <i class="fa fa-building-o"></i>
-        <span v-if="isTeacher">Create a team</span>
-      </button>
+      <!-- 点击提示 -->
+      <div class="btn-box">
+        <transition name="team-detail" mode="in-out">
+          <div v-if="isDetail">
+            <button class="btn-all-team" @click="vote">
+              <i class="fa fa-ticket"></i>
+              <span>Vote</span>
+            </button>
+          </div>
+          <div v-else class="hint-box">
+            <p>You can see more detail by choose a team</p>
+          </div>
+        </transition>
+      </div>
     </div>
   </div>
 </template>
@@ -57,11 +75,7 @@ export default {
   data() {
     return {
       SearchContent: "",
-      props: {
-        multiple: true,
-        label: "teacherId",
-        value: "teacherId",
-      },
+
       value: [],
       isTeacher: false,
       isStudent: false,
@@ -71,6 +85,31 @@ export default {
     options: {
       type: Array,
     },
+    isModule: {
+      type: Boolean,
+      default: true,
+    },
+    isDetail: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    props() {
+      if (this.isModule) {
+        return {
+          multiple: true,
+          label: "teacherId",
+          value: "teacherId",
+        };
+      } else {
+        return {
+          multiple: true,
+          label: "leaderId",
+          value: "leaderId",
+        };
+      }
+    },
   },
   methods: {
     ensureChoice: function () {
@@ -78,7 +117,12 @@ export default {
         // 取消了选择，改为全选
         for (let index = 0; index < this.options.length; index++) {
           var temp = this.options[index];
-          this.value.push(temp.teacherId);
+          if (this.isModule) {
+            //课程全选老师否则全选leader
+            this.value.push(temp.teacherId);
+          } else {
+            this.value.push(temp.leaderId);
+          }
         }
       }
       console.log("级联选择器的值为" + this.value);
@@ -91,8 +135,8 @@ export default {
         this.$emit("addteam");
       }
     },
-    create:function(){
-      if(this.isTeacher){
+    create: function () {
+      if (this.isTeacher) {
         this.$emit("createteam");
       }
     },
@@ -102,7 +146,7 @@ export default {
   },
   mounted() {
     // 用路由信息判断是老师还是学生
-    if (this.$route.name == "StudentTeam") {
+    if (this.$route.name == "StudentTeamPage") {
       this.isTeacher = false;
       this.isStudent = true;
     } else {
@@ -132,33 +176,50 @@ export default {
   color: #df7599;
   background-color: #fac1d3;
   border: 2px solid #df7599;
-  width: 80%;
+  width: 100%;
   display: block;
-  text-align: center;
-  padding: 2%;
+  text-align: start;
+  padding: 0.3rem;
+  padding-left: 1rem;
   border-radius: 10px;
   font-size: 1.2rem;
-}
-
-.btn-add-team {
-  transition: background-color 0.35s ease-in-out, color 0.35s ease-in-out;
-  color: #066e14;
-  background-color: #65b54d56;
-  border: 2px solid #65b54d;
-  width: 80%;
-  display: block;
-  text-align: center;
-  padding: 2%;
-  margin-top: 10px;
-  border-radius: 10px;
-  font-size: 1.2rem;
+  margin-top: 1rem;
+  position: absolute;
 }
 .el-button {
   margin-left: 0px !important;
 }
 </style>
 <style scoped>
-i{
+i {
   margin-right: 5px;
+}
+.hint-box {
+  position: absolute;
+  width: 100%;
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  margin-top: 1rem;
+}
+.hint-box > p {
+  margin: 1rem;
+}
+.team-detail-enter-active,
+.team-detail-leave-active {
+  transition: opacity 0.5s;
+}
+
+.team-detail-enter-from,
+.team-detail-leave-to {
+  opacity: 0;
+}
+
+.btn-box {
+  position: relative;
+  height: 3.2rem;
 }
 </style>

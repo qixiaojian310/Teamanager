@@ -32,24 +32,27 @@
     <div class="toolbar-list">
       <button class="btn-all-module" @click="showList">
         <i class="fa fa-bars"></i>
-        <span>ALL Modules</span>
+        <span>Your Modules</span>
       </button>
       <!-- TODO对于老师要执行添加的效果，可以提交不同的事件到上层当中就可以实现 -->
-      <button class="btn-add-module" @click="add">
+      <button v-if="isTeacher" class="btn-add-module" @click="add">
         <i class="fa fa-edit"></i>
-        <span v-if="isTeacher">Edit a Module</span>
-        <span v-else>Add Module</span>
+        <span >Edit a Module</span>
       </button>
-      <button class="btn-add-module" @click="create">
+      <button v-else class="btn-add-module" @click="add">
+        <i class="fa fa-edit"></i>
+        <span >All Modules</span>
+      </button>
+      <button v-if="isTeacher" class="btn-add-module" @click="create">
         <i class="fa fa-building-o"></i>
-        <span v-if="isTeacher">Create a Module</span>
+        <span >Create a Module</span>
       </button>
     </div>
   </div>
 </template>
 
 <script>
-import SignInputItem from "../../sign/SignInputItem.vue";
+import SignInputItem from "../sign/SignInputItem.vue";
 import { DocumentChecked } from "@element-plus/icons-vue";
 export default {
   components: { SignInputItem, DocumentChecked },
@@ -113,13 +116,11 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .toolbar {
   height: 100%;
-  width: 100%;
-  /* margin-bottom: 5%;
-  margin-top: 5%; */
   background-color: #e6e1e1;
+  width: 100%
 }
 .toolbar-list {
   height: 45%;

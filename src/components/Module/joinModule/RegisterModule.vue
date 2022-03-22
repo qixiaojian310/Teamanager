@@ -55,14 +55,6 @@
                 >
               </template>
             </el-transfer>
-            <div>
-              <span>Your leader in your team</span>
-              <el-cascader
-                :options="cascaderOptions"
-                v-model="leaderIds"
-                :props="cascaderProps"
-              />
-            </div>
           </el-scrollbar>
         </div>
       </el-col>

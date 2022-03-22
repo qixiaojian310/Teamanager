@@ -1,19 +1,10 @@
 <template>
   <el-container>
-    <!-- 工具栏 -->
-    <el-aside
-      :width="asideLeftWidth + 'px'"
-      class="hidden-sm-and-down"
-      :style="{ height: asideHeight + 'px' }"
+    <!-- 列表栏，细节展示需要收回去 -->
+    <el-container
+      :style="{ height: asideHeight - 50 + 'px' }"
+      v-if="!detailState"
     >
-      <team-toolbar
-        :options="teacherObjs"
-        @show-list="showList"
-        @add-team="addTeam"
-        @ensure-choice="selectTeam"
-      ></team-toolbar>
-    </el-aside>
-    <el-container :style="{ height: asideHeight - 50 + 'px' }">
       <el-scrollbar :height="asideHeight - 50" :style="{ width: 100 + '%' }">
         <el-main>
           <div ref="skele">
@@ -42,6 +33,7 @@
         transition: 'width 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
       }"
     >
+      <!-- 关闭细节 -->
       <el-button class="close-btn" @click="closeDetail">
         <el-icon :size="30" :color="'#ffffff'">
           <close-bold></close-bold>
@@ -53,6 +45,7 @@
         :team-objs="focusModuleTeams"
         :aside-height="asideHeight"
         :aside-width="asideRightWidth"
+        @see-detail="seeDetail"
       ></team-detail>
     </el-aside>
   </el-container>
@@ -61,47 +54,22 @@
 
 
 <script>
-
-      // var taskList = this.focusTeamObj.taskList;
-      // var contextList = [];
-      // var taskDataList = [];
-      // for (let index = 0; index < taskList.length; index++) {
-      //   contextList.push(taskList[index].context)
-      //   var taskData = new Object();
-      //   taskData.x = taskList[index].startTime;
-      //   taskData.x2 = taskList[index].deadline;
-      //   taskData.y = index;
-      //   taskDataList.push(taskData);
-      // }
-
 // import SwiperTest from "../../swiperTest/SwiperComponent.vue";
-import TeamToolbar from "./TeamToolBar.vue";
+import TeamToolBar from "./TeamToolBar.vue";
 import TeamCard from "../card/TeamCard.vue";
 import { CloseBold } from "@element-plus/icons-vue";
 import TeamDetail from "./TeamDetail.vue";
+import StripToolbar from "../toolbar/StripToolbar.vue";
 import qs from "qs";
 
 export default {
   // id leaderId name students
   name: "StudentTeamPage",
   methods: {
-    showList: function () {
-      this.mainCard = 1;
-      this.title = "Your Team";
-      this.teamSearches = this.$store.state.signInStudentTeam;
-    },
-    addTeam: function () {
-      this.mainCard = 2;
-      this.title = "All Team";
-      this.axios({
-        url: "/getAllTeamSearch",
-        method: "post",
-      }).then((res) => {
-        this.teamSearches = res.data;
-        //存一份拷贝，方便在同步修改的时候可以确保基础的总选项不会发生改变
-        this.allTeam = res.data;
-        //teamId teamName students teacher teamIds
-      });
+    //该方法用来显示组的详细信息
+    seeDetail() {
+      this.$emit("see-detail");
+      this.detailState = true;
     },
     //该方法通过点击的team的组信息获取组对象
     focusTeam(cardFocusObjInject) {
@@ -121,13 +89,15 @@ export default {
         this.cardFocus = false;
         this.cardFocusId = cardFocusObj.teamId;
         this.cardFocusObj = cardFocusObj;
-        setTimeout(()=>{
+        setTimeout(() => {
           this.cardFocus = true;
-        },400)
+        }, 400);
       }
     },
     closeDetail: function () {
+      this.$emit("close-detail");
       this.cardFocus = false;
+      this.detailState = false;
     },
     createTeacherOption: function (id, number) {
       var teacherOption = new Object();
@@ -143,33 +113,20 @@ export default {
         index++
       ) {
         //在store中用户的具体索引;
-        var teacher = this.$store.state.signInStudentTeam.filter(
-          (teacher) => {
-            return teacher.teacherId == teacherFind;
-          }
-        )[0];
+        var teacher = this.$store.state.signInStudentTeam.filter((teacher) => {
+          return teacher.teacherId == teacherFind;
+        })[0];
         console.log(teacher);
         return teacher;
       }
     },
-    selectTeam: function (teacherIds) {
-      //NOTE 检查级联选择器的值
-      // NOTE teacherIds是一个数组
-      var allTeam = [];
-      if (this.mainCard == 1) {
-        allTeam = this.$store.state.signInStudentTeam;
-      } else {
-        allTeam = this.allTeam;
-      }
-      var res = [];
-      res = allTeam.filter((team) => {
-        for (let index = 0; index < teacherIds.length; index++) {
-          if (team.teacher.teacherId == teacherIds[index]) {
-            return team;
-          }
-        }
-      });
-      this.teamSearches = res;
+  },
+  props: {
+    teamSearches: {
+      type: Array,
+      default: function () {
+        return this.$store.state.teams;
+      },
     },
   },
   data() {
@@ -179,7 +136,6 @@ export default {
       loading: false,
       activeName: "1",
       // NOTE: 后端获取team所有人员使用id返回一个idList
-      teamSearches: this.$store.state.teams,
       cardFocusId: 0,
       cardFocusObj: {},
       focusTeamTeams: [],
@@ -187,6 +143,8 @@ export default {
       mainCard: 1,
       title: "Your Team",
       allTeam: [],
+      //判断是不是在detail窗格内
+      detailState: false,
     };
   },
   computed: {
@@ -202,10 +160,18 @@ export default {
     },
     asideRightWidth() {
       if (this.cardFocus) {
-        if (this.$store.state.windowSize.windowSizeWidth > 992) {
-          return this.$store.state.windowSize.windowSizeWidth * 0.55;
+        if (this.detailState) {
+          if (this.$store.state.windowSize.windowSizeWidth > 1200) {
+            return this.$store.state.windowSize.windowSizeWidth * 0.8 - 60;
+          } else {
+            return this.$store.state.windowSize.windowSizeWidth * 0.7 - 60;
+          }
         } else {
-          return this.$store.state.windowSize.windowSizeWidth * 0.65;
+          if (this.$store.state.windowSize.windowSizeWidth > 992) {
+            return this.$store.state.windowSize.windowSizeWidth * 0.55;
+          } else {
+            return this.$store.state.windowSize.windowSizeWidth * 0.45;
+          }
         }
       } else {
         return 0;
@@ -250,10 +216,11 @@ export default {
     },
   },
   components: {
-    TeamToolbar,
+    TeamToolBar,
     TeamCard,
     CloseBold,
-    TeamDetail
+    TeamDetail,
+    StripToolbar,
   },
 };
 </script>
@@ -295,10 +262,11 @@ export default {
   margin-left: 30px;
 }
 .aside-box-right {
-  background: linear-gradient(#df7599, #3994be);
+  background: #fac1d3;
   box-shadow: -1px 0px 7px #888888;
   overflow: hidden;
-  position: relative;
+  position: absolute;
+  right: 0px;
 }
 .card-box {
   display: flex;

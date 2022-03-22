@@ -1,9 +1,10 @@
 <template>
   <el-container>
     <!-- 工具栏 -->
+    <strip-toolbar></strip-toolbar>
     <el-aside
       :width="asideLeftWidth + 'px'"
-      class="hidden-sm-and-down"
+      class="hidden-sm-and-down left-aside"
       :style="{ height: asideHeight + 'px' }"
     >
       <module-toolbar
@@ -60,11 +61,12 @@
 
 <script>
 // import SwiperTest from "../../swiperTest/SwiperComponent.vue";
-import ModuleToolbar from "../toolbar/ModuleToolbar.vue";
+import ModuleToolbar from "../../toolbar/ModuleToolbar.vue";
 import ModuleCard from "../../card/ModuleCard.vue";
 import ModuleDetail from "../slide/ModuleDetail.vue";
 import { CloseBold } from "@element-plus/icons-vue";
 import SwiperComponent from "../../swiperTest/SwiperComponent.vue";
+import StripToolbar from '../../toolbar/StripToolbar.vue'
 import qs from "qs";
 
 export default {
@@ -317,9 +319,14 @@ export default {
     SwiperComponent,
     SwiperComponent,
     CloseBold,
+    StripToolbar
   },
 };
 </script>
+
+<style scoped src="../../../assets/css/module.css">
+
+</style>
 
 <style scoped>
 #skele {
@@ -331,38 +338,7 @@ export default {
 .el-main {
   position: relative;
 }
-.aside-box-left {
-  /* box-shadow: 1px 0px 7px #888888; */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(#df7599, #3994be);
-}
-.aside-box-left > div {
-  height: 80%;
-  width: 80%;
-  /* box-shadow: 0px 0px 14px 2px #3994BE inset; */
-  background: #fff;
-  margin-left: 20px;
-  margin-right: 20px;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  padding-top: 20px;
-  border-radius: 10px;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-.aside-box-left > div p {
-  font-size: 20px;
-  font-weight: 700;
-  margin-left: 30px;
-}
-.aside-box-right {
-  background: linear-gradient(#df7599, #3994be);
-  box-shadow: -1px 0px 7px #888888;
-  overflow: hidden;
-  position: relative;
-}
+
 .card-box {
   display: flex;
   flex-wrap: wrap;
@@ -394,5 +370,8 @@ export default {
   font-size: 20px;
   font-weight: bold;
   color: rgb(15, 15, 15);
+}
+.left-aside{
+  display: flex;
 }
 </style>

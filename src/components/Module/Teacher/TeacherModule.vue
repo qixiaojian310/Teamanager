@@ -1,6 +1,7 @@
 <template>
   <el-container>
     <!-- 工具栏 -->
+    <strip-toolbar></strip-toolbar>
     <el-aside
       :width="asideLeftWidth + 'px'"
       class="hidden-sm-and-down"
@@ -70,7 +71,7 @@
 
 <script>
 // import SwiperTest from "../../swiperTest/SwiperComponent.vue";
-import ModuleToolbar from "../toolbar/ModuleToolbar.vue";
+import ModuleToolbar from "../../toolbar/ModuleToolbar.vue";
 import ModuleCard from "../../card/ModuleCard.vue";
 import ModuleDetail from "../slide/ModuleDetail.vue";
 import { CloseBold } from "@element-plus/icons-vue";
@@ -78,6 +79,7 @@ import SwiperComponent from "../../swiperTest/SwiperComponent.vue";
 import RegisterModule from "../joinModule/RegisterModule.vue";
 import qs from "qs";
 import CreateModule from "../joinModule/CreateModule.vue";
+import StripToolbar from '../../toolbar/StripToolbar.vue';
 
 export default {
   name: "TeacherModule",
@@ -288,6 +290,7 @@ export default {
     CloseBold,
     RegisterModule,
     CreateModule,
+    StripToolbar,
   },
 };
 </script>

@@ -1,22 +1,91 @@
 <template>
   <div class="scroll-bar-right" :style="{ height: asideHeight - 100 + 'px' }">
-    <div :style="{ height: asideHeight - 160 + 'px' }">
-      <el-scrollbar>
-        <p>Team name: {{ focusTeamObj.name }}</p>
-        <p class="teacher-name-big">Leader name: {{ searchLeader }}</p>
-        <div class="student-box"></div>
-        <div class="team-box">
-          <gantt-chart :id="'gantt'" :option="ganttOption"></gantt-chart>
-          <!-- <gantt-chart-frappe></gantt-chart-frappe> -->
-        </div>
-      </el-scrollbar>
+    <div :style="{ height: asideHeight - 140 + 'px', padding: 20 + 'px' }">
+      <swiper
+        :effect="'coverflow'"
+        :enabled="detailStatus"
+        :modules="modules"
+        :slides-per-view="1"
+        :space-between="50"
+        :pagination="{ clickable: true }"
+        :scrollbar="{ draggable: true }"
+        :hashNavigation="{ watchState: true }"
+        @swiper="onSwiper"
+        @slideChange="onSlideChange"
+      >
+        <swiper-slide data-hash="teamChart">
+          <el-scrollbar :wrap-class="'slide-page'" :height="asideHeight - 140">
+            <p>
+              Team name: <span>{{ focusTeamObj.name }}</span>
+            </p>
+            <span class="teacher-name-big">Leader name:</span>
+            <span v-html="searchLeader"></span>
+            <div class="student-box"></div>
+            <div class="team-box">
+              <gantt-chart
+                :id="'gantt'"
+                :option="ganttOption"
+                :width="asideWidth - 160"
+              ></gantt-chart>
+              <!-- <gantt-chart-frappe></gantt-chart-frappe> -->
+            </div>
+          </el-scrollbar>
+        </swiper-slide>
+        <swiper-slide data-hash="vote">
+          <el-scrollbar :wrap-class="'slide-page'" :height="asideHeight - 140">
+            <p>Vote Center</p>
+            <div class="member-box">
+              <vote-page
+                :teamId="focusTeamObj.teamId"
+                :focusTeam="focusTeamObj"
+                @voted="getVoteStudent"
+              ></vote-page>
+            </div>
+          </el-scrollbar>
+        </swiper-slide>
+      </swiper>
+    </div>
+    <div class="btn-box">
+      <el-button
+        :style="{ width: 100 + '%' }"
+        type="primary"
+        @click="seeDetail"
+      >
+        <el-icon><data-board /></el-icon>
+        see more detail
+      </el-button>
     </div>
   </div>
 </template>
 
 <script>
-import GanttChart from './GanttChart.vue';
+import { ElNotification  } from "element-plus";
+
+import GanttChart from "./GanttChart.vue";
 import GanttChartFrappe from "./GanttChartFrappe.vue";
+import { DataBoard } from "@element-plus/icons-vue";
+import VotePage from "./vote/VotePage.vue";
+
+import {
+  Navigation,
+  Pagination,
+  Scrollbar,
+  A11y,
+  HashNavigation,
+  EffectCoverflow,
+} from "swiper";
+
+// Import Swiper Vue.js components
+import { Swiper, SwiperSlide } from "swiper/vue/swiper-vue.js";
+
+// Import Swiper styles
+import "swiper/swiper.min.css";
+import "swiper/modules/navigation/navigation.min.css";
+import "swiper/modules/pagination/pagination.min.css";
+import "swiper/modules/scrollbar/scrollbar.min.css";
+import "swiper/modules/effect-coverflow/effect-coverflow.min.css";
+import "swiper/modules/hash-navigation/hash-navigation.min.css";
+import "swiper/modules/mousewheel/mousewheel.min.css";
 
 export default {
   name: "TeamDetail",
@@ -30,19 +99,22 @@ export default {
     teamObjs: {
       type: Array,
     },
-    asideWidth:{
-      type:Number,
-    }
+    asideWidth: {
+      type: Number,
+    },
   },
   data() {
     return {
+      modules: [Pagination, Scrollbar, A11y, EffectCoverflow, HashNavigation],
+      detailStatus: false,
       activeName: "1",
       // 被选中的课
       studentIDsChoose: [],
-      ganttOption:{
+      voteStudent:"",
+      ganttOption: {
         chart: {
           type: "xrange",
-          width:200,
+          width: 200,
         },
         title: {
           text: "",
@@ -110,34 +182,78 @@ export default {
             },
           },
         ],
-    }
+      },
     };
   },
   computed: {
     searchLeader() {
-      return this.focusTeamObj.leaderId;
-    },
-
-  },
-  beforeMount(){
-      var taskList = this.focusTeamObj.taskList;
-      var contextList = [];
-      var taskDataList = [];
-      for (let index = 0; index < taskList.length; index++) {
-        contextList.push(taskList[index].context)
-        var taskData = new Object();
-        taskData.x = taskList[index].startTime;
-        taskData.x2 = taskList[index].deadline;
-        taskData.y = index;
-        taskDataList.push(taskData);
+      if (this.focusTeamObj.leaderId != null) {
+        return this.focusTeamObj.leaderId;
+      } else {
+        return "<span style='color:red'>No selected leader</span>";
       }
-      this.ganttOption.series[0].data = taskDataList;
-      this.ganttOption.yAxis.categories = contextList;
-      this.ganttOption.chart.width = this.asideWidth-160;
+    },
+  },
+  methods: {
+    getVoteStudent(voteStudent){
+      this.voteStudent = voteStudent;
+    },
+    onSwiper(swiper) {
+      console.log(swiper);
+    },
+    onSlideChange(swiper) {
+      var warningMessage = {};
+      var infoMessage = {};
+      if (swiper.activeIndex == 1) {
+        //在vote上
+        if (this.voteStudent != "") {
+          warningMessage = this.$notify({
+            type: "warning",
+            message: "Your have vote " + this.voteStudent,
+            duration: 10000,
+            position: "top-left"
+          });
+        }else{
+          infoMessage = this.$notify({
+            type: "info",
+            message: "Your haven't vote",
+            duration: 10000,
+            position: "top-left"
+          })
+        }
+      }else if(swiper.activeIndex == 0){
+        console.log("关闭message");
+        this.$notify.closeAll();
+      }
+    },
+    seeDetail() {
+      this.$emit("see-detail");
+      this.detailStatus = !this.detailStatus;
+    },
+  },
+  created() {
+    var taskList = this.focusTeamObj.taskList;
+    var contextList = [];
+    var taskDataList = [];
+    for (let index = 0; index < taskList.length; index++) {
+      contextList.push(taskList[index].context);
+      var taskData = new Object();
+      taskData.x = taskList[index].startTime;
+      taskData.x2 = taskList[index].deadline;
+      taskData.y = index;
+      taskDataList.push(taskData);
+    }
+    this.ganttOption.series[0].data = taskDataList;
+    this.ganttOption.yAxis.categories = contextList;
+    this.ganttOption.chart.width = this.asideWidth - 160;
   },
   components: {
     GanttChart,
-    GanttChartFrappe
+    GanttChartFrappe,
+    DataBoard,
+    Swiper,
+    SwiperSlide,
+    VotePage,
   },
 };
 </script>
@@ -145,10 +261,10 @@ export default {
 <style scoped>
 .scroll-bar-right {
   background: #e0e0e0;
-  margin-left: 60px;
-  margin-right: 60px;
-  margin-top: 50px;
-  margin-bottom: 50px;
+  margin-left: 30px;
+  margin-right: 30px;
+  margin-top: 40px;
+  margin-bottom: 30px;
   border-radius: 10px;
   overflow-x: hidden;
   overflow-y: auto;
@@ -158,13 +274,28 @@ export default {
   font-weight: 700;
   margin-left: 30px;
 }
+.scroll-bar-right > div span {
+  font-size: 20px;
+  font-weight: 700;
+  margin-left: 30px;
+}
 .btn-box {
-  width: 100%;
-  display: flex;
-  justify-content: center;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  margin-left: -7em;
+  width: 14em;
 }
 .team-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-left: 20px;
   margin-right: 20px;
+}
+</style>
+<style>
+.slide-page {
+  background: rgb(231, 120, 129);
 }
 </style>
