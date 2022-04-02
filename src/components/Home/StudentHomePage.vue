@@ -12,15 +12,13 @@
       <el-scrollbar :style="{ width: 100 + '%' }">
         <el-main>
           <!-- show your task haven't done  -->
-          <el-container :style="{ height: asideHeight + 'px' }">
-            <el-row style="width: 100%">
-              <el-col :span="20" :offset="2">
-                <un-completed-tasks
-                  :unCompletedTasks="unCompletedTasks"
-                ></un-completed-tasks>
-              </el-col>
-            </el-row>
-          </el-container>
+          <el-row style="width: 100%">
+            <el-col :span="20" :offset="2">
+              <un-completed-tasks
+                :unCompletedTasks="unCompletedTasks"
+              ></un-completed-tasks>
+            </el-col>
+          </el-row>
         </el-main>
       </el-scrollbar>
     </el-container>
@@ -168,7 +166,10 @@ export default {
             time.getMonth() + 1 < 10
               ? "0" + (time.getMonth() + 1)
               : time.getMonth() + 1;
-          var day = time.getDate();
+          var day =
+            time.getDate()< 10
+              ? "0" + (time.getDate())
+              : time.getDate();
           var dateString = year + "-" + month + "-" + day;
           UnCompletedTaskObj.deadline = dateString;
           UnCompletedTaskObj.cooperator =
@@ -186,33 +187,71 @@ export default {
         },
         method: "post",
         // baseURL: "http://localhost:8080/api/",
-      })
-        .then((response) => {
-          var completedTasksInject = response.data;
-          for (let index = 0; index < completedTasksInject.length; index++) {
-            var completedTaskObj = new Object();
-            // taskTitle taskContent taskTeamName progress
-            completedTaskObj.taskTitle = completedTasksInject[index].taskName;
-            completedTaskObj.taskContent = completedTasksInject[index].context;
-            for (let i = 0; i < this.$store.state.teams.length; i++) {
-              if (
-                this.$store.state.teams[i].teamId ==
-                completedTasksInject[index].teamId
-              ) {
-                completedTaskObj.taskTeamName = this.$store.state.teams[i].name;
-              }
+      }).then((response) => {
+        var completedTasksInject = response.data;
+        for (let index = 0; index < completedTasksInject.length; index++) {
+          var completedTaskObj = new Object();
+          // taskTitle taskContent taskTeamName progress
+          completedTaskObj.taskTitle = completedTasksInject[index].taskName;
+          completedTaskObj.taskContent = completedTasksInject[index].context;
+          for (let i = 0; i < this.$store.state.teams.length; i++) {
+            if (
+              this.$store.state.teams[i].teamId ==
+              completedTasksInject[index].teamId
+            ) {
+              completedTaskObj.taskTeamName = this.$store.state.teams[i].name;
             }
-            completedTaskObj.progress = 100;
-            this.completedTasks.push(completedTaskObj);
           }
-        })
+          completedTaskObj.progress = 100;
+          this.completedTasks.push(completedTaskObj);
+        }
+      });
     },
     injectUserInfo: function () {
       //用cookie先看看用户登录了没有，因为只有登录成功cookie才会有值
       var username = getCookie("studentId");
       console.log(username);
-      if (this.$route.params.id == username) {
-        //验证成功
+      if (this.$store.state.rememberCookie) {
+        if (this.$route.params.id == username) {
+          //验证成功
+          this.axios({
+            url: "/getStudentInfo",
+            data: {
+              studentId: this.$route.params.id,
+            },
+            method: "post",
+            // baseURL: "http://localhost:8080/api/",
+          })
+            .then((response) => {
+              var userInfoInject = response.data;
+              this.$store.commit(
+                "updateSignInStudentInfo",
+                userInfoInject.studentInfo
+              );
+              this.$store.commit(
+                "updateSignInStudentName",
+                userInfoInject.studentId
+              );
+              this.$store.commit(
+                "updateSignInStudentUserIcon",
+                userInfoInject.userIconSrc
+              );
+              this.$store.commit("selectRole", "student");
+            })
+            .then(() => {
+              //注入其他值
+              this.injectModule();
+              this.injectTeams();
+              this.injectUnCompletedTasks();
+              this.injectCompletedTasks();
+            });
+        } else {
+          //验证失败
+          //TODO - 没有cookie会有两种情况，一种是直接输入url一种是通过signin没选择remembercode登录需要区分
+          this.$router.push("/signin");
+        }
+      } else {
+        //无需验证
         this.axios({
           url: "/getStudentInfo",
           data: {
@@ -220,32 +259,30 @@ export default {
           },
           method: "post",
           // baseURL: "http://localhost:8080/api/",
-        }).then((response) => {
-          var userInfoInject = response.data;
-          this.$store.commit(
-            "updateSignInStudentInfo",
-            userInfoInject.studentInfo
-          );
-          this.$store.commit(
-            "updateSignInStudentName",
-            userInfoInject.studentId
-          );
-          this.$store.commit(
-            "updateSignInStudentUserIcon",
-            userInfoInject.userIconSrc
-          );
-          this.$store.commit("selectRole", "student");
-        }).then(() => {
-          //注入其他值
-          this.injectModule();
-          this.injectTeams();
-          this.injectUnCompletedTasks();
-          this.injectCompletedTasks();
-        });
-      } else {
-        //验证失败
-        //TODO - 没有cookie会有两种情况，一种是直接输入url一种是通过signin没选择remembercode登录需要区分
-        this.$router.push("/signin");
+        })
+          .then((response) => {
+            var userInfoInject = response.data;
+            this.$store.commit(
+              "updateSignInStudentInfo",
+              userInfoInject.studentInfo
+            );
+            this.$store.commit(
+              "updateSignInStudentName",
+              userInfoInject.studentId
+            );
+            this.$store.commit(
+              "updateSignInStudentUserIcon",
+              userInfoInject.userIconSrc
+            );
+            this.$store.commit("selectRole", "student");
+          })
+          .then(() => {
+            //注入其他值
+            this.injectModule();
+            this.injectTeams();
+            this.injectUnCompletedTasks();
+            this.injectCompletedTasks();
+          });
       }
     },
   },
@@ -258,7 +295,7 @@ export default {
     AsideCompletedTasks,
     UnCompletedTasks,
     StudentInfo,
-    StripToolbar
+    StripToolbar,
   },
   computed: {
     asideHeight() {

@@ -1,6 +1,6 @@
 <template>
   <div  class="x-bar">
-    <div :id="id" :option="option" style="width:100%"></div>
+    <div id="gantt" :option="option" style="width:100%"></div>
   </div>
 </template>
 
@@ -19,9 +19,8 @@ export default {
     width: {
       type: Number,
     },
-    id:{
-      type:String,
-      default:"ganttChart"
+    height:{
+      type: Number,
     },
     option:{
       type:Object,
@@ -29,12 +28,18 @@ export default {
     },
   },
   mounted(){
-    chart = Highcharts.chart(this.id, this.option);
+    this.$nextTick(() => {
+      chart = Highcharts.chart('gantt', this.option);
+      chart.setSize(this.width, this.height,true);
+    })
   },
   watch:{
     width(newValue,oldValue){
-      chart.setSize(newValue,undefined,true)
-    }
+      chart.setSize(newValue,this.height,true)
+    },
+    height(newValue,oldValue){
+      chart.setSize(this.width,newValue,true)
+    },
   }
 }
 </script>

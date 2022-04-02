@@ -25,7 +25,7 @@
 // import SwiperTest from "../../swiperTest/SwiperComponent.vue";
 import StripToolbar from "../toolbar/StripToolbar.vue";
 import TeamToolBar from "./TeamToolBar.vue"
-import {ElMessage} from "element-plus"
+import {ElNotification} from "element-plus"
 
 
 export default {
@@ -62,7 +62,7 @@ export default {
     },
     closeDetail(){
       this.isDetail = false;
-      this.$message.closeAll();
+      this.$notify.closeAll();
     },
     selectTeam: function (teacherIds) {
       //NOTE 检查级联选择器的值

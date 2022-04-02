@@ -159,6 +159,7 @@ export default {
   },
   methods: {
     adaptUserData() {
+      this.$store.commit("updateRememberCookie", this.rememberCode);
       if (this.role[0] == "/student") {
         return qs.stringify({
           studentId: this.form.username,

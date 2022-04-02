@@ -2,13 +2,26 @@
   <el-card class="box-card">
     <template #header>
       <div class="card-header">
-        <div>
-          <p class="task-name">{{ unCompletedTaskName }}</p>
-          <p class="team-name">{{ teamName }}</p>
-        </div>
-        <div class="date-box">
-          <date-shower :date="deadline.replace(/-/g, '')"></date-shower>
-        </div>
+        <el-row>
+          <el-col :span="12"
+            ><p class="task-name"></p></el-col
+          >
+          <el-col :span="12"
+            ><p class="team-name">{{ teamName }}</p></el-col
+          >
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p style="margin:0px;">{{ unCompletedTaskName }} Task Deadline</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="date-box">
+              <date-shower
+                :date="deadline.replace(/-/g, '')"
+              ></date-shower></div
+          ></el-col>
+        </el-row>
+        <div></div>
       </div>
     </template>
     <div class="card-body">
@@ -153,7 +166,7 @@ export default {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  flex-wrap: wrap;
+  flex-direction: column;
 }
 .task-name {
   color: #242424;
@@ -172,9 +185,8 @@ export default {
   box-shadow: 0px 0px 5px #888888;
   margin-top: 30px;
   width: 100%;
-  
 }
-.box-card{
+.box-card {
   background: rgba(100, 100, 100, 0.3);
 }
 </style>

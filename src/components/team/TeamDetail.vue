@@ -2,7 +2,7 @@
   <div class="scroll-bar-right" :style="{ height: asideHeight - 100 + 'px' }">
     <div :style="{ height: asideHeight - 140 + 'px', padding: 20 + 'px' }">
       <swiper
-        :effect="'coverflow'"
+        :effect="'cube'"
         :enabled="detailStatus"
         :modules="modules"
         :slides-per-view="1"
@@ -23,9 +23,9 @@
             <div class="student-box"></div>
             <div class="team-box">
               <gantt-chart
-                :id="'gantt'"
                 :option="ganttOption"
                 :width="asideWidth - 160"
+                :height="asideHeight - 196"
               ></gantt-chart>
               <!-- <gantt-chart-frappe></gantt-chart-frappe> -->
             </div>
@@ -33,13 +33,29 @@
         </swiper-slide>
         <swiper-slide data-hash="vote">
           <el-scrollbar :wrap-class="'slide-page'" :height="asideHeight - 140">
-            <p>Vote Center</p>
+            <div class="vote-header">
+              <p>Vote Center</p>
+            </div>
             <div class="member-box">
               <vote-page
                 :teamId="focusTeamObj.teamId"
                 :focusTeam="focusTeamObj"
                 @voted="getVoteStudent"
+                :height="asideHeight-220"
               ></vote-page>
+            </div>
+          </el-scrollbar>
+        </swiper-slide>
+        <swiper-slide data-hash="task">
+          <el-scrollbar :wrap-class="'slide-page'" :height="asideHeight - 140">
+            <div class="task-header">
+              <p>task Center</p>
+              <el-button type="primary" @click="isCreateTask = !isCreateTask">
+                <div><i class="fa fa-tasks"></i><span style="font-weight: 300;margin-left: 10px;">create task</span></div>
+              </el-button>
+            </div>
+            <div class="task-box">
+              <task-page :team-id="focusTeamObj.teamId" :is-create-task="isCreateTask" :height="asideHeight-196" :tasks="focusTeamObj.taskList"></task-page>
             </div>
           </el-scrollbar>
         </swiper-slide>
@@ -59,12 +75,13 @@
 </template>
 
 <script>
-import { ElNotification  } from "element-plus";
+import { ElNotification } from "element-plus";
 
 import GanttChart from "./GanttChart.vue";
-import GanttChartFrappe from "./GanttChartFrappe.vue";
 import { DataBoard } from "@element-plus/icons-vue";
 import VotePage from "./vote/VotePage.vue";
+import TaskPage from "@/components/team/task/TaskPage";
+import qs from "qs";
 
 import {
   Navigation,
@@ -72,7 +89,7 @@ import {
   Scrollbar,
   A11y,
   HashNavigation,
-  EffectCoverflow,
+  EffectCube,
 } from "swiper";
 
 // Import Swiper Vue.js components
@@ -83,9 +100,8 @@ import "swiper/swiper.min.css";
 import "swiper/modules/navigation/navigation.min.css";
 import "swiper/modules/pagination/pagination.min.css";
 import "swiper/modules/scrollbar/scrollbar.min.css";
-import "swiper/modules/effect-coverflow/effect-coverflow.min.css";
+import "swiper/modules/effect-cube/effect-cube.min.css";
 import "swiper/modules/hash-navigation/hash-navigation.min.css";
-import "swiper/modules/mousewheel/mousewheel.min.css";
 
 export default {
   name: "TeamDetail",
@@ -102,15 +118,20 @@ export default {
     asideWidth: {
       type: Number,
     },
+    asideHeight: {
+      type: Number,
+    },
   },
   data() {
     return {
-      modules: [Pagination, Scrollbar, A11y, EffectCoverflow, HashNavigation],
+      modules: [Pagination, Scrollbar, A11y, EffectCube, HashNavigation],
       detailStatus: false,
       activeName: "1",
       // 被选中的课
       studentIDsChoose: [],
-      voteStudent:"",
+      voteStudent: "",
+      //task page是否是create状态
+      isCreateTask: false,
       ganttOption: {
         chart: {
           type: "xrange",
@@ -195,7 +216,7 @@ export default {
     },
   },
   methods: {
-    getVoteStudent(voteStudent){
+    getVoteStudent(voteStudent) {
       this.voteStudent = voteStudent;
     },
     onSwiper(swiper) {
@@ -209,19 +230,19 @@ export default {
         if (this.voteStudent != "") {
           warningMessage = this.$notify({
             type: "warning",
-            message: "Your have vote " + this.voteStudent,
+            message: "You have vote " + this.voteStudent,
             duration: 10000,
-            position: "top-left"
+            position: "top-left",
           });
-        }else{
+        } else {
           infoMessage = this.$notify({
             type: "info",
-            message: "Your haven't vote",
+            message: "You haven't vote",
             duration: 10000,
-            position: "top-left"
-          })
+            position: "top-left",
+          });
         }
-      }else if(swiper.activeIndex == 0){
+      } else if (swiper.activeIndex == 0) {
         console.log("关闭message");
         this.$notify.closeAll();
       }
@@ -249,11 +270,11 @@ export default {
   },
   components: {
     GanttChart,
-    GanttChartFrappe,
     DataBoard,
     Swiper,
     SwiperSlide,
     VotePage,
+    TaskPage
   },
 };
 </script>
@@ -292,6 +313,20 @@ export default {
   align-items: center;
   margin-left: 20px;
   margin-right: 20px;
+}
+.vote-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px;
+  margin-left: 0;
+}
+.task-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px;
+  margin-left: 0;
 }
 </style>
 <style>

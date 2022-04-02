@@ -11,6 +11,7 @@ import StudentModule from '../components/Module/Student/StudentModule'
 import ModulePage from '../components/Module/modulePage/ModulePage.vue'
 import TeamHome from '../components/team/TeamHome.vue'
 import VotePage from '../components/team/vote/VotePage.vue'
+import Chat from '../views/Chat.vue'
 
 const routes = [
   {
@@ -27,6 +28,11 @@ const routes = [
         path: 'module',
         name: 'StudentModule',
         component: StudentModule,
+      },
+      {
+        path: 'chat',
+        name: 'Chat',
+        component: Chat
       },
       {
         path: 'team',

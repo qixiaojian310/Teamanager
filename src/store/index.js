@@ -96,34 +96,6 @@ export default createStore({
         //NOTE signInStudentModule接口 Interface moduleName moduleId teacher students teamIds teamNum moduleSize
       ],
       signInTeacherModule: [
-        // {
-        //   moduleId: 1,
-        //   moduleName: "Module 1",
-        //   teacherId: 1,
-        //   studentIdList: [1, 2, 3, 4, 5, 6, 7],
-        //   teamIds: [1, 2, 3],
-        // },
-        // {
-        //   moduleId: 3,
-        //   moduleName: "Module 3",
-        //   teacherId: 1,
-        //   studentIdList: [1, 2, 3, 4, 5, 6, 7],
-        //   teamIds: [1, 2, 3],
-        // },
-        // {
-        //   moduleId: 6,
-        //   moduleName: "Module 6",
-        //   teacherId: 1,
-        //   studentIdList: [1, 2, 3, 4, 5, 6, 7],
-        //   teamIds: [1, 2, 3],
-        // },
-        // {
-        //   moduleId: 7,
-        //   moduleName: "Module 7",
-        //   teacherId: 1,
-        //   studentIdList: [1, 2, 3, 4, 5, 6, 7],
-        //   teamIds: [1, 2, 3],
-        // },
       ],
       //TODO need fix
       signInTeacher: {
@@ -134,7 +106,8 @@ export default createStore({
         info:"",
         userIconSrc:""
       },
-      role:""
+      role:"",
+      rememberCookie:true,
     }
   },
   getters: {},
@@ -190,6 +163,9 @@ export default createStore({
           }
         }
       }
+    },
+    updateRememberCookie(state,rememberCookie){
+      state.rememberCookie = rememberCookie;
     }
   },
   actions: {},
