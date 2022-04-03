@@ -66,4 +66,15 @@ public class TeamController {
         return studentTeamService.getOneVoteStudent(teamId,studentId);
     }
 
+    @RequestMapping(value = "/createTask",method = RequestMethod.POST)
+    @ResponseBody
+    public String createTask(@RequestParam(value = "teamId") Integer teamId,@RequestParam(value = "context") String taskContext,@RequestParam(value = "taskName") String taskName, @RequestParam(value = "deadline") long deadline, @RequestParam(value = "startTime") long startTime, @RequestParam(value = "studentId") String studentId){
+        Integer taskId = studentTeamService.createTask(teamId,taskContext,taskName,deadline,startTime,studentId);
+        if (taskId>0){
+            return "create";
+        }else {
+            return "failed";
+        }
+    }
+
 }

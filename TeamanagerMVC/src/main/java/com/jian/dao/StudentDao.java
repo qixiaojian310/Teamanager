@@ -33,4 +33,10 @@ public interface StudentDao {
     public String getVoteName(String studentId,int teamId);
     //获取投票某个学生的总人数
     public Integer getVoteNumber(String studentId, int teamId);
+    //投票
+    public int voteLeader(Integer teamId,String identify, String voteLedaer);
+    //撤销投票
+    public int resetVote(Integer teamId,String identify);
+
+    public int updateLeader(Integer teamId, String leaderId);
 }

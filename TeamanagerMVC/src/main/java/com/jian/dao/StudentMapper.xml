@@ -83,4 +83,25 @@
         </set>
         where student_id= #{arg2}
     </update>
+    <update id="voteLeader">
+        update student_team_link
+        <set>
+            vote_leader = #{arg2}
+        </set>
+        where team_id = #{arg0} and student_id = #{arg1}
+    </update>
+    <update id="resetVote">
+        update student_team_link
+        <set>
+            vote_leader = ""
+        </set>
+        where team_id = #{arg0} and student_id = #{arg1}
+    </update>
+    <update id="updateLeader">
+        update team
+        <set>
+            leader_id = #{arg1}
+        </set>
+        where team_id = #{arg0}
+    </update>
 </mapper>

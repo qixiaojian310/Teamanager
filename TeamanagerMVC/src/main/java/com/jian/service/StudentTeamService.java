@@ -29,4 +29,13 @@ public interface StudentTeamService {
 
     //获取某个用户的投票情况
     public String getOneVoteStudent(Integer teamId, String studentId);
+
+    //投票
+    public boolean voteLeader(Integer teamId, String identify, String voteLeader);
+    //撤销投票
+    public boolean resetVote(Integer teamId, String identify);
+
+    public boolean updateLeader(Integer teamId, String leader);
+
+    public Integer createTask(Integer teamId, String taskContext, String taskName, long deadline, long startTime, String studentId);
 }

@@ -165,6 +165,40 @@ public class StudentController {
         }
     }
 
+    @RequestMapping(value = "/voteLeader",method = RequestMethod.POST)
+    @ResponseBody
+    public boolean voteLeader(@RequestParam("teamId") Integer teamId, @RequestParam("identify") String identify, @RequestParam("voteStu") String voteStudent){
+        try {
+            return studentTeamService.voteLeader(teamId, identify, voteStudent);
+        } catch (Exception e){
+            System.out.println("duplicate vote leader");
+            return false;
+        }
+    }
+
+    @RequestMapping(value = "/resetVote", method = RequestMethod.POST)
+    @ResponseBody
+    public boolean resetVote(@RequestParam("teamId") Integer teamId, @RequestParam("identify") String identify){
+        try{
+            return studentTeamService.resetVote(teamId, identify);
+        }catch (Exception e){
+            System.out.println("duplicate vote leader");
+            return false;
+        }
+    }
+
+    //更新leader
+    @RequestMapping(value = "/updateLeader", method = RequestMethod.POST)
+    @ResponseBody
+    public boolean updateLeader(@RequestParam("teamId") Integer teamId, @RequestParam("leader") String leader){
+        try{
+            return studentTeamService.updateLeader(teamId, leader);
+        }catch (Exception e){
+            System.out.println("duplicate vote leader");
+            return false;
+        }
+    }
+
 //    @RequestMapping(value = "getStudent",method = RequestMethod.POST)
 //    @ResponseBody
 //    public Student getStudent(@RequestParam("studentId") String studentId){

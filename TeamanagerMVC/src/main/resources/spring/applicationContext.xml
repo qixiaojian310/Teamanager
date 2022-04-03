@@ -9,4 +9,6 @@
     <import resource="classpath:spring/springmvc-filter.xml" />
     <import resource="classpath:spring/springmvc-dao.xml" />
     <import resource="classpath:spring/springmvc-service.xml" />
+    <import resource="classpath:spring/springmvc-config.xml" />
+<!--    <import resource="classpath:spring/springmvc-websocket.xml" />-->
 </beans>

@@ -3,7 +3,7 @@ package com.jian.pojo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 

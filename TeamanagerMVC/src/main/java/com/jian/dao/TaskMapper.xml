@@ -30,15 +30,12 @@
         <result property="userIconSrc" column="user_icon_src" />
     </resultMap>
 
-    <insert id="addTask" parameterType="com.jian.pojo.Task">
-        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="taskId">
-            SELECT LAST_INSERT_ID()
-        </selectKey>
-        insert into task(content, deadline, team_id, task_name) values  (#{context},#{deadline},#{teamId},#{taskName})
+    <insert id="addTask" parameterType="com.jian.pojo.Task" useGeneratedKeys="true" keyColumn="task_id" keyProperty="taskId">
+        insert into task(content, deadline, team_id, task_name, start_time, completed) values (#{context},#{deadline},#{teamId},#{taskName},#{startTime},#{completed})
     </insert>
 
     <insert id="addTaskStudent" >
-        insert into task_student_link(student_id, task_id, progress) values  (#{studentId},#{taskId},0)
+        insert into task_student_link(student_id, task_id, progress) values  (#{arg1},#{arg0},0)
     </insert>
 
     <select id="getTaskProgress" resultType="java.lang.Integer">

@@ -27,6 +27,7 @@
         <mapper resource="com/jian/dao/TeacherMapper.xml" />
         <mapper resource="com/jian/dao/TeamMapper.xml" />
         <mapper resource="com/jian/dao/ModuleMapper.xml" />
+        <mapper resource="com/jian/dao/ChatMapper.xml" />
     </mappers>
 
 </configuration>

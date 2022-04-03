@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Service("studentTeamServiceImpl")
@@ -101,6 +98,7 @@ public class StudentTeamServiceImpl implements StudentTeamService{
         return teamList;
     }
 
+    //获取某个组的整个组对象
     public Team getTeamByTeamId(Integer teamId){
         Team team = teamDao.getTeamById(teamId);
         List<String> studentIds = teamDao.getTeammate(teamId);
@@ -157,6 +155,64 @@ public class StudentTeamServiceImpl implements StudentTeamService{
         }else {
             return null;
         }
+    }
+
+    //投票
+    @Override
+    public boolean voteLeader(Integer teamId, String identify, String voteLeader) {
+        int state = studentDao.voteLeader(teamId, identify, voteLeader);
+        if(state > 1){
+            return false;
+        }else if(state == 1){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean resetVote(Integer teamId, String identify){
+        System.out.println(teamId+"  "+identify);
+        int state = studentDao.resetVote(teamId, identify);
+        System.out.println("人数为"+state);
+        if(state > 1){
+            return false;
+        }else if (state == 1){
+            return true;
+        }else {
+            return false;
+        }
+
+    }
+
+
+    @Override
+    public boolean updateLeader(Integer teamId, String leaderId){
+        int state = studentDao.updateLeader(teamId, leaderId);
+        if(state > 1){
+            return false;
+        }else if (state == 1){
+            return true;
+        }else {
+            return false;
+        }
+
+    }
+
+    public Integer createTask(Integer teamId, String taskContext, String taskName, long deadline, long startTime,String studentId){
+        Task task = new Task();
+        task.setTeamId(teamId);
+        task.setTaskName(taskName);
+        task.setContext(taskContext);
+        Date deadlineDate = new Date(deadline);
+        Date startTimeDate = new Date(startTime);
+        task.setCompleted(false);
+        task.setDeadline(deadlineDate);
+        task.setStartTime(startTimeDate);
+        taskDao.addTask(task);
+        Integer taskId = task.getTaskId();
+        taskDao.addTaskStudent(taskId,studentId);
+        return taskId;
     }
 
 
