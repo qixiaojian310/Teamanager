@@ -118,9 +118,6 @@ export default {
     asideWidth: {
       type: Number,
     },
-    asideHeight: {
-      type: Number,
-    },
   },
   data() {
     return {

@@ -2,36 +2,28 @@
   <el-card class="box-card">
     <template #header>
       <div class="card-header">
-        <el-row>
+        <el-row style="width: 100%">
+          <el-col :span="12"><p class="task-name">Task name</p></el-col>
           <el-col :span="12"
-            ><p class="task-name"></p></el-col
-          >
-          <el-col :span="12"
-            ><p class="team-name">{{ teamName }}</p></el-col
+            ><p class="task-name">{{ unCompletedTaskName }}</p></el-col
           >
         </el-row>
-        <el-row>
-          <el-col :span="12">
-            <p style="margin:0px;">{{ unCompletedTaskName }} Task Deadline</p>
-          </el-col>
-          <el-col :span="12">
-            <div class="date-box">
-              <date-shower
-                :date="deadline.replace(/-/g, '')"
-              ></date-shower></div
-          ></el-col>
+        <el-row style="width:100%">
+            <el-col :span="12"><p class="team-name">Team name</p></el-col>
+            <el-col :span="12"><p class="team-name">{{teamName}}</p></el-col>
         </el-row>
         <div></div>
       </div>
     </template>
     <div class="card-body">
       <el-row class="card-body-content">
-        <el-col :xs="24" :sm="18" class="card-body-content-title">
-          <el-scrollbar class="no-scroll-thumb" :height="300">
-            <span>{{ unCompletedTaskContent }}</span>
-          </el-scrollbar>
-        </el-col>
-        <el-col :xs="24" :sm="6" class="card-body-content-cooperator">
+        <el-col :xs="24" :sm="12" class="card-body-content-title">
+          <div class="content-box">
+            <p>Task content</p>
+            <el-scrollbar class="no-scroll-thumb" :height="200">
+              <span>{{ unCompletedTaskContent }}</span>
+            </el-scrollbar>
+          </div>
           <!-- <768时的情况 -->
           <div v-if="widthLess768">
             <p style="height: 40px">Your Cooperator</p>
@@ -86,6 +78,45 @@
             </div>
           </div>
         </el-col>
+        <el-col :xs="24" :sm="12" class="card-body-content-cooperator">
+          <p>Time line</p>
+          <el-timeline>
+            <el-timeline-item
+              :color="'#0bbd87'"
+              :icon="startIcon"
+              :size="'large'"
+              :timestamp="startTime"
+              placement="top"
+            >
+              <el-card>
+                <template #header>
+                  <span>Start time</span>
+                </template>
+                <div class="date-box">
+                  <date-shower
+                    :date="startTime.replace(/-/g, '')"
+                  ></date-shower>
+                </div>
+              </el-card>
+            </el-timeline-item>
+            <el-timeline-item
+              :color="color"
+              :icon="icon"
+              :size="'large'"
+              :timestamp="deadline"
+              placement="top"
+            >
+              <el-card>
+                <template #header>
+                  <span>Deadline</span>
+                </template>
+                <div class="date-box">
+                  <date-shower :date="deadline.replace(/-/g, '')"></date-shower>
+                </div>
+              </el-card>
+            </el-timeline-item>
+          </el-timeline>
+        </el-col>
       </el-row>
     </div>
   </el-card>
@@ -109,6 +140,10 @@ export default {
     },
     cooperator: {
       type: Array,
+      required: true,
+    },
+    startTime: {
+      type: String,
       required: true,
     },
     deadline: {
@@ -187,7 +222,16 @@ export default {
   width: 100%;
 }
 .box-card {
-  background: rgba(100, 100, 100, 0.3);
+  background: rgba(236, 236, 236, 0.5);
+}
+.content-box {
+  height: 200px;
+}
+.el-timeline {
+  padding-left: 10px !important;
+}
+.el-timeline{
+  --el-timeline-node-color:#000 !important;
 }
 </style>
 

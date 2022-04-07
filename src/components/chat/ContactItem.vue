@@ -1,9 +1,9 @@
 <template>
-  <div class="contact-item">
+  <div class="contact-item" >
     <head-icon
-      :disabled="true"
-      :user-icon-src="userIconSrc"
+      :user-name="contactName"
       :user-icon-width="40"
+      :user-infor="contactInfo"
       :user-icon-height="40"
     ></head-icon>
     <div class="right">
@@ -31,6 +31,10 @@ export default {
       type: String,
       required: true
     },
+    contactInfo: {
+      type: String,
+      required: true
+    },
     contactDate: {
       type: String,
       required: true
@@ -53,7 +57,9 @@ export default {
   align-items: center;
   padding: 10px;
   background: #1b1b1b;  
-  height: 100px;  
+  height: 100px; 
+  box-sizing: border-box;
+  color: #fff;
 }
 .active{
   background: #0f0f0f;

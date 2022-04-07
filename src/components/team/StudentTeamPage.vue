@@ -47,6 +47,9 @@
         :aside-width="asideRightWidth"
         @see-detail="seeDetail"
       ></team-detail>
+      <router-view>
+        
+      </router-view>
     </el-aside>
   </el-container>
 </template>

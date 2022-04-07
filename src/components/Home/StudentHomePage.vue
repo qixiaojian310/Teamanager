@@ -9,8 +9,8 @@
       <student-info :signInStudentId="signInStudentId"></student-info>
     </el-aside>
     <el-container :style="{ height: asideHeight + 'px' }">
-      <el-scrollbar :style="{ width: 100 + '%' }">
-        <el-main>
+      <el-main>
+        <el-scrollbar :style="{ width: 100 + '%' }">
           <!-- show your task haven't done  -->
           <el-row style="width: 100%">
             <el-col :span="20" :offset="2">
@@ -19,8 +19,8 @@
               ></un-completed-tasks>
             </el-col>
           </el-row>
-        </el-main>
-      </el-scrollbar>
+        </el-scrollbar>
+      </el-main>
     </el-container>
     <el-aside
       :width="asideRightWidth + 'px'"
@@ -78,33 +78,49 @@ export default {
     };
   },
   methods: {
+    timeReverter(timestamp) {
+      var time = new Date(timestamp);
+      var year = time.getFullYear();
+      var month =
+        time.getMonth() + 1 < 10
+          ? "0" + (time.getMonth() + 1)
+          : time.getMonth() + 1;
+      var day = time.getDate() < 10 ? "0" + time.getDate() : time.getDate();
+      var dateString = year + "-" + month + "-" + day;
+      return dateString;
+    },
     //TODO - 该方法负责直接将所有的当前用户的所有组注入到vuex中
-    injectTeams: function () {
+    injectTeams() {
       this.axios({
         url: "/getAllTeam",
         data: {
           studentId: this.$store.state.signInStudent.name,
         },
         method: "post",
-      }).then((response) => {
-        var injectTeams = response.data;
-        this.$store.commit("clearTeams");
-        for (let index = 0; index < injectTeams.length; index++) {
-          var tempTeamObj = new Object();
-          tempTeamObj.name = injectTeams[index].teamName;
-          tempTeamObj.teamId = injectTeams[index].teamId;
-          tempTeamObj.leaderId = injectTeams[index].leaderId;
-          tempTeamObj.students = injectTeams[index].studentList;
-          tempTeamObj.available = injectTeams[index].available;
-          tempTeamObj.moduleId = injectTeams[index].moduleId;
-          tempTeamObj.taskList = injectTeams[index].taskList;
-          this.teamItems.push(tempTeamObj);
-          this.$store.state.teams.push(tempTeamObj);
-        }
-      });
+      })
+        .then((response) => {
+          var injectTeams = response.data;
+          this.$store.commit("clearTeams");
+          for (let index = 0; index < injectTeams.length; index++) {
+            var tempTeamObj = new Object();
+            tempTeamObj.name = injectTeams[index].teamName;
+            tempTeamObj.teamId = injectTeams[index].teamId;
+            tempTeamObj.leaderId = injectTeams[index].leaderId;
+            tempTeamObj.students = injectTeams[index].studentList;
+            tempTeamObj.available = injectTeams[index].available;
+            tempTeamObj.moduleId = injectTeams[index].moduleId;
+            tempTeamObj.taskList = injectTeams[index].taskList;
+            this.teamItems.push(tempTeamObj);
+            this.$store.state.teams.push(tempTeamObj);
+          }
+        })
+        .then(() => {
+          this.injectCompletedTasks();
+          this.injectUnCompletedTasks();
+        });
     },
     // TODO - 该方法负责直接将所有的当前用户的所有课程注入到vuex中
-    injectModule: function () {
+    injectModule() {
       this.axios({
         url: "/getAllModule",
         data: {
@@ -132,7 +148,7 @@ export default {
       });
     },
     //该方法负责初始化所有的uncompleted task
-    injectUnCompletedTasks: function () {
+    injectUnCompletedTasks() {
       this.axios({
         url: "/getUnCompletedTaskByStudentId",
         data: {
@@ -149,29 +165,18 @@ export default {
             UnCompletedTasksInject[index].taskName;
           UnCompletedTaskObj.unCompletedTaskContent =
             UnCompletedTasksInject[index].context;
-          for (let i = 0; i < this.$store.state.teams.length; i++) {
+          for (let i = 0; i < this.teamItems.length; i++) {
             if (
-              this.$store.state.teams[i].teamId ==
-              UnCompletedTasksInject[index].teamId
+              this.teamItems[i].teamId == UnCompletedTasksInject[index].teamId
             ) {
-              UnCompletedTaskObj.unCompletedTaskName =
-                this.$store.state.teams[i].name;
+              UnCompletedTaskObj.teamName = this.teamItems[i].name;
             }
           }
           UnCompletedTaskObj.progress = UnCompletedTasksInject[index].progress;
           var deadlineTimestamp = UnCompletedTasksInject[index].deadline;
-          var time = new Date(deadlineTimestamp);
-          var year = time.getFullYear();
-          var month =
-            time.getMonth() + 1 < 10
-              ? "0" + (time.getMonth() + 1)
-              : time.getMonth() + 1;
-          var day =
-            time.getDate()< 10
-              ? "0" + (time.getDate())
-              : time.getDate();
-          var dateString = year + "-" + month + "-" + day;
-          UnCompletedTaskObj.deadline = dateString;
+          var startTimeTimestamp = UnCompletedTasksInject[index].startTime;
+          UnCompletedTaskObj.deadline = this.timeReverter(deadlineTimestamp);
+          UnCompletedTaskObj.startTime = this.timeReverter(startTimeTimestamp);
           UnCompletedTaskObj.cooperator =
             UnCompletedTasksInject[index].studentList;
           this.unCompletedTasks.push(UnCompletedTaskObj);
@@ -179,7 +184,7 @@ export default {
       });
     },
     //该方法负责初始化所有的completed task
-    injectCompletedTasks: function () {
+    injectCompletedTasks() {
       this.axios({
         url: "/getCompletedTaskByStudentId",
         data: {
@@ -194,12 +199,11 @@ export default {
           // taskTitle taskContent taskTeamName progress
           completedTaskObj.taskTitle = completedTasksInject[index].taskName;
           completedTaskObj.taskContent = completedTasksInject[index].context;
-          for (let i = 0; i < this.$store.state.teams.length; i++) {
+          for (let i = 0; i < this.teamItems.length; i++) {
             if (
-              this.$store.state.teams[i].teamId ==
-              completedTasksInject[index].teamId
+              this.teamItems[i].teamId == completedTasksInject[index].teamId
             ) {
-              completedTaskObj.taskTeamName = this.$store.state.teams[i].name;
+              completedTaskObj.teamName = this.teamItems[i].name;
             }
           }
           completedTaskObj.progress = 100;
@@ -207,7 +211,7 @@ export default {
         }
       });
     },
-    injectUserInfo: function () {
+    injectUserInfo() {
       //用cookie先看看用户登录了没有，因为只有登录成功cookie才会有值
       var username = getCookie("studentId");
       console.log(username);
@@ -242,8 +246,8 @@ export default {
               //注入其他值
               this.injectModule();
               this.injectTeams();
-              this.injectUnCompletedTasks();
-              this.injectCompletedTasks();
+              // this.injectUnCompletedTasks();
+              // this.injectCompletedTasks();
             });
         } else {
           //验证失败
@@ -280,8 +284,6 @@ export default {
             //注入其他值
             this.injectModule();
             this.injectTeams();
-            this.injectUnCompletedTasks();
-            this.injectCompletedTasks();
           });
       }
     },
@@ -349,6 +351,7 @@ export default {
   margin-top: 30px;
   margin-bottom: 30px;
   padding-top: 20px;
+  padding: 10px;
   border-radius: 10px;
   overflow-x: hidden;
   overflow-y: auto;
@@ -381,7 +384,7 @@ export default {
   margin-left: 30px;
 }
 .el-main {
-  background: #9eb8d2;
+  background: #cbcbcb;
   color: black;
   font-size: large;
   background-size: 50px 50px, 50px 50px; /* grid size */

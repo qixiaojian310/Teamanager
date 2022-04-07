@@ -105,5 +105,6 @@ export default {
   flex-direction: column;
   height: 30%;
   justify-content: flex-end;
+  align-items: center;
 }
 </style>

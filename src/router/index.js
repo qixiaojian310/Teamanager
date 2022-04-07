@@ -31,7 +31,7 @@ const routes = [
       },
       {
         path: 'chat',
-        name: 'Chat',
+        name: 'studentChat',
         component: Chat
       },
       {
@@ -73,7 +73,12 @@ const routes = [
         path: 'module',
         name: 'TeacherModule',
         component: TeacherModule
-      }
+      },
+      {
+        path: 'chat',
+        name: 'teacherChat',
+        component: Chat
+      },
     ]
   },
   {

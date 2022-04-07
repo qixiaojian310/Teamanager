@@ -57,22 +57,33 @@ import AsideModules from "../Home/aside/AsideModules.vue";
 import AsideTeams from "../Home/aside/AsideTeams.vue";
 import AsideCompletedTasks from "../Home/aside/AsideCompletedTasks.vue";
 import UnCompletedTasks from "../Home/main/UnCompletedTasks.vue";
-import StripToolbar from "../toolbar/StripToolbar.vue"
+import StripToolbar from "../toolbar/StripToolbar.vue";
 import { getCookie } from "../../util/cookieUtil";
 import qs from "qs";
 
 export default {
   name: "TeacherHomePage",
-  created() {
+  mounted() {
     this.$store.commit("selectRole", "teacher");
     this.checkTeacherCookie();
   },
   methods: {
+    timeReverter(timestamp) {
+      var time = new Date(timestamp);
+      var year = time.getFullYear();
+      var month =
+        time.getMonth() + 1 < 10
+          ? "0" + (time.getMonth() + 1)
+          : time.getMonth() + 1;
+      var day = time.getDate() < 10 ? "0" + time.getDate() : time.getDate();
+      var dateString = year + "-" + month + "-" + day;
+      return dateString;
+    },
     checkTeacherCookie() {
       var teacherCookie = getCookie("teacherId");
       if (this.$route.params.id == teacherCookie) {
         //该用户已经登陆
-        this.$store.commit("updateSignInTeacherName",teacherCookie)
+        this.$store.commit("updateSignInTeacherName", teacherCookie);
         this.axios({
           url: "/teacher",
           method: "post",
@@ -81,18 +92,19 @@ export default {
             password: getCookie("teacherPassword"),
             rememberCode: true,
           }),
-          headers:{
-            'Content-Type': 'application/x-www-form-urlencoded'
-          }
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
         }).then((response) => {
           //执行注入的操作
           this.injectModule();
           this.injectTeams();
+        }).then(()=>{
           this.injectCompletedTasks();
           this.injectUnCompletedTasks();
         });
         return true;
-      }else{
+      } else {
         //该用户未登陆
         this.$router.push("/signin");
         return false;
@@ -174,21 +186,15 @@ export default {
               this.$store.state.teams[i].id ==
               UnCompletedTasksInject[index].teamId
             ) {
-              UnCompletedTaskObj.unCompletedTaskName =
+              UnCompletedTaskObj.teamName =
                 this.$store.state.teams[i].name;
             }
           }
           UnCompletedTaskObj.progress = UnCompletedTasksInject[index].progress;
           var deadlineTimestamp = UnCompletedTasksInject[index].deadline;
-          var time = new Date(deadlineTimestamp);
-          var year = time.getFullYear();
-          var month =
-            time.getMonth() + 1 < 10
-              ? "0" + (time.getMonth() + 1)
-              : time.getMonth() + 1;
-          var day = time.getDate();
-          var dateString = year + "-" + month + "-" + day;
-          UnCompletedTaskObj.deadline = dateString;
+          var startTimeTimestamp = UnCompletedTasksInject[index].startTime;
+          UnCompletedTaskObj.deadline = this.timeReverter(deadlineTimestamp);
+          UnCompletedTaskObj.startTime = this.timeReverter(startTimeTimestamp);
           UnCompletedTaskObj.cooperator =
             UnCompletedTasksInject[index].studentList;
           this.unCompletedTasks.push(UnCompletedTaskObj);
@@ -203,12 +209,9 @@ export default {
       // 左边放module的信息，右边放team的
       moduleItems: [],
       // 左边放module的信息，右边放team的
-      teamItems: [
-      ],
-      completedTasks: [
-      ],
-      unCompletedTasks: [
-      ],
+      teamItems: [],
+      completedTasks: [],
+      unCompletedTasks: [],
       signInStudentId: 1,
     };
   },
@@ -217,7 +220,7 @@ export default {
     AsideTeams,
     AsideCompletedTasks,
     UnCompletedTasks,
-    StripToolbar
+    StripToolbar,
   },
   computed: {
     asideHeight() {
@@ -283,7 +286,7 @@ export default {
   margin-left: 30px;
 }
 .el-main {
-  background: #9eb8d2;
+  background: #cbcbcb;
   color: black;
   font-size: large;
   background-size: 50px 50px, 50px 50px; /* grid size */

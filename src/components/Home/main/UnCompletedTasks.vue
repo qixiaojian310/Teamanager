@@ -8,8 +8,9 @@
       :unCompletedTaskContent="unCompletedTask.unCompletedTaskContent"
       :cooperator="unCompletedTask.cooperator"
       :deadline="unCompletedTask.deadline"
-      :teamName="unCompletedTask.unCompletedTaskTeamName"
+      :teamName="unCompletedTask.teamName"
       :progress="unCompletedTask.progress"
+      :startTime="unCompletedTask.startTime"
     >
     </un-completed-task-card>
   </div>
