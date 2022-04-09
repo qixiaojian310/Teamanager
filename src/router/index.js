@@ -35,17 +35,17 @@ const routes = [
         component: Chat
       },
       {
-        path: 'team',
-        name: 'TeamHome',
+        path: 'teamMain',
+        name: 'StudentTeamHome',
         component:TeamHome,
         children:[
           {
-            path: 'vote',
-            name: 'VotePage',
-            component: VotePage
+            path: '',
+            name: 'StudentTeams',
+            component: StudentTeamPage
           },
           {
-            path: '',
+            path: 'team/:teamId',
             name: 'StudentTeamPage',
             component: StudentTeamPage
           }
@@ -53,11 +53,10 @@ const routes = [
       },
       {
         path: 'module/:moduleId',
-        name: 'ModulePage',
-        component: ModulePage
+        name: 'StudentModulePage',
+        component: StudentModule
       }
     ]
-
   },
   {
     path: '/teacher/:id',
@@ -79,6 +78,11 @@ const routes = [
         name: 'teacherChat',
         component: Chat
       },
+      {
+        path: 'module/:moduleId',
+        name: 'TeacherModulePage',
+        component: TeacherModule
+      }
     ]
   },
   {

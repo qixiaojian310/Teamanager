@@ -2,7 +2,7 @@
   <div class="strip-toolbar">
     <div class="btn-top">
       <!-- team -->
-      <toolbar-icon :address="linkBase + '/team'">
+      <toolbar-icon :address="linkBase + '/teamMain'">
         <template #icon>
           <svg
             t="1646884960860"
@@ -85,6 +85,9 @@ export default {
     linkBase() {
       return "/" + this.$store.state.role + "/" + this.username;
     },
+    moduleLink(){
+      return this.$store.state.role=='student'?"StudentModulePage":"TeacherModulePage"
+    }
   },
 };
 </script>
@@ -92,7 +95,7 @@ export default {
 <style>
 .strip-toolbar {
   width: 4rem;
-  background-color: #df7599;
+  background-color: #39852e;
 }
 .btn-top {
   display: flex;

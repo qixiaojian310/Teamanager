@@ -49,11 +49,17 @@
           <close-bold></close-bold>
         </el-icon>
       </el-button>
+      <el-button class="refresh-btn" @click="setTeamObjs">
+        <el-icon :size="30" :color="'#ffffff'">
+          
+        </el-icon>
+      </el-button>
       <!-- NOTE - 会传入一个被点击的课程对象 -->
       <module-detail
         :focusModuleObj="focusModuleObj"
         :teamObjs="focusModuleTeams"
         :asideHeight="asideHeight"
+        @change-team="addTeamRefresh"
       ></module-detail>
     </el-aside>
   </el-container>
@@ -71,7 +77,21 @@ import qs from "qs";
 
 export default {
   name: "StudentModule",
+  mounted(){
+    this.getTeamUrl()
+  },
   methods: {
+    refreshModule(cardFocus){
+      this.setTeamObj(cardFocus)
+    },
+    getTeamUrl(){
+      var moduleFocusId = this.$route.params.moduleId
+      this.$store.state.signInStudentModule.forEach(element => {
+        if(element.moduleId == moduleFocusId){
+          this.focusModule(element)
+        }
+      });
+    },
     teacherObjsGet(showList) {
       var noRepeatTeachers = [];
       console.log("length" + noRepeatTeachers.length);
@@ -233,7 +253,7 @@ export default {
       loading: false,
       activeName: "1",
       // NOTE: 后端获取module所有人员使用id返回一个idList
-      moduleSearches: this.$store.state.signInStudentModule,
+      // moduleSearches: this.$store.state.signInStudentModule,
       cardFocusId: 0,
       cardFocusObj: {},
       focusModuleTeams: [],
@@ -244,6 +264,9 @@ export default {
     };
   },
   computed: {
+    moduleSearches() {
+      return this.$store.state.signInStudentModule;
+    },
     asideHeight() {
       return this.$store.state.windowSize.windowSizeHeight - 60;
     },

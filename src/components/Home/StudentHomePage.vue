@@ -339,7 +339,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(#df7599, #3994be);
+  background: #39852e;
 }
 .aside-box-left > div {
   height: 80%;
@@ -362,7 +362,7 @@ export default {
   margin-left: 30px;
 }
 .aside-box-right {
-  background: linear-gradient(#df7599, #3994be);
+  background: #515151;
   box-shadow: -1px 0px 7px #888888;
   overflow: hidden;
 }

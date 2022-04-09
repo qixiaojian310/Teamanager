@@ -83,7 +83,18 @@ import StripToolbar from '../../toolbar/StripToolbar.vue';
 
 export default {
   name: "TeacherModule",
+  mounted(){
+    this.getTeamUrl()
+  },
   methods: {
+    getTeamUrl(){
+      var moduleFocusId = this.$route.params.moduleId
+      this.$store.state.signInTeacherModule.forEach(element => {
+        if(element.moduleId == moduleFocusId){
+          this.focusModule(element)
+        }
+      });
+    },
     showList: function () {
       this.isCardBox = true;
       this.title = "Your Module";
@@ -340,7 +351,7 @@ export default {
   margin-left: 30px;
 }
 .aside-box-right {
-  background: linear-gradient(#df7599, #3994be);
+  background: #515151;
   box-shadow: -1px 0px 7px #888888;
   overflow: hidden;
   position: relative;

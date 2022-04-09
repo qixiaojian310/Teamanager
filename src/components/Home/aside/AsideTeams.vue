@@ -4,6 +4,7 @@
       v-for="teamItem in teamItems"
       :key="teamItem.index"
       :team-name="teamItem.name"
+      :team-id="teamItem.teamId"
     ></team-item>
   </ul>
 </template>

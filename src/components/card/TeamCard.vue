@@ -44,6 +44,12 @@ export default {
     focusTeam: function () {
       //返回具体点击了哪个课程
       this.$emit("focusTeam", this.teamSearche);
+      this.$router.push({
+        name:'StudentTeamPage',
+        params:{
+          teamId:this.teamSearche.teamId
+        }
+      })
     },
   },
   components: {

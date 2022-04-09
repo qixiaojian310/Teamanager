@@ -86,7 +86,8 @@
         ></path>
       </svg>
     </div>
-    <p>{{ teamName }}</p>
+    <router-link :to="routerLink" v-if="this.$store.state.role == 'student'">{{ teamName }}</router-link>
+    <p v-else>{{teamName}}</p>
   </li>
 </template>
 
@@ -98,7 +99,20 @@ export default {
       type: String,
       required: true,
     },
+    teamId:{
+      type:Number
+    }
   },
+  computed:{
+    routerLink(){
+      var linkObj = new Object();
+      linkObj.name = "StudentTeamPage"
+      linkObj.params = {
+        teamId:this.teamId
+      }
+      return linkObj
+    }
+  }
 };
 </script>
 

@@ -2,7 +2,6 @@
   <div class="scroll-bar-right" :style="{ height: asideHeight - 100 + 'px' }">
     <div :style="{ height: asideHeight - 140 + 'px', padding: 20 + 'px' }">
       <swiper
-        :effect="'cube'"
         :enabled="detailStatus"
         :modules="modules"
         :slides-per-view="1"

@@ -4,13 +4,13 @@
     <!-- 下首先应该有总览，上会出现各种排序方式加一个搜索框，右边是搜索结果
     下有加入，上面有搜素框，右边是搜索结果 -->
     <div class="toolbar-list">
-      <sign-input-item
+      <!-- <sign-input-item
         :name="'Search'"
         v-model:inputValue="SearchContent"
         :fontSize="'1.2rem'"
         :backgroundColor="'#e6e1e1'"
         :inputHeight="2"
-      ></sign-input-item>
+      ></sign-input-item> -->
       <div v-if="isStudent" style="background-color: #fff">
         <el-cascader-panel
           placeholder="Try searching Guide"
@@ -52,9 +52,17 @@
       <div class="btn-box">
         <transition name="team-detail" mode="in-out">
           <div v-if="isDetail">
-            <button class="btn-all-team" @click="vote">
+            <button class="btn-all-team" @click="gantt">
+              <i class="fa fa-ticket"></i>
+              <span>Gantt chart</span>
+            </button>
+            <button class="btn-all-team" style="top:52px" @click="vote">
               <i class="fa fa-ticket"></i>
               <span>Vote</span>
+            </button>
+            <button class="btn-all-team" style="top:104px" @click="taskCenter">
+              <i class="fa fa-ticket"></i>
+              <span>Task</span>
             </button>
           </div>
           <div v-else class="hint-box">
@@ -112,6 +120,15 @@ export default {
     },
   },
   methods: {
+    vote(){
+      this.$emit('changeVote')
+    },
+    taskCenter(){
+      this.$emit('changeTaskCenter')
+    },
+    gantt(){
+      this.$emit('changeGantt')
+    },
     ensureChoice: function () {
       if (this.value.length == 0) {
         // 取消了选择，改为全选
@@ -146,7 +163,7 @@ export default {
   },
   mounted() {
     // 用路由信息判断是老师还是学生
-    if (this.$route.name == "StudentTeamPage") {
+    if (this.$route.name == "StudentTeams" || this.$route.name == 'StudentTeamPage') {
       this.isTeacher = false;
       this.isStudent = true;
     } else {

@@ -24,7 +24,7 @@
       </svg>
     </div>
 
-    <p>{{ moduleName }}</p>
+    <router-link :to="routerLink">{{ moduleName }}</router-link>
   </li>
 </template>
 
@@ -36,7 +36,20 @@ export default {
       type: String,
       required: true,
     },
+    moduleId:{
+      type:Number
+    }
   },
+  computed:{
+    routerLink(){
+      var linkObj = new Object();
+      linkObj.name = this.$store.state.role=='student'?"StudentModulePage":"TeacherModulePage"
+      linkObj.params = {
+        moduleId:this.moduleId
+      }
+      return linkObj
+    }
+  }
 };
 </script>
 

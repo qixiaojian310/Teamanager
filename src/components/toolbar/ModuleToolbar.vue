@@ -4,13 +4,13 @@
     <!-- 下首先应该有总览，上会出现各种排序方式加一个搜索框，右边是搜索结果
     下有加入，上面有搜素框，右边是搜索结果 -->
     <div class="toolbar-list">
-      <sign-input-item
+      <!-- <sign-input-item
         :name="'Search'"
         v-model:inputValue="SearchContent"
         :fontSize="'1.2rem'"
         :backgroundColor="'#e6e1e1'"
         :inputHeight="2"
-      ></sign-input-item>
+      ></sign-input-item> -->
       <div v-if="isStudent">
         <el-cascader
           placeholder="Try searchingL Guide"
@@ -105,7 +105,7 @@ export default {
   },
   mounted() {
     // 用路由信息判断是老师还是学生
-    if (this.$route.name == "StudentModule") {
+    if (this.$route.name == "StudentModulePage" || this.$route.name == "StudentModule") {
       this.isTeacher = false;
       this.isStudent = true;
     } else {

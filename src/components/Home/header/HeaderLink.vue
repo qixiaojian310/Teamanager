@@ -32,7 +32,7 @@ export default {
 <style scoped>
 a {
   color: #000000;
-  background: #df7599;
+  background: #53BC43;
   text-decoration: none;
   text-align: center;
   text-decoration: none;
@@ -42,7 +42,7 @@ a {
 }
 a:hover {
   transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  background: #fac1d3;
+  background: #3a852f;
   color: #000000;
 }
 </style>

@@ -45,6 +45,7 @@
         :team-objs="focusModuleTeams"
         :aside-height="asideHeight"
         :aside-width="asideRightWidth"
+        :swiper-slide-index="swiperSlideIndex"
         @see-detail="seeDetail"
       ></team-detail>
       <router-view>
@@ -68,7 +69,18 @@ import qs from "qs";
 export default {
   // id leaderId name students
   name: "StudentTeamPage",
+  mounted(){
+    this.getTeamUrl();
+  },
   methods: {
+    getTeamUrl(){
+      var teamFocusId = this.$route.params.teamId
+      this.$store.state.teams.forEach(element => {
+        if(element.teamId == teamFocusId){
+          this.focusTeam(element)
+        }
+      });
+    },
     //该方法用来显示组的详细信息
     seeDetail() {
       this.$emit("see-detail");
@@ -148,6 +160,7 @@ export default {
       allTeam: [],
       //判断是不是在detail窗格内
       detailState: false,
+      swiperSlideIndex:0,
     };
   },
   computed: {
@@ -265,7 +278,7 @@ export default {
   margin-left: 30px;
 }
 .aside-box-right {
-  background: #fac1d3;
+  background: #515151;
   box-shadow: -1px 0px 7px #888888;
   overflow: hidden;
   position: absolute;

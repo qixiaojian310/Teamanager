@@ -4,6 +4,7 @@
       v-for="moduleItem in moduleItems"
       :key="moduleItem.index"
       :module-name="moduleItem.moduleName"
+      :module-id="moduleItem.moduleId"
     ></module-item>
   </ul>
 </template>

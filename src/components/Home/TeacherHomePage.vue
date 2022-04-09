@@ -42,12 +42,6 @@
         </el-container>
       </el-main>
     </el-container>
-    <el-aside
-      :width="asideRightWidth + 'px'"
-      class="aside-box-right hidden-md-and-down"
-      :style="{ height: asideHeight + 'px' }"
-    >
-    </el-aside>
   </el-container>
 </template>
 <script>
@@ -243,7 +237,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(#df7599, #3994be);
+  background: #39852e;
 }
 .aside-box-left > div {
   height: 95%;

@@ -43,7 +43,7 @@
               class="btn-submit sign-in-btn-submit"
               type="button"
               @click="submitForm"
-              value="Sign up your Team"
+              value="Sign in"
             />
             <el-checkbox border v-model="rememberCode">
               <i class="fa fa-unlock-alt"></i>
@@ -99,7 +99,7 @@
               class="btn-submit sign-in-btn-submit"
               type="button"
               @click="submitForm"
-              value="Sign up your Team"
+              value="Sign in"
             />
             <el-checkbox border v-model="rememberCode">
               <i class="fa fa-unlock-alt"></i>

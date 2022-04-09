@@ -8,7 +8,7 @@
         <div class="team-box">
           <!-- NOTE 警告用户已经加入组了 -->
           <div class="have-join-team-notify" v-if="haveJoinTeam">
-            <strong>WARRING</strong>
+            <strong>Have success</strong>
             <p>You have join the team in this module</p>
           </div>
           <el-collapse v-model="activeName" accordion>
@@ -125,26 +125,35 @@ export default {
             }
           )
             .then(({ value }) => {
-              //点到了一个空组上面
-              this.axios({
-                url: "/createTeam",
-                method: "post",
-                data: qs.stringify(
-                  {
-                    moduleId: this.focusModuleObj.moduleId,
-                    leaderId: this.$store.state.signInStudent.name,
-                    teamName: value,
-                  },
-                  { indices: false }
-                ),
-              }).then((res)=>{
-                //TODO 需要插入一个动态修改的功能，可以直接修改module detail里面的值
-                this.focusModuleObj.teamIds.push(res.data.teamId);
-                this.$store.commit("pushStudentTeams", res.data);
-              });
-              ElMessage({
-                type: "success",
-                message: `Your team name is:${value}`,
+              var teamName = value;
+              ElMessageBox.prompt("Enter your chat room name", "Tip", {
+                confirmButtonText: "OK",
+                cancelButtonText: "Cancel",
+              }).then(({ value }) => {
+                var chatRoomName = value;
+                //点到了一个空组上面
+                this.axios({
+                  url: "/createTeam",
+                  method: "post",
+                  data: qs.stringify(
+                    {
+                      moduleId: this.focusModuleObj.moduleId,
+                      leaderId: this.$store.state.signInStudent.name,
+                      teamName: teamName,
+                      chatRoomName: chatRoomName,
+                    },
+                    { indices: false }
+                  ),
+                }).then((res) => {
+                  //TODO 需要插入一个动态修改的功能，可以直接修改module detail里面的值
+                  this.focusModuleObj.teamIds.push(res.data.teamId);
+                  this.$store.commit("pushStudentTeams", res.data);
+                  this.$emit("changeTeam",res.data);
+                })
+                ElMessage({
+                  type: "success",
+                  message: `Your team name is:${value},Chat room name is:${chatRoomName}`,
+                });
               });
             })
             .catch(() => {
@@ -153,7 +162,7 @@ export default {
                 message: "Input canceled",
               });
             });
-        }else{
+        } else {
           //点到了一个已经存在的组上面
           this.axios({
             url: "/joinTeam",
@@ -165,7 +174,7 @@ export default {
               },
               { indices: false }
             ),
-          }).then((res)=>{
+          }).then((res) => {
             this.$store.commit("pushStudentTeams", res.data);
           });
         }
@@ -219,8 +228,8 @@ export default {
   align-items: center;
   font-size: 20px;
   color: rgb(0, 0, 0);
-  border-left: 5px solid #f56c6c;
-  background-color: #f56c6c41;
+  border-left: 5px solid #6cf5a7;
+  background-color: #6cf5a741;
   margin-bottom: 30px;
 }
 .scroll-bar-right {
