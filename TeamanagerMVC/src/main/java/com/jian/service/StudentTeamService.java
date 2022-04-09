@@ -16,7 +16,7 @@ public interface StudentTeamService {
     public Team getTeamByTeamId(Integer teamId);
 
     //学生加入一个空组
-    public Team createTeam(int moduleId, String leaderId, String teamName);
+    public Team createTeam(int moduleId, String leaderId, String teamName, String chatRoomName);
 
     //学生加入一个存在的组
     public Team joinTeam(int teamId, String studentId);

@@ -1,13 +1,7 @@
 package com.jian.service;
 
-import com.jian.dao.ModuleDao;
-import com.jian.dao.StudentDao;
-import com.jian.dao.TaskDao;
-import com.jian.dao.TeamDao;
-import com.jian.pojo.OutputTeamMemberData;
-import com.jian.pojo.Student;
-import com.jian.pojo.Task;
-import com.jian.pojo.Team;
+import com.jian.dao.*;
+import com.jian.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -33,6 +27,10 @@ public class StudentTeamServiceImpl implements StudentTeamService{
     @Autowired
     @Qualifier("moduleDao")
     private ModuleDao moduleDao;
+
+    @Autowired
+    @Qualifier("chatDao")
+    private ChatDao chatDao;
 
     public ModuleDao getModuleDao() {
         return moduleDao;
@@ -131,12 +129,22 @@ public class StudentTeamServiceImpl implements StudentTeamService{
     }
 
     @Override
-    public Team createTeam(int moduleId, String leaderId, String teamName) {
+    public Team createTeam(int moduleId, String leaderId, String teamName, String chatRoomName) {
         Team teamInject = new Team();
         teamInject.setLeaderId(leaderId);
         teamInject.setModuleId(moduleId);
         teamInject.setTeamName(teamName);
+
+        //先添加聊天室
+        ChatRoom chatRoomInject = new ChatRoom();
+        chatRoomInject.setChatRoomName(chatRoomName);
+        chatRoomInject.setTeacher(moduleDao.getTeacherByModuleId(moduleId));
+        chatDao.addChatRoom(chatRoomInject);
+        //获取chatRoomId
+        Integer chatRoomId = chatRoomInject.getChatRoomId();
+        teamInject.setChatRoomId(chatRoomId);
         teamDao.addTeam(teamInject);
+
         Integer teamId = teamInject.getTeamId();
         System.out.println("teamID"+teamId);
         if(teamDao.joinTeam(leaderId,teamId)){

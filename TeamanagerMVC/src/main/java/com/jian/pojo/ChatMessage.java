@@ -1,27 +1,49 @@
 package com.jian.pojo;
 
 
+import java.util.Date;
+
 public class ChatMessage {
 
-    private String sendName;
+    private String senderId;
+    private boolean studentState;
     private String message;
-    private String receiveName;
+    private Date sendTime;
+
 
     public ChatMessage() {
     }
 
-    public ChatMessage(String sendName, String message, String receiveName) {
-        this.sendName = sendName;
+    public ChatMessage(String senderId, boolean studentState, String message, Date sendTime) {
+        this.senderId = senderId;
+        this.studentState = studentState;
         this.message = message;
-        this.receiveName = receiveName;
+        this.sendTime = sendTime;
     }
 
-    public String getSendName() {
-        return sendName;
+    public Date getSendTime() {
+        return sendTime;
     }
 
-    public void setSendName(String sendName) {
-        this.sendName = sendName;
+    public void setSendTime(Date sendTime) {
+        this.sendTime = sendTime;
+    }
+
+    public String getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
+    }
+
+
+    public boolean isStudentState() {
+        return studentState;
+    }
+
+    public void setStudentState(boolean studentState) {
+        this.studentState = studentState;
     }
 
     public String getMessage() {
@@ -30,13 +52,5 @@ public class ChatMessage {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public String getReceiveName() {
-        return receiveName;
-    }
-
-    public void setReceiveName(String receiveName) {
-        this.receiveName = receiveName;
     }
 }

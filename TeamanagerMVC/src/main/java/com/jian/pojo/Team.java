@@ -18,6 +18,15 @@ public class Team {
     private List<Task> taskList;
     private String leaderId;
     private Integer teamSize;
+    private Integer chatRoomId;
+
+    public Integer getChatRoomId() {
+        return chatRoomId;
+    }
+
+    public void setChatRoomId(Integer chatRoomId) {
+        this.chatRoomId = chatRoomId;
+    }
 
     public List<Student> getStudentList() {
         return studentList;

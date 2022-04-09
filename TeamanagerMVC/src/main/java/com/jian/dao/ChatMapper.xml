@@ -3,7 +3,93 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jian.dao.ChatDao">
+    <insert id="addStudentChatMessage">
+        INSERT INTO chat_log(link_id, content, send_time)
+        VALUES ((select link_id from chat_room_member_link where student_id = #{arg0} and chat_room_id = #{arg1}),
+                #{arg2}, #{arg3})
+    </insert>
+    <!--    String teacherId, Integer chatRoomId, String message, Date sendTime-->
+    <insert id="addTeacherChatMessage">
+        INSERT INTO teacher_chat_log(content, send_time, chat_room_id)
+        VALUES (#{arg2}, #{arg3}, #{arg1})
+    </insert>
+    <insert id="addStudentToChatRoom">
+        INSERT INTO chat_room_member_link(chat_room_id, student_id)
+        VALUES (#{arg1}, #{arg0})
+    </insert>
+    <insert id="addChatRoom" useGeneratedKeys="true" keyProperty="chatRoomId" keyColumn="chat_room_id">
+        INSERT INTO chat_room(chat_room_name, teacher_id)
+        VALUES (#{chatRoomName}, #{teacher.teacherId})
+    </insert>
+    <!--    <insert id="addChatMessage">-->
+    <!--        INSERT INTO chat_log(,content,create_time)-->
+    <!--        VALUES(#{userId},#{content},#{createTime})-->
+    <!--    </insert>-->
     <!--    id就是方法名字-->
     <!--    Type是类型只有一个，Map是一个list-->
+
+    <select id="getAllChatRoomByStudentId" resultType="java.lang.Integer">
+        select chat_room_id
+        from chat_room_member_link
+        where student_id = #{studentId}
+    </select>
+    <select id="getStudentChatMessageByChatRoomId" resultMap="chatMessageStudentMap">
+        SELECT chat_log_id, chat_room_member_link.link_id, content, send_time, student_id
+        FROM chat_log
+                 INNER JOIN (chat_room INNER JOIN chat_room_member_link on chat_room.chat_room_id = chat_room_member_link.chat_room_id )
+                            on chat_room_member_link.link_id = chat_log.link_id
+        where chat_room.chat_room_id = #{chatRoomId};
+    </select>
+    <select id="getTeacherChatMessageByChatRoomId" resultMap="chatMessageTeacherMap">
+        select teacher_chat_log_id, content, teacher_id, send_time, teacher_chat_log.chat_room_id
+        from teacher_chat_log
+                 INNER JOIN chat_room cr on teacher_chat_log.chat_room_id = cr.chat_room_id
+        where cr.chat_room_id = #{chatRoomId}
+    </select>
+    <select id="getAllStudentsInChatRoom" resultType="java.lang.String">
+        select student_id
+        from chat_room_member_link
+        where chat_room_id = #{chatRoomId}
+    </select>
+    <select id="getTeacherInChatRoom" resultType="java.lang.String">
+        select teacher_id
+        from chat_room
+        where chat_room_id = #{chatRoomId}
+    </select>
+    <select id="getAllChatRoomByTeacherId" resultType="java.lang.Integer">
+        select chat_room_id
+        from chat_room
+        where teacher_id = #{teacherId}
+    </select>
+    <select id="getLinkIdInChatRoom" resultType="java.lang.Integer">
+        select link_id
+        from chat_room_member_link
+        where student_id = #{arg0}
+          and chat_room_id = #{arg1}
+    </select>
+    <select id="getChatRoomNameById" resultType="java.lang.String">
+        select chat_room_name
+        from chat_room
+        where chat_room_id = #{arg0}
+    </select>
+    <select id="getLastChatMessage" resultMap="chatMessageStudentMap">
+        select content, send_time, student_id
+        from chat_log INNER JOIN chat_room_member_link on chat_log.link_id = chat_room_member_link.link_id
+        where chat_log.link_id in
+              (select link_id from chat_room_member_link where student_id = #{arg0} and chat_room_id = #{arg1})
+        order by send_time desc
+        limit 1
+    </select>
+    <resultMap id="chatMessageStudentMap" type="com.jian.pojo.ChatMessage">
+        <id property="message" column="content"/>
+        <result property="senderId" column="student_id"/>
+        <result property="sendTime" column="send_time"/>
+    </resultMap>
+    <resultMap id="chatMessageTeacherMap" type="com.jian.pojo.ChatMessage">
+        <id property="message" column="content"/>
+        <result property="senderId" column="teacher_id"/>
+        <result property="sendTime" column="send_time"/>
+    </resultMap>
+
 
 </mapper>

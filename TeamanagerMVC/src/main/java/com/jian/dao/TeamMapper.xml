@@ -28,8 +28,8 @@
     </select>
 
     <insert id="addTeam" useGeneratedKeys="true" keyProperty="teamId" keyColumn="team_id">
-        insert into team(leader_id, module_id, team_name)
-        values (#{leaderId}, #{moduleId}, #{teamName})
+        insert into team(leader_id, module_id, team_name,chat_room_id)
+        values (#{leaderId}, #{moduleId}, #{teamName},#{chatRoomId})
     </insert>
     <insert id="joinTeam">
         insert into student_team_link(student_id, team_id) values (#{arg0},#{arg1})
@@ -52,6 +52,7 @@
         <result property="teamName" column="team_name"/>
         <result property="moduleId" column="module_id"/>
         <result property="leaderId" column="leader_id"/>
+        <result property="chatRoomId" column="chat_room_id"/>
     </resultMap>
 
     <select id="getTeammate" resultType="java.lang.String">

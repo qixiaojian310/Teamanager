@@ -141,8 +141,8 @@ public class StudentController {
 
     @RequestMapping(value = "createTeam",method = RequestMethod.POST)
     @ResponseBody
-    public Team createTeam(@RequestParam("moduleId") int moduleId,@RequestParam("leaderId") String leaderId, @RequestParam("teamName") String teamName){
-        Team res = studentTeamService.createTeam(moduleId,leaderId,teamName);
+    public Team createTeam(@RequestParam("moduleId") int moduleId,@RequestParam("leaderId") String leaderId, @RequestParam("teamName") String teamName,@RequestParam("chatRoomName") String chatRoomName){
+        Team res = studentTeamService.createTeam(moduleId,leaderId,teamName,chatRoomName);
         if(res == null){
             Team team = new Team();
             team.setTeamId(-1);
