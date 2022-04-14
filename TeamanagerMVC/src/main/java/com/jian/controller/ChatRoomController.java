@@ -55,4 +55,11 @@ public class ChatRoomController {
         return chatMessages;
     }
 
+    //加入聊天室
+    @RequestMapping("/joinChatRoom")
+    @ResponseBody
+    public Integer joinChatRoom(@RequestParam("studentId") String studentId,@RequestParam("chatRoomId") Integer chatRoomId){
+        return chatRoomService.joinChatRoom(studentId,chatRoomId);
+    }
+
 }

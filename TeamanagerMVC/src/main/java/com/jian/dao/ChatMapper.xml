@@ -80,6 +80,12 @@
         order by send_time desc
         limit 1
     </select>
+    <select id="isInChatRoom" resultType="java.lang.Integer">
+        select count(*)
+        from chat_room_member_link
+        where student_id = #{arg0}
+          and chat_room_id = #{arg1}
+    </select>
     <resultMap id="chatMessageStudentMap" type="com.jian.pojo.ChatMessage">
         <id property="message" column="content"/>
         <result property="senderId" column="student_id"/>

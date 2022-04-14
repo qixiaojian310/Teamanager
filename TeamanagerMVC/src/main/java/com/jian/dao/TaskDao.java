@@ -2,6 +2,7 @@ package com.jian.dao;
 
 
 import com.jian.pojo.Student;
+import com.jian.pojo.SubTask;
 import com.jian.pojo.Task;
 
 
@@ -20,6 +21,19 @@ public interface TaskDao {
     public Integer getTaskProgress(int taskId,String studentId);
     //得到当前任务平均进度
     public Integer getTaskProgressAvg(int taskId);
-
+    //判断当前学生是否有该任务
+    public Integer ensureStudentJoinTask(int taskId,String studentId);
+    //新建一个子任务
+    public Integer createSubTask(SubTask subTask);
+    //获取某个任务下的所有子任务
+    public List<SubTask> getAllSubTaskInTask(Integer taskId);
+    //删除子任务
+    public boolean deleteSubTask(Integer subTaskId);
+    //完成子任务
+    public boolean finishSubTask(Integer subTaskId);
+    //完成一个任务
+    public boolean finishTask(Integer taskId);
+    //让任务不再完成
+    public boolean cancelFinishTask(Integer taskId);
 
 }

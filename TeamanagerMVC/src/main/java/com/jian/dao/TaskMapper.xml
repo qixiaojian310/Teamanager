@@ -3,6 +3,19 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jian.dao.TaskDao">
+    <update id="finishSubTask">
+        UPDATE sub_task SET sub_task_completed = 1 WHERE sub_task_id = #{subTaskId}
+    </update>
+    <update id="finishTask">
+        UPDATE task SET completed = 1 WHERE task_id = #{taskId}
+    </update>
+    <delete id="deleteSubTask">
+        DELETE FROM sub_task
+        WHERE sub_task_id = #{subTaskId}
+    </delete>
+    <update id="cancelFinishTask">
+        UPDATE task SET completed = 0 WHERE task_id = #{taskId}
+    </update>
     <!--    id就是方法名字-->
     <!--    Type是类型只有一个，Map是一个list-->
 
@@ -37,6 +50,9 @@
     <insert id="addTaskStudent" >
         insert into task_student_link(student_id, task_id, progress) values  (#{arg1},#{arg0},0)
     </insert>
+    <insert id="createSubTask" parameterType="com.jian.pojo.SubTask" useGeneratedKeys="true" keyColumn="sub_task_id" keyProperty="subTaskId">
+        insert into sub_task(task_id, sub_task_content, sub_task_deadline, sub_task_start_time, sub_task_completed, sub_task_name) VALUES (#{taskId},#{content},#{deadline},#{startTime},0,#{taskName})
+    </insert>
 
     <select id="getTaskProgress" resultType="java.lang.Integer">
         select progress from task_student_link where student_id=#{arg1} and task_id=#{arg0}
@@ -44,4 +60,19 @@
     <select id="getTaskProgressAvg" resultType="java.lang.Integer">
         select AVG(progress) from task_student_link where task_id=#{taskId}
     </select>
+    <select id="ensureStudentJoinTask" resultType="java.lang.Integer">
+        select count(*) from task_student_link where task_id=#{arg0} and student_id=#{arg1}
+    </select>
+    <select id="getAllSubTaskInTask" resultMap="subTask">
+        select * from sub_task where task_id=#{taskId}
+    </select>
+    <resultMap id="subTask" type="com.jian.pojo.SubTask">
+        <id property="subTaskId" column="sub_task_id" />
+        <result property="taskName" column="sub_task_name" />
+        <result property="startTime" column="sub_task_start_time" />
+        <result property="deadline" column="sub_task_deadline" />
+        <result property="content" column="sub_task_content" />
+        <result property="completed" column="sub_task_completed" />
+        <result property="taskId" column="task_id" />
+    </resultMap>
 </mapper>

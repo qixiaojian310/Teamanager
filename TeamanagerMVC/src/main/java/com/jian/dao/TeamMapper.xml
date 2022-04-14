@@ -61,5 +61,8 @@
     <select id="getTeamNum" resultType="java.lang.Integer">
         select team_num from module where module_id = (select module_id from team where team_id = #{teamId})
     </select>
+    <select id="getAllTaskInTeam" resultType="java.lang.Integer">
+        select task_id from task where team_id = #{teamId}
+    </select>
 
 </mapper>

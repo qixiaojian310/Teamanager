@@ -77,4 +77,27 @@ public class TeamController {
         }
     }
 
+    //获取某个组中学生没有加入的所有的task
+    @RequestMapping(value = "/getAllTasksInTeam",method = RequestMethod.POST)
+    @ResponseBody
+    public List<Task> getAllTasksInTeam(@RequestParam(value = "teamId") Integer teamId,@RequestParam(value = "studentId") String studentId){
+        List<Task> taskList = studentTeamService.getAllTaskInTeams(teamId,studentId);
+        return taskList;
+    }
+
+    //获取某个组所有的学生已经加入的task
+    @RequestMapping(value = "/refreshTask",method = RequestMethod.POST)
+    @ResponseBody
+    public List<Task> refreshTask(@RequestParam(value = "teamId") Integer teamId,@RequestParam(value = "studentId") String studentId){
+        List<Task> taskList = studentTeamService.refreshTask(teamId,studentId);
+        return taskList;
+    }
+
+    //获取某个组所有的task
+    @RequestMapping(value = "/joinTask",method = RequestMethod.POST)
+    @ResponseBody
+    public boolean joinTask(@RequestParam(value = "taskId") Integer taskId,@RequestParam(value = "studentId") String studentId){
+        return studentTeamService.joinTask(taskId,studentId);
+    }
+
 }

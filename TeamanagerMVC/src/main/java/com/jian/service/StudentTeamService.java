@@ -1,9 +1,11 @@
 package com.jian.service;
 
 import com.jian.pojo.OutputTeamMemberData;
+import com.jian.pojo.SubTask;
+import com.jian.pojo.Task;
 import com.jian.pojo.Team;
-import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -38,4 +40,19 @@ public interface StudentTeamService {
     public boolean updateLeader(Integer teamId, String leader);
 
     public Integer createTask(Integer teamId, String taskContext, String taskName, long deadline, long startTime, String studentId);
+
+    public List<Task> getAllTaskInTeams(Integer teamId,String studentId);
+
+    //加入任务
+    public boolean joinTask(Integer taskId,String studentId);
+
+    public List<Task> refreshTask(Integer teamId, String studentId);
+    //创建子任务
+    public Integer createSubTask(Integer taskId, String content, String taskName, long deadline, long startTime);
+    //获取子任务
+    public List<SubTask> getSubTask(Integer taskId);
+    //删除子任务
+    public boolean deleteSubTask(Integer subTaskId);
+    //完成子任务
+    public boolean finishSubTask(Integer subTaskId);
 }

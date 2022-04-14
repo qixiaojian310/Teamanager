@@ -34,4 +34,6 @@ public interface ChatDao {
     public ChatMessage getLastChatMessage(String studentId,Integer chatRoomId);
     //
     public Integer addChatRoom(ChatRoom chatRoom);
+    //查询某个学生是否在聊天室中
+    public Integer isInChatRoom(String studentId,Integer chatRoomId);
 }

@@ -131,7 +131,6 @@ public class StudentTeamServiceImpl implements StudentTeamService{
     @Override
     public Team createTeam(int moduleId, String leaderId, String teamName, String chatRoomName) {
         Team teamInject = new Team();
-        teamInject.setLeaderId(leaderId);
         teamInject.setModuleId(moduleId);
         teamInject.setTeamName(teamName);
 
@@ -196,7 +195,12 @@ public class StudentTeamServiceImpl implements StudentTeamService{
 
     @Override
     public boolean updateLeader(Integer teamId, String leaderId){
-        int state = studentDao.updateLeader(teamId, leaderId);
+        int state = 0;
+        if (Objects.equals(leaderId, "")){
+            state = studentDao.updateLeader(teamId, null);
+        }else {
+            state = studentDao.updateLeader(teamId, leaderId);
+        }
         if(state > 1){
             return false;
         }else if (state == 1){
@@ -221,6 +225,82 @@ public class StudentTeamServiceImpl implements StudentTeamService{
         Integer taskId = task.getTaskId();
         taskDao.addTaskStudent(taskId,studentId);
         return taskId;
+    }
+
+    public List<Task> getAllTaskInTeams(Integer teamId,String studentId){
+        List<Integer> taskIds = teamDao.getAllTaskInTeam(teamId);
+        //获取当前用户已经加入的任务
+        List<Integer> taskIdForStudent = teamDao.getTask(teamId,studentId);
+        taskIds.removeAll(taskIdForStudent);
+        List<Task> taskList = new LinkedList<>();
+        for (Integer taskId : taskIds) {
+            Task task = taskDao.getTask(taskId);
+            task.setStudentList(taskDao.getStudentList(taskId));
+            taskList.add(task);
+        }
+        return taskList;
+    }
+
+    public boolean joinTask(Integer taskId,String studentId){
+        //先查询一下有没有已经加入task
+        int taskNum = taskDao.ensureStudentJoinTask(taskId,studentId);
+        if(taskNum==0){
+            taskDao.addTaskStudent(taskId,studentId);
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public List<Task> refreshTask(Integer teamId, String studentId) {
+        List<Integer> taskIdForStudent = teamDao.getTask(teamId,studentId);
+        List<Task> taskList = new LinkedList<>();
+        for (Integer taskId : taskIdForStudent) {
+            Task task = taskDao.getTask(taskId);
+            task.setStudentList(taskDao.getStudentList(taskId));
+            taskList.add(task);
+        }
+        return taskList;
+    }
+
+    @Override
+    public Integer createSubTask(Integer taskId, String content, String taskName, long deadline, long startTime) {
+        SubTask subTask = new SubTask();
+        subTask.setTaskId(taskId);
+        subTask.setTaskName(taskName);
+        subTask.setContent(content);
+        subTask.setDeadline(new Date(deadline));
+        subTask.setStartTime(new Date(startTime));
+        taskDao.createSubTask(subTask);
+        return subTask.getSubTaskId();
+    }
+
+    @Override
+    public List<SubTask> getSubTask(Integer taskId) {
+       List<SubTask> subTasks = taskDao.getAllSubTaskInTask(taskId);
+       boolean finishFlag = true;
+        for (SubTask subTask : subTasks) {
+            if(!subTask.isCompleted()){
+                finishFlag = false;
+                taskDao.cancelFinishTask(taskId);
+            }
+        }
+        if(finishFlag){
+            taskDao.finishTask(taskId);
+        }
+        return subTasks;
+
+    }
+
+    @Override
+    public boolean deleteSubTask(Integer subTaskId) {
+        return taskDao.deleteSubTask(subTaskId);
+    }
+
+    @Override
+    public boolean finishSubTask(Integer subTaskId) {
+        return taskDao.finishSubTask(subTaskId);
     }
 
 

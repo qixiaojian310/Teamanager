@@ -2,7 +2,6 @@ package com.jian.service;
 
 import com.jian.pojo.ChatMessage;
 import com.jian.pojo.Contact;
-import com.jian.pojo.Student;
 import com.jian.pojo.Teacher;
 
 import java.util.Date;
@@ -25,4 +24,5 @@ public interface ChatRoomService {
     //获取所有的聊天记录
     public List<ChatMessage> getAllMessage(Integer chatRoomId);
 
+    public Integer joinChatRoom(String studentId, Integer chatRoomId);
 }

@@ -5,13 +5,11 @@ import com.jian.dao.StudentDao;
 import com.jian.dao.TeacherDao;
 import com.jian.pojo.ChatMessage;
 import com.jian.pojo.Contact;
-import com.jian.pojo.Student;
 import com.jian.pojo.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -61,8 +59,12 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         for (String contactId : contactIds) {
             Contact contact = new Contact();
             contact.setStudent(studentDao.getStduentNoPwd(contactId));
-            contact.setContactDate(chatDao.getLastChatMessage(contactId, chatRoomId).getSendTime());
-            contact.setMessage(chatDao.getLastChatMessage(contactId, chatRoomId).getMessage());
+            try{
+                contact.setContactDate(chatDao.getLastChatMessage(contactId, chatRoomId).getSendTime());
+                contact.setMessage(chatDao.getLastChatMessage(contactId, chatRoomId).getMessage());
+            }catch (NullPointerException e){
+                System.out.println("没有聊天记录");
+            }
             contacts.add(contact);
         }
         return contacts;
@@ -128,6 +130,11 @@ public class ChatRoomServiceImpl implements ChatRoomService {
             }
         });
         return studentChatMessages;
+    }
+
+    @Override
+    public Integer joinChatRoom(String studentId, Integer chatRoomId) {
+        return chatDao.addStudentToChatRoom(studentId, chatRoomId);
     }
 
 

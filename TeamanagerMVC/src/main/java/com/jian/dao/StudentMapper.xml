@@ -100,7 +100,7 @@
     <update id="updateLeader">
         update team
         <set>
-            leader_id = #{arg1}
+            leader_id = #{arg1,jdbcType=VARCHAR}
         </set>
         where team_id = #{arg0}
     </update>

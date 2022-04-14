@@ -24,5 +24,7 @@ public interface TeamDao {
   public List<String> getTeammate(int teamId);
   //得到当前team的额定大小
   public Integer getTeamNum(int teamId);
+  //获取某个组所有的taskId
+  public List<Integer> getAllTaskInTeam(int teamId);
 
 }
