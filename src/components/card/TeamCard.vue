@@ -3,7 +3,7 @@
     <template #header>
       <div class="card-header">
         <div class="card-header-title">
-          <span>{{ teamSearche.name }}</span>
+          <span>{{ teamSearche.teamName }}</span>
         </div>
       </div>
     </template>

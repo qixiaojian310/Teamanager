@@ -126,11 +126,12 @@ export default {
         this.$store.commit("clearTeams");
         for (let index = 0; index < injectTeams.length; index++) {
           var tempTeamObj = new Object();
-          tempTeamObj.name = injectTeams[index].teamName;
+          tempTeamObj.teamName = injectTeams[index].teamName;
           tempTeamObj.id = injectTeams[index].teamId;
           tempTeamObj.leaderId = injectTeams[index].leaderId;
           tempTeamObj.students = injectTeams[index].studentList;
           tempTeamObj.available = injectTeams[index].available;
+          tempTeamObj.chatRoomId = injectTeams[index].chatRoomId;
           this.teamItems.push(tempTeamObj);
           this.$store.commit("pushTeacherTeams", tempTeamObj);
         }

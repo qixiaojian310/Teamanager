@@ -1,5 +1,5 @@
 <template>
-  <template v-if="focusTeam.students.length > 0">
+  <template v-if="focusTeam.studentList.length > 0">
     <el-button @click="resetVote" type="primary">
       <i class="fa fa-backward"></i>
       <span>Reset your vote</span>
@@ -8,10 +8,10 @@
     <p v-else>There is no leader</p>
     <el-container class="votes-box">
       <vote-card
-        v-for="student in injectVoteValueTeam.students"
+        v-for="student in injectVoteValueTeam.studentList"
         :key="student.studentId"
         :user="student"
-        :team-length="injectVoteValueTeam.students.length"
+        :team-length="injectVoteValueTeam.studentList.length"
         :have-vote="haveVote"
         :team-id="teamId"
         @vote-success="getVoteState"
@@ -22,7 +22,7 @@
   <template v-else>
     <div class="votes-box" :style="{ height: height + 'px' }">
       <div class="no-data">
-        <p>No task</p>
+        <p>No vote</p>
       </div>
     </div>
   </template>
@@ -65,11 +65,12 @@ export default {
       temp.studentId = "";
       temp.voteTicket = 0;
       if (newVal) {
-        for (var i = 0; i < this.injectVoteValueTeam.students.length; i++) {
+        for (var i = 0; i < this.injectVoteValueTeam.studentList.length; i++) {
           if (
-            this.injectVoteValueTeam.students[i].voteTicket >= temp.voteTicket
+            this.injectVoteValueTeam.studentList[i].voteTicket >=
+            temp.voteTicket
           ) {
-            temp = this.injectVoteValueTeam.students[i];
+            temp = this.injectVoteValueTeam.studentList[i];
             //修改leader
           }
         }
@@ -106,6 +107,42 @@ export default {
               duration: 10000,
               position: "top-left",
             });
+            //抛出修改事件
+            this.$emit("changeLeader", {
+              leaderId: temp.studentId,
+              teamId: this.teamId,
+            });
+          }
+        });
+      } else {
+        this.axios({
+          url: "/updateLeader",
+          method: "post",
+          data: qs.stringify({
+            teamId: this.teamId,
+            leader: null,
+          }),
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }).then((res) => {
+          if (!res.data) {
+            var errorMessage = this.$notify({
+              type: "error",
+              title: "Error",
+              message: "You leader reset have some problem",
+              duration: 10000,
+              position: "top-left",
+            });
+          } else {
+            var successMessage = this.$notify({
+              type: "success",
+              title: "Success",
+              message: "Your leader delete",
+              duration: 10000,
+              position: "top-left",
+            });
+            this.$emit("changeLeader", { leaderId: null, teamId: this.teamId });
           }
         });
       }
@@ -114,11 +151,11 @@ export default {
   methods: {
     voteFinishMethod() {
       var voteSum = 0;
-      for (var i = 0; i < this.injectVoteValueTeam.students.length; i++) {
-        voteSum += this.injectVoteValueTeam.students[i].voteTicket;
+      for (var i = 0; i < this.injectVoteValueTeam.studentList.length; i++) {
+        voteSum += this.injectVoteValueTeam.studentList[i].voteTicket;
       }
       console.log(voteSum + "voteSum");
-      if (this.injectVoteValueTeam.students.length == voteSum) {
+      if (this.injectVoteValueTeam.studentList.length == voteSum) {
         this.voteFinish = true;
         console.log("voteFinish" + true);
         return true;
@@ -185,7 +222,7 @@ export default {
     injectVoteValue(data) {
       var teamTemp = this.focusTeam;
       for (const key in data) {
-        var studentTemp = teamTemp.students.find(
+        var studentTemp = teamTemp.studentList.find(
           (student) => student.studentId == key
         );
         studentTemp.voteTicket = data[key].voteTicket;

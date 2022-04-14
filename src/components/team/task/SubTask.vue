@@ -1,10 +1,7 @@
 <template>
-  <el-card class="task-box">
+  <el-card class="sub-task-box">
     <template #header>
-      {{ task.taskName }}
-      <span @click="joinTask"> <slot name="join"> </slot></span>
-      <span @click="seeDetail"> <slot name="detail"> </slot></span>
-      <span @click="createSubtask"> <slot name="create"></slot> </span>
+      {{ subTask.taskName }}
     </template>
     <template #default>
       <el-scrollbar :height="340">
@@ -40,43 +37,20 @@
           </el-col>
         </el-row>
         <div>
-          <p>Task Content</p>
-          <p>{{ task.context }}</p>
+          <p>Subtask Content</p>
+          <p>{{ subTask.context }}</p>
         </div>
-        <div class="cooperator">
-          <p>Task cooperator</p>
-          <swiper
-            :modules="modules"
-            :enabled="detailStatus"
-            :slides-per-view="2"
-            :space-between="50"
-            :free-mode="true"
-            :scrollbar="{ draggable: true }"
-            :mousewheel="true"
+        <div>
+          <el-button type="success" @click="finishSubTask"
+            >Finish Subtask</el-button
           >
-            <swiper-slide
-              v-for="student in task.studentList"
-              :key="student.studentId"
-            >
-              <head-icon
-                :user-name="student.studentId"
-                :user-icon-src="student.userIconSrc"
-                :user-icon-width="50"
-                :user-icon-height="50"
-                :user-infor="student.studentInfo"
-              ></head-icon>
-            </swiper-slide>
-          </swiper>
+          <el-button type="danger" @click="deleteSubTask"
+            >Delete Subtask</el-button
+          >
         </div>
       </el-scrollbar>
     </template>
   </el-card>
-  <create-sub-task-page
-    :task="task"
-    :drawer-state="drawerState"
-    :calendar-state="calendarState"
-    @cancel="subtaskCreateCancel"
-  ></create-sub-task-page>
 </template>
 
 <script>
@@ -86,10 +60,7 @@ import {
   WarningFilled,
   ColdDrink,
 } from "@element-plus/icons-vue";
-import { Swiper, SwiperSlide } from "swiper/vue/swiper-vue.js";
-import { FreeMode, Scrollbar, Mousewheel } from "swiper";
-import HeadIcon from "@/components/HeadIcon";
-import CreateSubTaskPage from "@/components/team/task/CreateSubTaskPage";
+import HeadIcon from "../../HeadIcon.vue";
 
 import "swiper/modules/free-mode/free-mode.min.css";
 import "swiper/modules/scrollbar/scrollbar.min.css";
@@ -104,21 +75,15 @@ export default {
     CircleCheckFilled,
     CircleCloseFilled,
     WarningFilled,
-    Swiper,
-    SwiperSlide,
-    HeadIcon,
-    CreateSubTaskPage,
   },
   data() {
     return {
       startIcon: ColdDrink,
-      modules: [FreeMode, Scrollbar, Mousewheel],
-      drawerState: false,
     };
   },
   props: {
     // task completed icon startTime deadline taskContent
-    task: {
+    subTask: {
       type: Object,
       default: {},
     },
@@ -143,20 +108,20 @@ export default {
       }
     },
     deadline() {
-      return this.changeTimeFormat(this.task.deadline);
+      return this.changeTimeFormat(this.subTask.deadline);
     },
     startTime() {
-      return this.changeTimeFormat(this.task.startTime);
+      return this.changeTimeFormat(this.subTask.startTime);
     },
     completed() {
-      if (this.task.completed) {
+      if (this.subTask.completed) {
         //完成
         return "finished";
       } else {
         //未完成
         //TODO - 判断是否超时
         var todayTime = new Date().getTime();
-        if (todayTime > this.task.deadline) {
+        if (todayTime > this.subTask.deadline) {
           //超时
           return "missed";
         } else {
@@ -167,37 +132,52 @@ export default {
     },
   },
   methods: {
-    subtaskCreateCancel(){
-      this.drawerState = false
-      this.$emit('cancel')
-      this.$emit('refreshSubtask', this.task.taskId)
-    },
-    joinTask() {
+    finishSubTask() {
       this.axios({
         method: "post",
-        url: "/joinTask",
-        data: qs.stringify(
-          {
-            taskId: this.task.taskId,
-            studentId: this.$store.state.signInStudent.name,
-          },
-          { indices: false }
-        ),
-      }).then((res) => {
-        if (res.status == 200) {
-          this.$message.success("Join task success");
-        } else {
-          this.$message.error(res.data.msg);
+        url: "/finishSubTask",
+        data: qs.stringify({
+          subTaskId: this.subTask.subTaskId,
+        }),
+        headers:{
+          'Content-Type': 'application/x-www-form-urlencoded'
         }
-      });
+      })
+        .then((res) => {
+          if (res.status == 200) {
+            ElMessage.success("Finish Subtask Successfully");
+            this.$emit("finishSubTask",this.subTask.taskId);
+          } else {
+            ElMessage.error("error finish");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
-    createSubtask(){
-      this.drawerState = true
-      this.$emit("seeDetail", this.task.taskId);
-    },
-    seeDetail() {
-      // this.drawerState = true;
-      this.$emit("seeDetail", this.task.taskId);
+    //删除子任务
+    deleteSubTask() {
+      this.axios({
+        method: "post",
+        url: "/deleteSubTask",
+        data: qs.stringify({
+          subTaskId: this.subTask.subTaskId,
+        }),
+        headers:{
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then((res) => {
+          if (res.status == 200) {
+            ElMessage.success("Delete Subtask Successfully");
+            this.$emit("deleteSubTask",this.subTask.taskId);
+          } else {
+            ElMessage.error("error delete");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     changeTimeFormat(timestamp) {
       let _date = new Date(parseInt(timestamp));
@@ -208,7 +188,6 @@ export default {
       d = d < 10 ? "0" + d : d;
       // console.log( y + '-' + m + '-' + d + ' ' + '　' + h + ':' + minute + ':' + second)
       let dates = y + "-" + m + "-" + d;
-
       return dates;
     },
   },
@@ -216,7 +195,7 @@ export default {
 </script>
 
 <style scoped>
-.task-box {
+.sub-task-box {
   width: 300px;
   height: 400px;
   margin: 10px;

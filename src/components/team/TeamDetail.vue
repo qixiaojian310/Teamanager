@@ -15,11 +15,10 @@
         <swiper-slide data-hash="teamChart">
           <el-scrollbar :wrap-class="'slide-page'" :height="asideHeight - 140">
             <p>
-              Team name: <span>{{ focusTeamObj.name }}</span>
+              Team name: <span>{{ focusTeamObj.teamName }}</span>
             </p>
             <span class="teacher-name-big">Leader name:</span>
             <span v-html="searchLeader"></span>
-            <div class="student-box"></div>
             <div class="team-box">
               <gantt-chart
                 :option="ganttOption"
@@ -33,30 +32,52 @@
         <swiper-slide data-hash="vote">
           <el-scrollbar :wrap-class="'slide-page'" :height="asideHeight - 140">
             <div class="vote-header">
-              <p>Vote Center</p>
+              <p>{{ focusTeamObj.teamName }} Vote Center</p>
             </div>
             <div class="member-box">
               <vote-page
                 :teamId="focusTeamObj.teamId"
                 :focusTeam="focusTeamObj"
                 @voted="getVoteStudent"
-                :height="asideHeight-220"
+                :height="asideHeight - 220"
+                @change-leader="changeLeader"
               ></vote-page>
             </div>
           </el-scrollbar>
         </swiper-slide>
         <swiper-slide data-hash="task">
-          <el-scrollbar :wrap-class="'slide-page'" :height="asideHeight - 140">
-            <div class="task-header">
-              <p>task Center</p>
-              <el-button type="primary" @click="isCreateTask = !isCreateTask">
-                <div><i class="fa fa-tasks"></i><span style="font-weight: 300;margin-left: 10px;">create task</span></div>
-              </el-button>
-            </div>
-            <div class="task-box">
-              <task-page :team-id="focusTeamObj.teamId" :is-create-task="isCreateTask" :height="asideHeight-196" :tasks="focusTeamObj.taskList"></task-page>
-            </div>
-          </el-scrollbar>
+          <div class="task-header">
+            <p>{{ focusTeamObj.teamName }} task center</p>
+            <el-button type="primary" @click="isCreateTask = !isCreateTask">
+              <div>
+                <i class="fa fa-tasks"></i
+                ><span
+                  style="font-weight: 300; margin-left: 10px"
+                  v-if="!isCreateTask"
+                  >create & join</span
+                >
+                <span style="font-weight: 300; margin-left: 10px" v-else
+                  >task list</span
+                >
+              </div>
+            </el-button>
+          </div>
+          <div class="task-box">
+            <task-page
+              :is-detail="detailStatus"
+              :team-id="focusTeamObj.teamId"
+              :is-create-task="isCreateTask"
+              :height="asideHeight - 196"
+              :tasks="focusTeamObj.taskList"
+              :asideHeight="asideHeight"
+              @refresh-task="refreshTask"
+              @open-drawer="openDrawer"
+              @seeDetail="seeDetail"
+            ></task-page>
+          </div>
+        </swiper-slide>
+        <swiper-slide>
+          <chat :in-team="true" :chat-room-id-props="focusTeamObj.chatRoomId"></chat>
         </swiper-slide>
       </swiper>
     </div>
@@ -65,21 +86,31 @@
         :style="{ width: 100 + '%' }"
         type="primary"
         @click="seeDetail"
+        v-if="!detailStatus"
       >
         <el-icon><data-board /></el-icon>
         see more detail
+      </el-button>
+      <el-button
+        :style="{ width: 100 + '%' }"
+        type="primary"
+        @click="hideDetail"
+        v-else
+      >
+        <el-icon><data-board /></el-icon>
+        hide detail
       </el-button>
     </div>
   </div>
 </template>
 
 <script>
-import { ElNotification } from "element-plus";
-
 import GanttChart from "./GanttChart.vue";
 import { DataBoard } from "@element-plus/icons-vue";
 import VotePage from "./vote/VotePage.vue";
 import TaskPage from "@/components/team/task/TaskPage";
+import Calender from "mpvue-calendar"
+import Chat from "@/views/Chat"
 import qs from "qs";
 
 import {
@@ -120,6 +151,9 @@ export default {
   },
   data() {
     return {
+      haveJoinChat: false,
+      drawerState: false,
+      createSubTask:{},
       modules: [Pagination, Scrollbar, A11y, EffectCube, HashNavigation],
       detailStatus: false,
       activeName: "1",
@@ -212,6 +246,18 @@ export default {
     },
   },
   methods: {
+    cancelClick() {
+      this.drawerState = false;
+    },
+    openDrawer(taskId) {
+      this.drawerState = true;
+    },
+    refreshTask(teamId) {
+      this.$emit("refreshTask", teamId);
+    },
+    changeLeader(leaderObj) {
+      this.$emit("changeLeader", leaderObj);
+    },
     getVoteStudent(voteStudent) {
       this.voteStudent = voteStudent;
     },
@@ -247,6 +293,10 @@ export default {
       this.$emit("see-detail");
       this.detailStatus = !this.detailStatus;
     },
+    hideDetail() {
+      this.$emit("hide-detail");
+      this.detailStatus = !this.detailStatus;
+    },
   },
   created() {
     var taskList = this.focusTeamObj.taskList;
@@ -270,8 +320,10 @@ export default {
     Swiper,
     SwiperSlide,
     VotePage,
-    TaskPage
-  },
+    TaskPage,
+    Calender,
+    Chat
+},
 };
 </script>
 
@@ -324,9 +376,13 @@ export default {
   margin: 20px;
   margin-left: 0;
 }
-</style>
-<style>
-.slide-page {
-  background: rgb(231, 120, 129);
+.swiper-slide {
+  background: rgb(222, 222, 222);
+}
+.student-box{
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 30px;
 }
 </style>
+<style></style>

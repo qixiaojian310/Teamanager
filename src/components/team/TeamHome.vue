@@ -15,27 +15,33 @@
         :isDetail="isDetail"
       ></team-tool-bar>
     </el-aside>
-    <router-view :team-searches="teamSearches" @see-detail="seeDetail" @close-detail="closeDetail"></router-view>
+    <router-view
+      :team-searches="teamSearches"
+      @see-detail="seeDetail"
+      @refresh-task="refreshTask"
+      @close-detail="closeDetail"
+      @hide-detail="hideDetail"
+      @change-leader="changeLeader"
+      @open-drawer="openDrawer"
+    ></router-view>
   </el-container>
 </template>
-
-
 
 <script>
 // import SwiperTest from "../../swiperTest/SwiperComponent.vue";
 import StripToolbar from "../toolbar/StripToolbar.vue";
-import TeamToolBar from "./TeamToolBar.vue"
-import {ElNotification} from "element-plus"
-
+import TeamToolBar from "./TeamToolBar.vue";
+import { ElNotification } from "element-plus";
+import qs from "qs";
 
 export default {
   // id leaderId name students
   name: "TeamHome",
   components: {
     StripToolbar,
-    TeamToolBar
+    TeamToolBar,
   },
-  computed:{
+  computed: {
     asideHeight() {
       return this.$store.state.windowSize.windowSizeHeight - 60;
     },
@@ -50,19 +56,63 @@ export default {
       return this.leaderObjsGet(this.$store.state.teams);
     },
   },
-  data(){
-    return{
+  data() {
+    return {
       teamSearches: this.$store.state.teams,
-      isDetail:false,
-    }
+      isDetail: false,
+    };
   },
-  methods:{
-    seeDetail(){
+  methods: {
+    refreshTask(teamId) {
+      //更新任务
+      this.axios({
+        method: "post",
+        url: "/refreshTask",
+        data: qs.stringify({
+          teamId: teamId,
+          studentId: this.$store.state.signInStudent.name,
+        }),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      })
+        .then((res) => {
+          console.log(this.teamSearches.find((team) => team.teamId == teamId));
+          this.teamSearches.find((team) => team.teamId == teamId).taskList =
+            res.data;
+          this.$store.state.teams.find((team) => team.teamId == teamId).taskList =
+            res.data;
+        })
+        .then((res) => {
+          this.$notify({
+            type: "success",
+            title: "Success",
+            message: "Refresh success",
+            duration: 10000,
+            position: "top-left",
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    changeLeader(leaderObj) {
+      this.$store.state.teams.find(
+        (team) => team.teamId == leaderObj.teamId
+      ).leaderId = leaderObj.leaderId;
+      this.teamSearches.find(
+        (team) => team.teamId == leaderObj.teamId
+      ).leaderId = leaderObj.leaderId;
+    },
+    seeDetail() {
       this.isDetail = true;
     },
-    closeDetail(){
+    closeDetail() {
       this.isDetail = false;
       this.$notify.closeAll();
+    },
+    hideDetail() {
+      this.isDetail = false;
     },
     selectTeam: function (teacherIds) {
       //NOTE 检查级联选择器的值
@@ -113,10 +163,8 @@ export default {
       leaderOption.leaderId = id;
       return leaderOption;
     },
-  }
+  },
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -103,13 +103,14 @@ export default {
           this.$store.commit("clearTeams");
           for (let index = 0; index < injectTeams.length; index++) {
             var tempTeamObj = new Object();
-            tempTeamObj.name = injectTeams[index].teamName;
+            tempTeamObj.teamName = injectTeams[index].teamName;
             tempTeamObj.teamId = injectTeams[index].teamId;
             tempTeamObj.leaderId = injectTeams[index].leaderId;
-            tempTeamObj.students = injectTeams[index].studentList;
+            tempTeamObj.studentList = injectTeams[index].studentList;
             tempTeamObj.available = injectTeams[index].available;
             tempTeamObj.moduleId = injectTeams[index].moduleId;
-            tempTeamObj.taskList = injectTeams[index].taskList;
+            tempTeamObj.taskList = injectTeams[index].taskList.length==0?[]:injectTeams[index].taskList;
+            tempTeamObj.chatRoomId = injectTeams[index].chatRoomId;
             this.teamItems.push(tempTeamObj);
             this.$store.state.teams.push(tempTeamObj);
           }

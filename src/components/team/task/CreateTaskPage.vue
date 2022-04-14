@@ -23,7 +23,7 @@
             class-name="select-mode"
             :select-mode="'range'"
             :remarks="remarks"
-            :select-data="createTask.taskDate"
+            :select-date="createTask.taskDate"
             @onSelect="selectDate"
             :language="'en'"
           />
@@ -78,6 +78,10 @@
                 <p>Task Content</p>
                 <p>{{ createTask.taskContent }}</p>
               </div>
+              <div>
+                <p>Task duration</p>
+                <p>{{ duration }}</p>
+              </div>
             </el-scrollbar>
           </template>
         </el-card>
@@ -103,7 +107,7 @@ import {
   ColdDrink,
   Check,
 } from "@element-plus/icons-vue";
-import {ElNotification} from "element-plus";
+import { ElNotification } from "element-plus";
 
 import qs from "qs";
 
@@ -169,29 +173,44 @@ export default {
           "Content-Type": "application/x-www-form-urlencoded",
         },
       }).then((res) => {
-        if (res.data == "create") {
-          if (res.data == "failed") {
-            var errorMessage = this.$notify({
-              type: "error",
-              title: "Error",
-              message: "You task create has some problem",
-              duration: 10000,
-              position: "top-left",
-            });
-          } else if (res.data == "create") {
-            var successMessage = this.$notify({
-              type: "success",
-              title: "Success",
-              message: "Your task create success",
-              duration: 10000,
-              position: "top-left",
-            });
-          }
+        if (res.data == "failed") {
+          var errorMessage = this.$notify({
+            type: "error",
+            title: "Error",
+            message: "You task create has some problem",
+            duration: 10000,
+            position: "top-left",
+          });
+        } else if (res.data == "create") {
+          var successMessage = this.$notify({
+            type: "success",
+            title: "Success",
+            message: "Your task create success",
+            duration: 10000,
+            position: "top-left",
+          });
+          
         }
       });
     },
   },
   computed: {
+    duration() {
+      var durationTimeStamp = (
+        new Date(this.createTask.taskDate.end.replace(/-/g, "/")).getTime() -
+        new Date(this.createTask.taskDate.start.replace(/-/g, "/")).getTime()
+      );
+      // var remain = 0;
+      var day = Math.floor(durationTimeStamp/1000/86400)
+      // remain = durationTimeStamp % 86400000;
+      // var hour = Math.floor(remain/1000/3600)
+      // remain = remain % 3600000;
+      // var minute = Math.floor(remain/1000/60)
+      // remain = remain % 60000;
+      // var second = Math.floor(remain/1000)
+      return day + " days " 
+      // + hour + " hours " + minute + " minutes " + second + " seconds";
+    },
     icon() {
       if (this.createTask.completed == "finished") {
         return CircleCheckFilled;
@@ -228,7 +247,7 @@ export default {
     ColdDrink,
     WarningFilled,
     Check,
-    ElNotification
+    ElNotification,
   },
 };
 </script>

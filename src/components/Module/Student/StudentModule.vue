@@ -49,9 +49,9 @@
           <close-bold></close-bold>
         </el-icon>
       </el-button>
-      <el-button class="refresh-btn" @click="setTeamObjs">
+      <el-button class="refresh-btn" @click="refreshModule">
         <el-icon :size="30" :color="'#ffffff'">
-          
+          <refresh></refresh>
         </el-icon>
       </el-button>
       <!-- NOTE - 会传入一个被点击的课程对象 -->
@@ -70,7 +70,7 @@
 import ModuleToolbar from "../../toolbar/ModuleToolbar.vue";
 import ModuleCard from "../../card/ModuleCard.vue";
 import ModuleDetail from "../slide/ModuleDetail.vue";
-import { CloseBold } from "@element-plus/icons-vue";
+import { CloseBold,Refresh } from "@element-plus/icons-vue";
 import SwiperComponent from "../../swiperTest/SwiperComponent.vue";
 import StripToolbar from '../../toolbar/StripToolbar.vue'
 import qs from "qs";
@@ -81,8 +81,8 @@ export default {
     this.getTeamUrl()
   },
   methods: {
-    refreshModule(cardFocus){
-      this.setTeamObj(cardFocus)
+    refreshModule(){
+      this.setTeamObj(this.cardFocusObj)
     },
     getTeamUrl(){
       var moduleFocusId = this.$route.params.moduleId
@@ -253,7 +253,7 @@ export default {
       loading: false,
       activeName: "1",
       // NOTE: 后端获取module所有人员使用id返回一个idList
-      // moduleSearches: this.$store.state.signInStudentModule,
+      moduleSearches: this.$store.state.signInStudentModule,
       cardFocusId: 0,
       cardFocusObj: {},
       focusModuleTeams: [],
@@ -264,9 +264,6 @@ export default {
     };
   },
   computed: {
-    moduleSearches() {
-      return this.$store.state.signInStudentModule;
-    },
     asideHeight() {
       return this.$store.state.windowSize.windowSizeHeight - 60;
     },
@@ -342,7 +339,8 @@ export default {
     SwiperComponent,
     SwiperComponent,
     CloseBold,
-    StripToolbar
+    StripToolbar,
+    Refresh
   },
 };
 </script>
@@ -379,6 +377,14 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0);
+  border: none;
+}
+.refresh-btn{
+  position: absolute;
+  top: 0;
+  right: 0;
   z-index: 2;
   background: rgba(0, 0, 0, 0);
   border: none;

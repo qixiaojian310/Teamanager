@@ -47,6 +47,10 @@
         :aside-width="asideRightWidth"
         :swiper-slide-index="swiperSlideIndex"
         @see-detail="seeDetail"
+        @hide-detail="hideDetail"
+        @change-leader="changeLeader"
+        @refresh-task="refreshTask"
+        @open-drawer="openDrawer"
       ></team-detail>
       <router-view>
         
@@ -73,6 +77,15 @@ export default {
     this.getTeamUrl();
   },
   methods: {
+    openDrawer(){
+      this.$emit("openDrawer");
+    },
+    refreshTask(teamId){
+      this.$emit("refreshTask",teamId);
+    },
+    changeLeader(leaderObj){
+      this.$emit('changeLeader',leaderObj);
+    },
     getTeamUrl(){
       var teamFocusId = this.$route.params.teamId
       this.$store.state.teams.forEach(element => {
@@ -85,6 +98,10 @@ export default {
     seeDetail() {
       this.$emit("see-detail");
       this.detailState = true;
+    },
+    hideDetail(){
+      this.$emit("hide-detail");
+      this.detailState = false;
     },
     //该方法通过点击的team的组信息获取组对象
     focusTeam(cardFocusObjInject) {
@@ -218,7 +235,7 @@ export default {
           teamId: -1,
           name: "",
           leaderId: "",
-          students: [],
+          studentList: [],
           taskList: [],
         };
       } else {
@@ -230,6 +247,7 @@ export default {
         return this.cardFocusObj;
       }
     },
+    
   },
   components: {
     TeamToolBar,

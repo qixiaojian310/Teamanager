@@ -146,6 +146,7 @@ export default {
                   ),
                 }).then((res) => {
                   //TODO 需要插入一个动态修改的功能，可以直接修改module detail里面的值
+                  res.data.taskList = []
                   this.focusModuleObj.teamIds.push(res.data.teamId);
                   this.$store.commit("pushStudentTeams", res.data);
                   this.$emit("changeTeam",res.data);

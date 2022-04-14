@@ -1,6 +1,10 @@
 <template>
   <el-container :style="{ height: containerHeight - 60 + 'px' }">
-    <el-aside :width="'250px'" :style="{ height: containerHeight - 60 + 'px' }">
+    <el-aside
+      :width="'250px'"
+      :style="{ height: containerHeight - 60 + 'px' }"
+      v-if="!inTeam"
+    >
       <el-scrollbar :height="containerHeight - 60">
         <div class="contacts">
           <p class="aside-title">Chatroom</p>
@@ -21,10 +25,18 @@
       </el-scrollbar>
     </el-aside>
     <el-main>
-      <chat-box @send="sendMessage" :all-messages="messages" :contact-name="focusChatRoom.chatRoomName" :chat-box-height="containerHeight - 292"></chat-box>
+      <chat-box
+        @send="sendMessage"
+        :all-messages="messages"
+        :contact-name="focusChatRoom.chatRoomName"
+        :chat-box-height="containerHeight - 292"
+      ></chat-box>
     </el-main>
     <el-aside :width="'250px'" :style="{ height: containerHeight - 60 + 'px' }">
-      <el-scrollbar :height="containerHeight - 60">
+      <el-scrollbar
+        :style="{ height: containerHeight - 100 + 'px' }"
+        :height="containerHeight - 100"
+      >
         <p class="aside-title">Contact</p>
         <div class="contacts">
           <contact-item
@@ -37,6 +49,17 @@
           ></contact-item>
         </div>
       </el-scrollbar>
+      <div style="height: 40px">
+        <el-button
+          type="primary"
+          style="width: 100%; height: 40px"
+          :disabled="inChatRoom"
+          @click="joinChatRoom"
+          >{{
+            inChatRoom ? "Have Join Chat Room" : "Join Chat Room"
+          }}</el-button
+        >
+      </div>
     </el-aside>
   </el-container>
 </template>
@@ -46,12 +69,14 @@ import ContactItem from "@/components/chat/ContactItem";
 import ChatRoomItem from "@/components/chat/ChatRoomItem";
 import ChatBox from "@/components/chat/ChatBox";
 
+import { ElNotification } from "element-plus";
+
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import qs from "qs";
 
 export default {
-  components: { ContactItem, ChatBox, ChatRoomItem },
+  components: { ContactItem, ChatBox, ChatRoomItem, ElNotification },
   data() {
     return {
       dataList: [],
@@ -66,11 +91,33 @@ export default {
       messages: [],
       role: this.$store.state.role,
       chatRooms: [],
-      focusChatRoom: {},
+      focusChatRoom: {
+        contacts: [],
+      },
     };
   },
+  props: {
+    inTeam: {
+      type: Boolean,
+      default: false,
+    },
+    chatRoomIdProps: {
+      type: Number,
+      default: 0,
+    },
+  },
   mounted() {
-    this.getChatRoom();
+    if (!this.inTeam) {
+      this.getChatRoom();
+    } else {
+      // this.getChatRoom();
+      this.chatRooms.push({
+        chatRoomId: this.chatRoomIdProps,
+        chatRoomName: "Team Chatroom",
+        contacts: [],
+      });
+      this.chooseChatRoom(this.chatRoomIdProps, "Team Chatroom");
+    }
   },
   methods: {
     getChatRoom() {
@@ -169,7 +216,36 @@ export default {
         this.focusChatRoom.contacts = res.data;
       });
     },
-    chooseChatRoom(chatRoomId,chatRoomName) {
+    joinChatRoom() {
+      this.axios({
+        method: "post",
+        url: "/joinChatRoom",
+        data: qs.stringify(
+          {
+            chatRoomId: this.focusChatRoom.chatRoomId,
+            studentId: this.$store.state.signInStudent.name,
+          },
+          { indices: false }
+        ),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }).then((res) => {
+        if (res.data != 0) {
+          this.$notify({
+            title: "Success",
+            message: "Join Chat Room Success",
+            type: "success",
+            position: "top-left",
+            duration: 10000,
+          });
+          this.getContact(this.focusChatRoom.chatRoomId);
+          this.getTeacher(this.focusChatRoom.chatRoomId);
+          this.inChatRoom = true;
+        }
+      });
+    },
+    chooseChatRoom(chatRoomId, chatRoomName) {
       //先关闭webSocket链接
       this.clickClose();
       this.focusChatRoom.chatRoomId = chatRoomId;
@@ -272,7 +348,20 @@ export default {
   },
   computed: {
     containerHeight() {
-      return this.$store.state.windowSize.windowSizeHeight;
+      if (!this.inTeam) {
+        return this.$store.state.windowSize.windowSizeHeight;
+      } else {
+        return this.$store.state.windowSize.windowSizeHeight - 180;
+      }
+    },
+    inChatRoom() {
+      var flag = false;
+      this.focusChatRoom.contacts.find((contact) => {
+        if (contact.student.studentId == this.$store.state.signInStudent.name) {
+          flag = true;
+        }
+      });
+      return flag;
     },
   },
 };
