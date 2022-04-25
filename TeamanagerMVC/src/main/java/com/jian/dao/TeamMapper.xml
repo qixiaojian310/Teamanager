@@ -28,17 +28,19 @@
     </select>
 
     <insert id="addTeam" useGeneratedKeys="true" keyProperty="teamId" keyColumn="team_id">
-        insert into team(leader_id, module_id, team_name,chat_room_id)
-        values (#{leaderId}, #{moduleId}, #{teamName},#{chatRoomId})
+        insert into team(leader_id, module_id, team_name, chat_room_id)
+        values (#{leaderId}, #{moduleId}, #{teamName}, #{chatRoomId})
     </insert>
     <insert id="joinTeam">
-        insert into student_team_link(student_id, team_id) values (#{arg0},#{arg1})
+        insert into student_team_link(student_id, team_id)
+        values (#{arg0}, #{arg1})
     </insert>
 
     <select id="getTaskList" resultType="java.lang.Integer">
         select task_id
         from task
-        where team_id = #{arg0} and completed=#{arg1}
+        where team_id = #{arg0}
+          and completed = #{arg1}
     </select>
 
     <select id="getTeamById" resultMap="teamResultMap">
@@ -56,13 +58,25 @@
     </resultMap>
 
     <select id="getTeammate" resultType="java.lang.String">
-        select student_id from student_team_link where team_id=#{teamId}
+        select student_id
+        from student_team_link
+        where team_id = #{teamId}
     </select>
     <select id="getTeamNum" resultType="java.lang.Integer">
-        select team_num from module where module_id = (select module_id from team where team_id = #{teamId})
+        select team_num
+        from module
+        where module_id = (select module_id from team where team_id = #{teamId})
     </select>
     <select id="getAllTaskInTeam" resultType="java.lang.Integer">
-        select task_id from task where team_id = #{teamId}
+        select task_id
+        from task
+        where team_id = #{teamId}
+    </select>
+    <select id="getAllTaskByStudent" resultType="java.lang.Integer">
+        select task_id
+        from task_student_link
+        where student_id = #{arg0}
+          and task_id in (select task_id from task where team_id = #{arg1} and completed = #{arg2})
     </select>
 
 </mapper>

@@ -85,22 +85,69 @@ public class TeacherShowServiceImpl implements TeacherShowService{
         return moduleList;
     }
 
+
+    //获取某个组的整个组对象
+    public Team getTeamByTeamId(Integer teamId){
+        Team team = teamDao.getTeamById(teamId);
+        List<String> studentIds = teamDao.getTeammate(teamId);
+        List<Student> students = new LinkedList<>();
+        for (String studentId : studentIds) {
+            Student student = studentDao.getStduentNoPwd(studentId);
+            students.add(student);
+        }
+        team.setStudentList(students);
+        double moduleSize = moduleDao.getModuleSizeInteger(team.getModuleId());
+        double size = moduleSize/(double)teamDao.getTeamNum(teamId);
+        team.setTeamSize((int) Math.ceil(size));
+        return team;
+    }
+
+    @Override
+    public List<Task> getAllTaskInTeam(Integer teamId) {
+        List<Task> taskList = new LinkedList<>();
+        List<Integer> taskIdList = teamDao.getAllTaskInTeam(teamId);
+        for (Integer integer : taskIdList) {
+            Task task = taskDao.getTask(integer);
+            task.setStudentList(taskDao.getStudentList(integer));
+            task.setStoryPoint(taskDao.getStoryPoint(integer));
+            taskList.add(task);
+        }
+        return taskList;
+    }
+
+    @Override
+    public Integer changeModuleName(Integer moduleId, String moduleName) {
+        return moduleDao.changeModuleName(moduleId, moduleName);
+    }
+
     @Override
     public List<Team> getAllTeamTeacher(Teacher teacher) {
         List<Module> moduleList = moduleDao.getModuleTeacher(teacher.getTeacherId());
         List<Team> teamList = new LinkedList<Team>();
         for (Module module : moduleList) {
             List<Integer> teamIdList = moduleDao.getTeamByModule(module.getModuleId());
-            for (Integer integer : teamIdList) {
-                Team team = teamDao.getTeamById(integer);
-                //注入队友的信息
-                List<String> teammateId = teamDao.getTeammate(team.getTeamId());
-                List<Student> teammate = new LinkedList<>();
+            for (Integer teamId : teamIdList) {
+                Team team = teamDao.getTeamById(teamId);
+                List<String> teammateId = teamDao.getTeammate(teamId);
+                List<Student> teammateObjs = new LinkedList<>();
                 for (String sid : teammateId) {
                     Student student = studentDao.getStduentNoPwd(sid);
-                    teammate.add(student);
+                    teammateObjs.add(student);
                 }
-                team.setStudentList(teammate);
+                team.setStudentList(teammateObjs);
+                List<Integer> taskIdList = teamDao.getAllTaskInTeam(teamId);
+                List<Task> taskList = new LinkedList<Task>();
+                for (Integer taskId : taskIdList) {
+                    Task task = taskDao.getTask(taskId);
+                    task.setStudentList(taskDao.getStudentList(taskId));
+                    task.setStoryPoint(taskDao.getStoryPoint(taskId));
+                    taskList.add(task);
+                }
+                team.setTaskList(taskList);
+                // TODO 向组中注入组大小
+                double moduleSize = moduleDao.getModuleSizeInteger(team.getModuleId());
+                double size = moduleSize/(double)teamDao.getTeamNum(teamId);
+                team.setTeamSize((int) Math.ceil(size));
                 teamList.add(team);
             }
         }
@@ -129,4 +176,6 @@ public class TeacherShowServiceImpl implements TeacherShowService{
     public Integer createModuleByTeacher(String moduleName,Integer moduleSize,String teacherId,Integer teamNum) {
         return moduleDao.addModule(teacherId,moduleName,moduleSize,teamNum);
     }
+
+
 }

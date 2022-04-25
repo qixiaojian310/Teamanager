@@ -12,4 +12,7 @@ public interface TeacherShowService {
     public List<Team> getAllTeamTeacher(Teacher teacher);
     public List<Task> getAllTask(Teacher teacher,boolean completed);
     public Integer createModuleByTeacher(String moduleName,Integer moduleSize,String teacherId,Integer teamNum);
-}
+    public Team getTeamByTeamId(Integer teamId);
+    public List<Task> getAllTaskInTeam(Integer teamId);
+    public Integer changeModuleName(Integer moduleId,String moduleName);
+    }

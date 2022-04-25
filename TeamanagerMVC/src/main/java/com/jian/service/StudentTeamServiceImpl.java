@@ -84,6 +84,7 @@ public class StudentTeamServiceImpl implements StudentTeamService{
             for (Integer taskId : taskIdList) {
                 Task task = taskDao.getTask(taskId);
                 task.setStudentList(taskDao.getStudentList(taskId));
+                task.setStoryPoint(taskDao.getStoryPoint(taskId));
                 taskList.add(task);
             }
             team.setTaskList(taskList);
@@ -253,12 +254,26 @@ public class StudentTeamServiceImpl implements StudentTeamService{
     }
 
     @Override
-    public List<Task> refreshTask(Integer teamId, String studentId) {
+    public List<Task> refreshStudentTask(Integer teamId, String studentId) {
         List<Integer> taskIdForStudent = teamDao.getTask(teamId,studentId);
         List<Task> taskList = new LinkedList<>();
         for (Integer taskId : taskIdForStudent) {
             Task task = taskDao.getTask(taskId);
             task.setStudentList(taskDao.getStudentList(taskId));
+            task.setStoryPoint(taskDao.getStoryPoint(taskId));
+            taskList.add(task);
+        }
+        return taskList;
+    }
+
+    @Override
+    public List<Task> refreshTeacherTask(Integer teamId) {
+        List<Integer> taskIdForTeacher = teamDao.getAllTaskInTeam(teamId);
+        List<Task> taskList = new LinkedList<>();
+        for (Integer taskId : taskIdForTeacher) {
+            Task task = taskDao.getTask(taskId);
+            task.setStudentList(taskDao.getStudentList(taskId));
+            task.setStoryPoint(taskDao.getStoryPoint(taskId));
             taskList.add(task);
         }
         return taskList;

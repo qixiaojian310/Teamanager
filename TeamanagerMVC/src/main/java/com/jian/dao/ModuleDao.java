@@ -33,4 +33,6 @@ public interface ModuleDao {
     public List<Module> getAllModule();
     //通过课程Id获取课程的额定人数‘
     public Integer getModuleSizeInteger(Integer moduleId);
+    //老师可以修改module的名字
+    public Integer changeModuleName(Integer moduleId,String moduleName);
 }

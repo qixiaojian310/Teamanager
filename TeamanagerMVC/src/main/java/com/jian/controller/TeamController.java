@@ -86,10 +86,18 @@ public class TeamController {
     }
 
     //获取某个组所有的学生已经加入的task
-    @RequestMapping(value = "/refreshTask",method = RequestMethod.POST)
+    @RequestMapping(value = "/refreshStudentTask",method = RequestMethod.POST)
     @ResponseBody
-    public List<Task> refreshTask(@RequestParam(value = "teamId") Integer teamId,@RequestParam(value = "studentId") String studentId){
-        List<Task> taskList = studentTeamService.refreshTask(teamId,studentId);
+    public List<Task> refreshStudentTask(@RequestParam(value = "teamId") Integer teamId,@RequestParam(value = "studentId") String studentId){
+        List<Task> taskList = studentTeamService.refreshStudentTask(teamId,studentId);
+        return taskList;
+    }
+
+    //获取某个组所有的学生已经加入的task
+    @RequestMapping(value = "/refreshTeacherTask",method = RequestMethod.POST)
+    @ResponseBody
+    public List<Task> refreshTeacherTask(@RequestParam(value = "teamId") Integer teamId){
+        List<Task> taskList = studentTeamService.refreshTeacherTask(teamId);
         return taskList;
     }
 

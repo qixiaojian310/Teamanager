@@ -16,6 +16,9 @@
     <update id="cancelFinishTask">
         UPDATE task SET completed = 0 WHERE task_id = #{taskId}
     </update>
+    <update id="changeScore">
+        UPDATE student_team_link SET score = #{arg1} WHERE team_id = #{arg0} AND student_id = #{arg2}
+    </update>
     <!--    id就是方法名字-->
     <!--    Type是类型只有一个，Map是一个list-->
 
@@ -65,6 +68,12 @@
     </select>
     <select id="getAllSubTaskInTask" resultMap="subTask">
         select * from sub_task where task_id=#{taskId}
+    </select>
+    <select id="getStoryPoint" resultType="java.lang.Integer">
+        select count(*) from sub_task where task_id = #{taskId}
+    </select>
+    <select id="getScore" resultType="java.lang.Integer">
+        select score from student_team_link where team_id = #{arg0} and student_id = #{arg1}
     </select>
     <resultMap id="subTask" type="com.jian.pojo.SubTask">
         <id property="subTaskId" column="sub_task_id" />

@@ -35,5 +35,10 @@ public interface TaskDao {
     public boolean finishTask(Integer taskId);
     //让任务不再完成
     public boolean cancelFinishTask(Integer taskId);
-
+    //获取一个task的storypoint
+    public Integer getStoryPoint(Integer taskId);
+    //老师打分
+    public Integer changeScore(Integer teamId, Integer score, String studentId);
+    //获取分数
+    public Integer getScore(Integer teamId, String studentId);
 }

@@ -1,8 +1,11 @@
 package com.jian.controller;
 
 
+import com.jian.pojo.ContributionMap;
+import com.jian.pojo.Student;
 import com.jian.pojo.SubTask;
 import com.jian.service.StudentTeamService;
+import com.jian.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:8088", maxAge = 3600, methods = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST, RequestMethod.PUT}, allowCredentials = "true")
 @Controller
@@ -18,6 +22,10 @@ public class TaskController {
     @Autowired
     @Qualifier("studentTeamServiceImpl")
     private StudentTeamService studentTeamService;
+
+    @Autowired
+    @Qualifier("taskServiceImpl")
+    private TaskService taskService;
 
 
     @RequestMapping(value = "/createSubTask", method = RequestMethod.POST)
@@ -44,5 +52,22 @@ public class TaskController {
         return studentTeamService.deleteSubTask(subTaskId);
     }
 
+    @RequestMapping(value = "getContribution", method = RequestMethod.POST)
+    @ResponseBody
+    public List<ContributionMap> getContribution(@RequestParam(value = "teamId") Integer teamId) {
+        return taskService.getStudentContribution(teamId);
+    }
+
+    @RequestMapping(value="getAllStoryPoint",method = RequestMethod.POST)
+    @ResponseBody
+    public Integer getAllStoryPoint(@RequestParam(value = "teamId") Integer teamId){
+        return taskService.getAllStoryPoint(teamId);
+    }
+
+    @RequestMapping(value="changeScore",method = RequestMethod.POST)
+    @ResponseBody
+    public Integer changeScore(@RequestParam(value = "teamId") Integer teamId,@RequestParam(value = "studentId") String studentId,@RequestParam(value = "score") Integer score){
+        return taskService.changeScore(teamId,score,studentId);
+    }
 
 }

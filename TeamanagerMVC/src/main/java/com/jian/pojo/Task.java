@@ -20,6 +20,15 @@ public class Task {
     //true 为完成
     private boolean completed;
     private Integer progress = 0;
+    private Integer storyPoint = 0;
+
+    public Integer getStoryPoint() {
+        return storyPoint;
+    }
+
+    public void setStoryPoint(Integer storyPoint) {
+        this.storyPoint = storyPoint;
+    }
 
     public Integer getProgress() {
         return progress;

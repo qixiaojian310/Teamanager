@@ -18,6 +18,8 @@ public interface TeamDao {
   public boolean joinTeam(String studentId, int teamId);
   //老师有权查询该team下的所有task
   public List<Integer> getTaskList(int teamId,boolean completed);
+  //查询某个学生所有完成的Task
+  public List<Integer> getAllTaskByStudent(String studentId,int teamId,boolean completed);
   //通过teamid得到整个team的信息
   public Team getTeamById(int teamId);
   //跟据teamid得到当前team有多个队友

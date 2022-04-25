@@ -46,7 +46,8 @@ public interface StudentTeamService {
     //加入任务
     public boolean joinTask(Integer taskId,String studentId);
 
-    public List<Task> refreshTask(Integer teamId, String studentId);
+    public List<Task> refreshStudentTask(Integer teamId, String studentId);
+    public List<Task> refreshTeacherTask(Integer teamId);
     //创建子任务
     public Integer createSubTask(Integer taskId, String content, String taskName, long deadline, long startTime);
     //获取子任务
