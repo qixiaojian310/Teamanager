@@ -21,24 +21,55 @@
           <div ref="skele">
             <el-skeleton animated :rows="skeletonRow" v-if="loading">
             </el-skeleton>
-            <el-container v-else>
+            <el-container v-else id="moduleDetail" ref="moduleDetail">
               <el-header class="title">{{ title }}</el-header>
               <el-scrollbar
                 :height="asideHeight - 80 + 'px'"
                 :style="{ width: 100 + '%' }"
               >
                 <el-scrollbar class="main-box">
-                  <el-scrollbar>
-                    <div :class="{'all-module-card-box':!editBox,'edit-box-card-box':editBox}" v-if="mainBox == 1">
-                    <module-card
+                  <el-scrollbar v-if="!editBox">
+                    <div
+                      :class="{
+                        'all-module-card-box': !editBox,
+                        'edit-box-card-box': editBox,
+                      }"
+                      v-if="mainBox == 1"
+                    >
+                      <module-card
+                        v-for="moduleSearche in moduleSearches"
+                        :key="moduleSearche.index"
+                        @focus-module="focusModule"
+                        :module-searche="moduleSearche"
+                      ></module-card>
+                    </div>
+                  </el-scrollbar>
+                  <swiper
+                    v-else
+                    :modules="modules"
+                    :scrollbar="{ draggable: true }"
+                    :slides-per-view="slidesPerView"
+                    navigation
+                    :pagination="{ clickable: true }"
+                    :free-mode="true"
+                    :mousewheel="{releaseOnEdges: true}"
+                  >
+                    <swiper-slide
                       v-for="moduleSearche in moduleSearches"
                       :key="moduleSearche.index"
-                      @focus-module="focusModule"
-                      :module-searche="moduleSearche"
-                    ></module-card>
-                  </div>
-                  </el-scrollbar>
-                  <register-module v-if="editBox" :focusModuleId="focusModuleObj.moduleId"></register-module>
+                    >
+                      <module-card
+                        @focus-module="focusModule"
+                        :module-searche="moduleSearche"
+                      ></module-card>
+                    </swiper-slide>
+                  </swiper>
+                  <!-- edit部分 -->
+                  <register-module
+                    v-if="editBox"
+                    :module-name="focusModuleObj.moduleName"
+                    :focusModuleId="focusModuleObj.moduleId"
+                  ></register-module>
                 </el-scrollbar>
                 <create-module v-if="mainBox == 2"></create-module>
               </el-scrollbar>
@@ -79,19 +110,33 @@ import SwiperComponent from "../../swiperTest/SwiperComponent.vue";
 import RegisterModule from "../joinModule/RegisterModule.vue";
 import qs from "qs";
 import CreateModule from "../joinModule/CreateModule.vue";
-import StripToolbar from '../../toolbar/StripToolbar.vue';
+import StripToolbar from "../../toolbar/StripToolbar.vue";
+
+import { Navigation, Pagination, Scrollbar, FreeMode,Mousewheel } from "swiper";
+
+// Import Swiper Vue.js components
+import { Swiper, SwiperSlide } from "swiper/vue/swiper-vue.js";
+
+// Import Swiper styles
+import "swiper/swiper.min.css";
+import "swiper/modules/navigation/navigation.min.css";
+import "swiper/modules/pagination/pagination.min.css";
+import "swiper/modules/scrollbar/scrollbar.min.css";
+import "swiper/modules/free-mode/free-mode.min.css";
+import "swiper/modules/mousewheel/mousewheel.min.css";
 
 export default {
   name: "TeacherModule",
-  mounted(){
-    this.getTeamUrl()
+  mounted() {
+    this.containerWidth = this.$refs.skele.clientWidth;
+    this.getTeamUrl();
   },
   methods: {
-    getTeamUrl(){
-      var moduleFocusId = this.$route.params.moduleId
-      this.$store.state.signInTeacherModule.forEach(element => {
-        if(element.moduleId == moduleFocusId){
-          this.focusModule(element)
+    getTeamUrl() {
+      var moduleFocusId = this.$route.params.moduleId;
+      this.$store.state.signInTeacherModule.forEach((element) => {
+        if (element.moduleId == moduleFocusId) {
+          this.focusModule(element);
         }
       });
     },
@@ -112,6 +157,11 @@ export default {
         },
       }).then((res) => {
         this.focusModuleTeams = res.data;
+      }).then(() => {
+        setTimeout(()=>{
+          console.log(this.$refs.skele.clientWidth);
+        this.containerWidth = this.$refs.skele.clientWidth;
+        },500)
       });
     },
     focusModule(cardFocusObjInject) {
@@ -137,6 +187,10 @@ export default {
     },
     closeDetail: function () {
       this.cardFocus = false;
+      setTimeout(()=>{
+        console.log(this.$refs.skele.clientWidth);
+        this.containerWidth = this.$refs.skele.clientWidth;
+      },500)
     },
     createTeacherOption: function (id, number) {
       var teacherOption = new Object();
@@ -196,6 +250,8 @@ export default {
       cardFocusObj: {},
       focusModuleTeams: [],
       editBox: false,
+      modules: [Navigation, Pagination, Scrollbar, FreeMode,Mousewheel],
+      containerWidth:0
     };
   },
   computed: {
@@ -219,6 +275,10 @@ export default {
       } else {
         return 0;
       }
+    },
+    slidesPerView(){
+      this.containerWidth = this.$refs.skele.clientWidth;
+      return Math.floor(this.containerWidth / 200);
     },
     skeletonRow() {
       var boxHeight = 0;
@@ -302,6 +362,8 @@ export default {
     RegisterModule,
     CreateModule,
     StripToolbar,
+    Swiper,
+    SwiperSlide,
   },
 };
 </script>
@@ -362,7 +424,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
 }
-.edit-box-card-box{
+.edit-box-card-box {
   height: 200px;
   width: 100%;
   display: flex;
@@ -371,10 +433,6 @@ export default {
 .swiper-container {
   width: 100%;
   height: 200px;
-}
-.swiper-slide {
-  width: 100% !important;
-  background: red;
 }
 .close-btn {
   position: absolute;

@@ -1,6 +1,6 @@
 <template>
   <el-container style="margin-bottom: 30px">
-    <el-row style="width: 100%">
+    <el-row style="width: 100%" v-if="isLeader">
       <el-col :span="10" :offset="1">
         <div class="input-box">
           <p>your task name</p>
@@ -95,6 +95,11 @@
         </el-button>
       </el-col>
     </el-row>
+    <div class="nodata-box" v-else :style="{ height: height + 'px' }">
+      <div class="no-data">
+        <p>You are not the leader, only leader have power to create task</p>
+      </div>
+    </div>
   </el-container>
 </template>
 
@@ -127,6 +132,14 @@ export default {
     teamId: {
       type: Number,
       default: -1,
+    },
+    leaderId: {
+      type: String,
+      default: "",  
+    },
+    height: {
+      type: Number,
+      default: 0,
     },
   },
   methods: {
@@ -195,6 +208,13 @@ export default {
     },
   },
   computed: {
+    isLeader(){
+      if(this.$store.state.signInStudent.name == this.leaderId){
+        return true;
+      }else{
+        return false;
+      }
+    },
     duration() {
       var durationTimeStamp = (
         new Date(this.createTask.taskDate.end.replace(/-/g, "/")).getTime() -
@@ -265,5 +285,25 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.nodata-box {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  position: relative;
+}
+.no-data {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  background: rgb(37, 37, 37);
+  color: #ccc;
+  position: absolute;
 }
 </style>

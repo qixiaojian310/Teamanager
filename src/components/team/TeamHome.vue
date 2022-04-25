@@ -67,10 +67,12 @@ export default {
       //更新任务
       this.axios({
         method: "post",
-        url: "/refreshTask",
-        data: qs.stringify({
+        url: this.$store.state.role == "student"?"/refreshStudentTask":"/refreshTeacherTask",
+        data: this.$store.state.role == "student"?qs.stringify({
           teamId: teamId,
           studentId: this.$store.state.signInStudent.name,
+        }):qs.stringify({
+          teamId: teamId,
         }),
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",

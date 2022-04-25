@@ -40,6 +40,7 @@
     </div>
     <div class="btn-box">
       <el-button
+        v-if="this.$store.state.role != 'teacher'"
         :style="{ height: 40 + 'px', marginBottom: 20 + 'px' }"
         :disabled="haveJoinModule"
         @click="joinModule"
@@ -204,6 +205,9 @@ export default {
           flag = true;
           break;
         }
+      }
+      if(this.$store.state.role == "teacher"){
+        return false;
       }
       return flag;
     },

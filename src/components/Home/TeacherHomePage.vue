@@ -75,39 +75,48 @@ export default {
     },
     checkTeacherCookie() {
       var teacherCookie = getCookie("teacherId");
-      if (this.$route.params.id == teacherCookie) {
-        //该用户已经登陆
-        this.$store.commit("updateSignInTeacherName", teacherCookie);
-        this.axios({
-          url: "/teacher",
-          method: "post",
-          data: qs.stringify({
-            teacherId: this.$route.params.id,
-            password: getCookie("teacherPassword"),
-            rememberCode: true,
-          }),
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        }).then((response) => {
-          //执行注入的操作
-          this.injectModule();
-          this.injectTeams();
-        }).then(()=>{
-          this.injectCompletedTasks();
-          this.injectUnCompletedTasks();
-        });
-        return true;
+      if (this.$store.state.rememberCookie) {
+        if (this.$route.params.id == teacherCookie) {
+          //该用户已经登陆
+          this.$store.commit("updateSignInTeacherName", teacherCookie);
+          this.axios({
+            url: "/teacher",
+            method: "post",
+            data: qs.stringify({
+              teacherId: this.$route.params.id,
+              password: getCookie("teacherPassword"),
+              rememberCode: true,
+            }),
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+          }).then((response) => {
+            //执行注入的操作
+            this.injectModule();
+            this.injectTeams();
+          });
+          return true;
+        } else {
+          //该用户未登陆
+          this.$router.push("/signin");
+          return false;
+        }
       } else {
-        //该用户未登陆
-        this.$router.push("/signin");
-        return false;
+        //无需验证
+        this.$store.commit("updateSignInTeacherName", this.$route.params.id);
+        this.$store.commit("selectRole", "teacher");
+        //注入其他值
+        this.injectModule();
+        this.injectTeams();
       }
     },
     injectModule: function () {
       this.axios({
         url: "/getAllTeacherModule",
         method: "post",
+        data:{
+          teacherId:this.$route.params.id
+        }
       }).then((response) => {
         var injectModules = response.data;
         this.moduleItems = response.data;
@@ -118,29 +127,38 @@ export default {
       this.axios({
         url: "/getAllTeacherTeam",
         data: {
-          studentId: this.$store.state.signInStudent.name,
+          teacherId:this.$route.params.id
         },
         method: "post",
-      }).then((response) => {
-        var injectTeams = response.data;
-        this.$store.commit("clearTeams");
-        for (let index = 0; index < injectTeams.length; index++) {
-          var tempTeamObj = new Object();
-          tempTeamObj.teamName = injectTeams[index].teamName;
-          tempTeamObj.id = injectTeams[index].teamId;
-          tempTeamObj.leaderId = injectTeams[index].leaderId;
-          tempTeamObj.students = injectTeams[index].studentList;
-          tempTeamObj.available = injectTeams[index].available;
-          tempTeamObj.chatRoomId = injectTeams[index].chatRoomId;
-          this.teamItems.push(tempTeamObj);
-          this.$store.commit("pushTeacherTeams", tempTeamObj);
-        }
-      });
+      })
+        .then((response) => {
+          var injectTeams = response.data;
+          this.$store.commit("clearTeams");
+          for (let index = 0; index < injectTeams.length; index++) {
+            var tempTeamObj = new Object();
+            tempTeamObj.teamName = injectTeams[index].teamName;
+            tempTeamObj.teamId = injectTeams[index].teamId;
+            tempTeamObj.leaderId = injectTeams[index].leaderId;
+            tempTeamObj.studentList = injectTeams[index].studentList;
+            tempTeamObj.available = injectTeams[index].available;
+            tempTeamObj.chatRoomId = injectTeams[index].chatRoomId;
+            tempTeamObj.taskList = injectTeams[index].taskList;
+            this.teamItems.push(tempTeamObj);
+            this.$store.commit("pushTeacherTeams", tempTeamObj);
+          }
+        })
+        .then(() => {
+          this.injectCompletedTasks();
+          this.injectUnCompletedTasks();
+        });
     },
     injectCompletedTasks: function () {
       this.axios({
         url: "/getCompletedTaskByTeacher",
         method: "post",
+        data: {
+          teacherId: this.$route.params.id,
+        },
         // baseURL: "http://localhost:8080/api/",
       }).then((response) => {
         var completedTasksInject = response.data;
@@ -166,6 +184,9 @@ export default {
       this.axios({
         url: "/getUnCompletedTaskByTeacher",
         method: "post",
+        data: {
+          teacherId: this.$route.params.id,
+        },
         // baseURL: "http://localhost:8080/api/",
       }).then((response) => {
         // cooperator unCompletedTaskName,unCompletedTaskContent,unCompletedTaskTeamName,deadline,progress
@@ -181,8 +202,7 @@ export default {
               this.$store.state.teams[i].id ==
               UnCompletedTasksInject[index].teamId
             ) {
-              UnCompletedTaskObj.teamName =
-                this.$store.state.teams[i].name;
+              UnCompletedTaskObj.teamName = this.$store.state.teams[i].name;
             }
           }
           UnCompletedTaskObj.progress = UnCompletedTasksInject[index].progress;

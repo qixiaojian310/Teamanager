@@ -5,16 +5,20 @@
     private List<Student> studentList;
     private List<Team> teamList;
  -->
-  <el-container class="overflow:hidden">
+  <el-container class="overflow:hidden" style="margin-top: 20px;">
     <el-row style="width: 100%">
       <el-col :span="20" :offset="2" style="height: 100%">
         <div class="input-item-box">
+          <span>Your Module Name</span>
           <div class="input-item">
-            <span>Your Module Name</span>
             <el-input
-              v-model="module.moduleName"
+              v-model="moduleName"
               placeholder="Your Module's Name"
             ></el-input>
+            <el-button type="primary" @click="changeModuleName">
+              <i class="fa fa-pencil-square-o"></i>
+              Edit module Name
+            </el-button>
           </div>
           <el-scrollbar
             :native="false"
@@ -71,11 +75,14 @@ export default {
     focusModuleId: {
       type: Number,
     },
+    moduleName:{
+      type:String,
+      default:''
+    }
   },
   data() {
     return {
       module: {
-        moduleName: "",
         teacherId: this.$store.state.signInTeacher.teacherId,
         studentIdList: [],
         teamIds: [],
@@ -110,6 +117,29 @@ export default {
             studentIdList: this.module.studentIdList,
           });
           this.module.studentIdList = [];
+        }
+      });
+    },
+    changeModuleName(){
+      this.axios({
+        url: "/changeModuleName",
+        method: "post",
+        data: qs.stringify(
+          {
+            moduleId: this.focusModuleId,
+            moduleName: this.moduleName,
+          },
+          { indices: false }
+        ),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }).then((res) => {
+        if (res.data) {
+          this.$store.commit("changeModuleName", {
+            moduleId: this.focusModuleId,
+            moduleName: this.moduleName,
+          });
         }
       });
     },
@@ -152,7 +182,7 @@ export default {
 .input-item {
   text-align: center;
   display: flex;
-  align-content: center;
+  align-items: center;
   margin-bottom: 20px;
   width: 100%;
 }
@@ -165,6 +195,6 @@ export default {
 .input-item-box {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 </style>

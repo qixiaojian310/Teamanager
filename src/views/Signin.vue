@@ -201,6 +201,7 @@ export default {
         //处理data不同的响应
         var responseData = response.data;
         if (responseData == "Match") {
+          console.log("登录成功");
           if (this.role[0] == "/student") {
             this.$store.commit("updateSignInStudentName", this.form.username);
           } else {

@@ -44,12 +44,21 @@ export default {
     focusTeam: function () {
       //返回具体点击了哪个课程
       this.$emit("focusTeam", this.teamSearche);
-      this.$router.push({
-        name:'StudentTeamPage',
-        params:{
-          teamId:this.teamSearche.teamId
-        }
-      })
+      if (this.$store.state.role == "student") {
+        this.$router.push({
+          name: "StudentTeamPage",
+          params: {
+            teamId: this.teamSearche.teamId,
+          },
+        });
+      } else {
+        this.$router.push({
+          name: "TeacherTeamPage",
+          params: {
+            teamId: this.teamSearche.teamId,
+          },
+        });
+      }
     },
   },
   components: {

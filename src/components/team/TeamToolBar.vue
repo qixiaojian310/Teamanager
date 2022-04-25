@@ -1,76 +1,98 @@
 <template>
   <div class="toolbar">
-    <!-- TODO - toolbar 应该有两部分 -->
-    <!-- 下首先应该有总览，上会出现各种排序方式加一个搜索框，右边是搜索结果
+    <el-scrollbar :height="toolbarHeight">
+      <!-- TODO - toolbar 应该有两部分 -->
+      <!-- 下首先应该有总览，上会出现各种排序方式加一个搜索框，右边是搜索结果
     下有加入，上面有搜素框，右边是搜索结果 -->
-    <div class="toolbar-list">
-      <!-- <sign-input-item
+      <div class="toolbar-list">
+        <!-- <sign-input-item
         :name="'Search'"
         v-model:inputValue="SearchContent"
         :fontSize="'1.2rem'"
         :backgroundColor="'#e6e1e1'"
         :inputHeight="2"
       ></sign-input-item> -->
-      <div v-if="isStudent" style="background-color: #fff">
-        <el-cascader-panel
-          placeholder="Try searching Guide"
-          :options="options"
-          v-model="value"
-          :props="props"
-          filterable
-        >
-          <template #default="{ data }" v-if="isModule">
-            <span>{{ data.teacherId }}</span>
-            <span> ({{ data.teacherNumber }}) </span>
-          </template>
-          <template #default="{ data }" v-else>
-            <span>{{ data.leaderId }}</span>
-            <span> ({{ data.leaderNumber }}) </span>
-          </template>
-        </el-cascader-panel>
-        <el-button style="width: 100%" @click="ensureChoice">
-          <el-icon><document-checked /></el-icon>
-          Filter your team
-        </el-button>
+        <div style="background-color: #fff">
+          <el-cascader-panel
+            placeholder="Try searching Guide"
+            :options="options"
+            v-model="value"
+            :props="props"
+            filterable
+          >
+            <template #default="{ data }" v-if="isModule">
+              <span>{{ data.teacherId }}</span>
+              <span> ({{ data.teacherNumber }}) </span>
+            </template>
+            <template #default="{ data }" v-else>
+              <span>{{ data.leaderId }}</span>
+              <span> ({{ data.leaderNumber }}) </span>
+            </template>
+          </el-cascader-panel>
+          <el-button style="width: 100%" @click="ensureChoice">
+            <el-icon><document-checked /></el-icon>
+            Filter your team
+          </el-button>
+        </div>
       </div>
-    </div>
-    <div class="toolbar-list">
-      <div class="btn-box">
-        <transition name="team-detail" mode="in-out">
-          <button class="btn-all-team" @click="showDetail" v-if="isDetail">
-            <i class="fa fa-bars"></i>
-            <span>See details</span>
-          </button>
-          <button class="btn-all-team" @click="showList" v-else>
-            <i class="fa fa-bars"></i>
-            <span>ALL teams</span>
-          </button>
-        </transition>
+      <div class="toolbar-list">
+        <div class="btn-box">
+          <transition name="team-detail" mode="in-out">
+            <button class="btn-all-team" @click="showDetail" v-if="isDetail">
+              <i class="fa fa-bars"></i>
+              <span>See details</span>
+            </button>
+            <button class="btn-all-team" @click="showList" v-else>
+              <i class="fa fa-bars"></i>
+              <span>ALL teams</span>
+            </button>
+          </transition>
+        </div>
+        <!-- TODO对于老师要执行添加的效果，可以提交不同的事件到上层当中就可以实现 -->
+        <!-- 点击提示 -->
+        <div class="btn-box">
+          <transition name="team-detail" mode="in-out">
+            <div v-if="isDetail">
+              <button class="btn-all-team" @click="gantt">
+                <i class="fa fa-ticket"></i>
+                <span>Gantt chart</span>
+              </button>
+              <button class="btn-all-team" style="top: 52px" @click="vote" v-if="isStudent">
+                <i class="fa fa-ticket"></i>
+                <span>Vote</span>
+              </button>
+              <button class="btn-all-team" style="top: 52px" @click="vote" v-else>
+                <i class="fa fa-star-half-o"></i>
+                <span>Score</span>
+              </button>
+              <button
+                class="btn-all-team"
+                style="top: 104px"
+                @click="taskCenter"
+              >
+                <i class="fa fa-ticket"></i>
+                <span>Task</span>
+              </button>
+              <button class="btn-all-team" style="top: 156px" @click="chat">
+                <i class="fa fa-wechat"></i>
+                <span>chat</span>
+              </button>
+              <button
+                class="btn-all-team"
+                style="top: 208px"
+                @click="contribution"
+              >
+                <i class="fa fa-line-chart"></i>
+                <span>Contribution</span>
+              </button>
+            </div>
+            <div v-else class="hint-box">
+              <p>You can see more detail by choose a team</p>
+            </div>
+          </transition>
+        </div>
       </div>
-      <!-- TODO对于老师要执行添加的效果，可以提交不同的事件到上层当中就可以实现 -->
-      <!-- 点击提示 -->
-      <div class="btn-box">
-        <transition name="team-detail" mode="in-out">
-          <div v-if="isDetail">
-            <button class="btn-all-team" @click="gantt">
-              <i class="fa fa-ticket"></i>
-              <span>Gantt chart</span>
-            </button>
-            <button class="btn-all-team" style="top:52px" @click="vote">
-              <i class="fa fa-ticket"></i>
-              <span>Vote</span>
-            </button>
-            <button class="btn-all-team" style="top:104px" @click="taskCenter">
-              <i class="fa fa-ticket"></i>
-              <span>Task</span>
-            </button>
-          </div>
-          <div v-else class="hint-box">
-            <p>You can see more detail by choose a team</p>
-          </div>
-        </transition>
-      </div>
-    </div>
+    </el-scrollbar>
   </div>
 </template>
 
@@ -118,16 +140,30 @@ export default {
         };
       }
     },
+    toolbarHeight() {
+      return this.$store.state.windowSize.windowHeight - 60;
+    },
   },
   methods: {
-    vote(){
-      this.$emit('changeVote')
+    vote() {
+      this.$emit("changeVote");
+      this.$store.state.teamSwiper.slideTo(1);
     },
-    taskCenter(){
-      this.$emit('changeTaskCenter')
+    taskCenter() {
+      this.$emit("changeTaskCenter");
+      this.$store.state.teamSwiper.slideTo(2);
     },
-    gantt(){
-      this.$emit('changeGantt')
+    gantt() {
+      this.$emit("changeGantt");
+      this.$store.state.teamSwiper.slideTo(0);
+    },
+    chat() {
+      this.$emit("changeChat");
+      this.$store.state.teamSwiper.slideTo(3);
+    },
+    contribution() {
+      this.$emit("changeContribution");
+      this.$store.state.teamSwiper.slideTo(4);
     },
     ensureChoice: function () {
       if (this.value.length == 0) {
@@ -163,7 +199,10 @@ export default {
   },
   mounted() {
     // 用路由信息判断是老师还是学生
-    if (this.$route.name == "StudentTeams" || this.$route.name == 'StudentTeamPage') {
+    if (
+      this.$route.name == "StudentTeams" ||
+      this.$route.name == "StudentTeamPage"
+    ) {
       this.isTeacher = false;
       this.isStudent = true;
     } else {

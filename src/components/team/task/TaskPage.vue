@@ -44,7 +44,7 @@
         active-text="Create task"
         inactive-text="Join task"
       />
-      <create-task-page :team-id="teamId" v-if="isCreate"></create-task-page>
+      <create-task-page :team-id="teamId" v-if="isCreate" :leader-id="leaderId" :height="height-120"></create-task-page>
       <join-task
         :height="height"
         :aside-height="asideHeight"
@@ -142,6 +142,9 @@ export default {
     asideHeight: {
       type: Number,
       default: 0,
+    },
+    leaderId: {
+      type: String,
     },
   },
 };

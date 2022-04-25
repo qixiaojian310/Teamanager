@@ -12,6 +12,7 @@ import ModulePage from '../components/Module/modulePage/ModulePage.vue'
 import TeamHome from '../components/team/TeamHome.vue'
 import VotePage from '../components/team/vote/VotePage.vue'
 import Chat from '../views/Chat.vue'
+import TeacherTeamPage from '@/components/team/TeacherTeamPage'
 
 const routes = [
   {
@@ -82,7 +83,24 @@ const routes = [
         path: 'module/:moduleId',
         name: 'TeacherModulePage',
         component: TeacherModule
-      }
+      },
+      {
+        path: 'teamMain',
+        name: 'TeacherTeamHome',
+        component:TeamHome,
+        children:[
+          {
+            path: '',
+            name: 'TeacherTeams',
+            component: TeacherTeamPage
+          },
+          {
+            path: 'team/:teamId',
+            name: 'TeacherTeamPage',
+            component: TeacherTeamPage
+          }
+        ]
+      },
     ]
   },
   {

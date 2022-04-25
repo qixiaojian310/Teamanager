@@ -20,7 +20,7 @@
       {{ studentObj.studentId }}
     </div>
     <div class="button-box">
-      <el-button type="primary" @click="joinTeam" :disabled = "haveJoinTeam">
+      <el-button type="primary" @click="joinTeam" :disabled = "haveJoinTeam" v-if="this.$store.state.role != 'teacher'">
         <el-icon><Edit /></el-icon>
         <span>Join this team</span>
         <span>{{ studentListLength + "/" + teamSize }}</span>

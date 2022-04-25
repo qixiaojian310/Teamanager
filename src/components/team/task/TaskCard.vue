@@ -7,7 +7,10 @@
       <span @click="createSubtask"> <slot name="create"></slot> </span>
     </template>
     <template #default>
-      <el-scrollbar :height="340">
+      <el-scrollbar :height="540">
+        <el-row :justify="center" style="margin-bottom: 20px;">
+          <story-point-box :story-point="task.storyPoint"></story-point-box>
+        </el-row>
         <el-row>
           <el-col :span="24">
             <el-timeline>
@@ -95,6 +98,7 @@ import "swiper/modules/free-mode/free-mode.min.css";
 import "swiper/modules/scrollbar/scrollbar.min.css";
 import "swiper/modules/mousewheel/mousewheel.min.css";
 import { ElMessage } from "element-plus";
+import StoryPointBox from '@/components/team/task/StoryPointBox'
 import qs from "qs";
 
 export default {
@@ -107,6 +111,7 @@ export default {
     Swiper,
     SwiperSlide,
     HeadIcon,
+    StoryPointBox,
     CreateSubTaskPage,
   },
   data() {
@@ -218,7 +223,7 @@ export default {
 <style scoped>
 .task-box {
   width: 300px;
-  height: 400px;
+  height: 600px;
   margin: 10px;
 }
 .cooperator {

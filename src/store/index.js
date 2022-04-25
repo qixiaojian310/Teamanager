@@ -26,6 +26,7 @@ export default createStore({
       },
       role:"",
       rememberCookie:true,
+      teamSwiper:{}
     }
   },
   getters: {},
@@ -84,6 +85,15 @@ export default createStore({
     },
     updateRememberCookie(state,rememberCookie){
       state.rememberCookie = rememberCookie;
+    },
+    updateTeamSwiper(state,teamSwiper){
+      state.teamSwiper = teamSwiper;
+    },
+    changeModuleName(state,payload){
+      var focusModuleIndex = state.signInTeacherModule.findIndex((item)=>{
+        return item.moduleId == payload.moduleId;
+      })
+      state.signInTeacherModule[focusModuleIndex].moduleName = payload.moduleName;
     }
   },
   actions: {},

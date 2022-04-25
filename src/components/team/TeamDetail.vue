@@ -5,12 +5,13 @@
         :enabled="detailStatus"
         :modules="modules"
         :slides-per-view="1"
+        navigation
         :space-between="50"
         :pagination="{ clickable: true }"
-        :scrollbar="{ draggable: true }"
         :hashNavigation="{ watchState: true }"
         @swiper="onSwiper"
         @slideChange="onSlideChange"
+        :simulateTouch="false"
       >
         <swiper-slide data-hash="teamChart">
           <el-scrollbar :wrap-class="'slide-page'" :height="asideHeight - 140">
@@ -29,7 +30,10 @@
             </div>
           </el-scrollbar>
         </swiper-slide>
-        <swiper-slide data-hash="vote">
+        <swiper-slide
+          data-hash="vote"
+          v-if="this.$store.state.role == 'student'"
+        >
           <el-scrollbar :wrap-class="'slide-page'" :height="asideHeight - 140">
             <div class="vote-header">
               <p>{{ focusTeamObj.teamName }} Vote Center</p>
@@ -43,6 +47,18 @@
                 @change-leader="changeLeader"
               ></vote-page>
             </div>
+          </el-scrollbar>
+        </swiper-slide>
+        <swiper-slide
+          data-hash="score"
+          v-if="this.$store.state.role == 'teacher'"
+        >
+          <el-scrollbar :height="asideHeight - 196">
+            <p>Score center</p>
+            <score-unit
+              :students="scoreStudents"
+              :team-id="focusTeamObj.teamId"
+            ></score-unit>
           </el-scrollbar>
         </swiper-slide>
         <swiper-slide data-hash="task">
@@ -64,6 +80,7 @@
           </div>
           <div class="task-box">
             <task-page
+              :leader-id="focusTeamObj.leaderId"
               :is-detail="detailStatus"
               :team-id="focusTeamObj.teamId"
               :is-create-task="isCreateTask"
@@ -76,8 +93,25 @@
             ></task-page>
           </div>
         </swiper-slide>
-        <swiper-slide>
-          <chat :in-team="true" :chat-room-id-props="focusTeamObj.chatRoomId"></chat>
+        <swiper-slide data-hash="chat">
+          <chat
+            :in-team="true"
+            :chat-room-id-props="focusTeamObj.chatRoomId"
+          ></chat>
+        </swiper-slide>
+        <swiper-slide data-hash="contribution">
+          <el-scrollbar :height="asideHeight - 186" style="margin-left: 20px">
+            <contribution-page
+              :option="contributeOption"
+              :width="asideWidth - 160"
+              :height="400"
+            ></contribution-page>
+            <contribution-all-statistics
+              :option="contributePieOption"
+              :height="400"
+              :width="asideWidth - 160"
+            ></contribution-all-statistics>
+          </el-scrollbar>
         </swiper-slide>
       </swiper>
     </div>
@@ -106,11 +140,12 @@
 
 <script>
 import GanttChart from "./GanttChart.vue";
+import ContributionPage from "@/components/team/contribution/ContributionPage";
 import { DataBoard } from "@element-plus/icons-vue";
 import VotePage from "./vote/VotePage.vue";
 import TaskPage from "@/components/team/task/TaskPage";
-import Calender from "mpvue-calendar"
-import Chat from "@/views/Chat"
+import Calender from "mpvue-calendar";
+import Chat from "@/views/Chat";
 import qs from "qs";
 
 import {
@@ -132,6 +167,8 @@ import "swiper/modules/pagination/pagination.min.css";
 import "swiper/modules/scrollbar/scrollbar.min.css";
 import "swiper/modules/effect-cube/effect-cube.min.css";
 import "swiper/modules/hash-navigation/hash-navigation.min.css";
+import ContributionAllStatistics from "./contribution/ContributionAllStatistics.vue";
+import ScoreUnit from "@/components/team/contribution/ScoreUnit";
 
 export default {
   name: "TeamDetail",
@@ -151,10 +188,14 @@ export default {
   },
   data() {
     return {
+      contributionTeamSum: 0,
+      taskList: [],
+      //是contribution要显示的所有task
+      allTaskList: [],
       haveJoinChat: false,
       drawerState: false,
-      createSubTask:{},
-      modules: [Pagination, Scrollbar, A11y, EffectCube, HashNavigation],
+      createSubTask: {},
+      modules: [Pagination, A11y, EffectCube, HashNavigation, Navigation],
       detailStatus: false,
       activeName: "1",
       // 被选中的课
@@ -162,6 +203,7 @@ export default {
       voteStudent: "",
       //task page是否是create状态
       isCreateTask: false,
+      contribution: [],
       ganttOption: {
         chart: {
           type: "xrange",
@@ -234,6 +276,105 @@ export default {
           },
         ],
       },
+      contributeOption: {
+        chart: {
+          type: "bar",
+        },
+        title: {
+          text: "The Contribution of Team",
+        },
+        xAxis: {
+          categories: ["苹果", "橘子", "梨", "葡萄", "香蕉"],
+        },
+        yAxis: {
+          min: 0,
+          title: {
+            text: "The Story point of the task",
+          },
+        },
+        legend: {
+          /* 图例显示顺序反转
+           * 这是因为堆叠的顺序默认是反转的，可以设置
+           * yAxis.reversedStacks = false 来达到类似的效果
+           */
+          reversed: true,
+        },
+        plotOptions: {
+          series: {
+            stacking: "normal",
+          },
+        },
+        series: [
+          {
+            name: "小张",
+            data: [5, 3, 4, 7, 2],
+          },
+          {
+            name: "小彭",
+            data: [2, 2, 3, 2, 1],
+          },
+          {
+            name: "小潘",
+            data: [3, 4, 4, 2, 5],
+          },
+        ],
+      },
+      contributePieOption: {
+        chart: {
+          plotBackgroundColor: null,
+          plotBorderWidth: null,
+          plotShadow: false,
+          type: "pie",
+        },
+        title: {
+          text: "Contribution summary for each member",
+        },
+        tooltip: {
+          pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+        },
+        plotOptions: {
+          pie: {
+            allowPointSelect: true,
+            cursor: "pointer",
+            dataLabels: {
+              enabled: false,
+            },
+            showInLegend: true,
+          },
+        },
+        series: [
+          {
+            name: "Task contribution",
+            colorByPoint: true,
+            data: [
+              {
+                name: "Chrome",
+                y: 61.41,
+              },
+              {
+                name: "Internet Explorer",
+                y: 11.84,
+              },
+              {
+                name: "Firefox",
+                y: 10.85,
+              },
+              {
+                name: "Edge",
+                y: 4.67,
+              },
+              {
+                name: "Safari",
+                y: 4.18,
+              },
+              {
+                name: "Other",
+                y: 7.05,
+              },
+            ],
+          },
+        ],
+      },
     };
   },
   computed: {
@@ -243,6 +384,11 @@ export default {
       } else {
         return "<span style='color:red'>No selected leader</span>";
       }
+    },
+    scoreStudents() {
+      return this.contribution.map((item) => {
+        return { student: item.student, score: item.score };
+      });
     },
   },
   methods: {
@@ -262,7 +408,7 @@ export default {
       this.voteStudent = voteStudent;
     },
     onSwiper(swiper) {
-      console.log(swiper);
+      this.$store.commit("updateTeamSwiper", swiper);
     },
     onSlideChange(swiper) {
       var warningMessage = {};
@@ -297,9 +443,118 @@ export default {
       this.$emit("hide-detail");
       this.detailStatus = !this.detailStatus;
     },
+    // 老师用的方法
+    getTaskListWithAxios() {
+      this.axios({
+        url: "/getTaskListWithTeamId",
+        data: qs.stringify(
+          {
+            teamId: this.focusTeamObj.teamId,
+          },
+          { indices: false }
+        ),
+        method: "post",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      })
+        .then((res) => {
+          this.taskList = res.data;
+          this.focusTeamObj.taskList = res.data;
+        })
+        .then(() => {
+          var taskList = this.taskList;
+          console.log(taskList);
+          var contextList = [];
+          var taskDataList = [];
+          for (let index = 0; index < taskList.length; index++) {
+            contextList.push(taskList[index].context);
+            var taskData = new Object();
+            taskData.x = taskList[index].startTime;
+            taskData.x2 = taskList[index].deadline;
+            taskData.y = index;
+            taskDataList.push(taskData);
+          }
+          this.ganttOption.series[0].data = taskDataList;
+          this.ganttOption.yAxis.categories = contextList;
+          this.ganttOption.chart.width = this.asideWidth - 160;
+        });
+    },
+    getContribution() {
+      this.contribution = [];
+      this.axios({
+        url: "getAllStoryPoint",
+        data: qs.stringify({
+          teamId: this.focusTeamObj.teamId,
+        }),
+        method: "post",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }).then((subRes) => {
+        this.contributionTeamSum = subRes.data;
+      });
+      this.axios({
+        url: "getContribution",
+        data: qs.stringify({
+          teamId: this.focusTeamObj.teamId,
+        }),
+        method: "post",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      })
+        .then((res) => {
+          this.contribution = res.data;
+          this.contributeOption.series = this.contribution.map((item) => {
+            return {
+              name: item.student.studentId,
+              data: item.contributionStoryPoints.map((item) => {
+                return item.storyPoint;
+              }),
+            };
+          });
+          this.contributePieOption.series[0].data = this.contribution.map(
+            (item) => {
+              return {
+                name: item.student.studentId,
+                y:
+                  (item.contributionStoryPoints.reduce((a, b) => {
+                    return a + b.storyPoint;
+                  }, 0) /
+                    this.contributionTeamSum) *
+                  100,
+              };
+            }
+          );
+        })
+        .then(() => {
+          this.getAllTask();
+        });
+    },
+    getAllTask() {
+      this.axios({
+        url: "/refreshTeacherTask",
+        data: qs.stringify({
+          teamId: this.focusTeamObj.teamId,
+        }),
+        method: "post",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }).then((res) => {
+        this.allTaskList = res.data;
+        this.contributeOption.xAxis.categories = this.allTaskList.map(
+          (item) => item.taskName
+        );
+      });
+    },
   },
   created() {
+    this.getContribution();
+    // this.getTaskListWithAxios();
     var taskList = this.focusTeamObj.taskList;
+    console.log(taskList);
     var contextList = [];
     var taskDataList = [];
     for (let index = 0; index < taskList.length; index++) {
@@ -322,8 +577,11 @@ export default {
     VotePage,
     TaskPage,
     Calender,
-    Chat
-},
+    Chat,
+    ContributionPage,
+    ContributionAllStatistics,
+    ScoreUnit,
+  },
 };
 </script>
 
@@ -379,7 +637,7 @@ export default {
 .swiper-slide {
   background: rgb(222, 222, 222);
 }
-.student-box{
+.student-box {
   display: flex;
   justify-content: flex-start;
   margin-left: 30px;
