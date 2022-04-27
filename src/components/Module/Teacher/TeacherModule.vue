@@ -70,8 +70,9 @@
                     :module-name="focusModuleObj.moduleName"
                     :focusModuleId="focusModuleObj.moduleId"
                   ></register-module>
+                  <!-- create -->
+                  <create-module v-if="mainBox == 2"></create-module>
                 </el-scrollbar>
-                <create-module v-if="mainBox == 2"></create-module>
               </el-scrollbar>
             </el-container>
           </div>
@@ -132,6 +133,10 @@ export default {
     this.getTeamUrl();
   },
   methods: {
+    deleteModule(){
+      this.cardFocusObj = {};
+      this.cardFocusId = -1;
+    },
     getTeamUrl() {
       var moduleFocusId = this.$route.params.moduleId;
       this.$store.state.signInTeacherModule.forEach((element) => {
@@ -223,6 +228,7 @@ export default {
     },
     registerModule: function () {
       this.editBox = true;
+      this.mainBox = 1;
       this.title = "Register Center";
     },
     createModule: function () {

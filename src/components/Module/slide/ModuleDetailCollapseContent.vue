@@ -20,10 +20,19 @@
       {{ studentObj.studentId }}
     </div>
     <div class="button-box">
-      <el-button type="primary" @click="joinTeam" :disabled = "haveJoinTeam" v-if="this.$store.state.role != 'teacher'">
+      <el-button
+        type="primary"
+        @click="joinTeam"
+        :disabled="haveJoinTeam"
+        v-if="this.$store.state.role != 'teacher'"
+      >
         <el-icon><Edit /></el-icon>
         <span>Join this team</span>
         <span>{{ studentListLength + "/" + teamSize }}</span>
+      </el-button>
+      <el-button type="danger" v-else @click="deleteTeam">
+        <i class="fa fa-trash-o"></i>
+        Delete team
       </el-button>
     </div>
   </div>
@@ -39,8 +48,8 @@ export default {
     // studentIds: {
     //   type: Array,
     // },
-    teamId:{
-      type:Number
+    teamId: {
+      type: Number,
     },
     studentListLength: {
       type: Number,
@@ -55,9 +64,12 @@ export default {
       type: Boolean,
     },
   },
-  methods:{
-    joinTeam(){
+  methods: {
+    joinTeam() {
       this.$emit("joinTeam", this.teamId);
+    },
+    deleteTeam() {
+      this.$emit("deleteTeam", this.teamId);
     },
   },
   computed: {

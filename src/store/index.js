@@ -83,6 +83,25 @@ export default createStore({
         }
       }
     },
+    deleteTeacherModule(state,moduleId){
+      var deleteModuleIndex = state.signInTeacherModule.findIndex((item)=>{
+        return item.moduleId == moduleId;
+      })
+      state.signInTeacherModule.splice(deleteModuleIndex,1);
+    },
+    deleteTeacherTeam(state,payload){
+      var deleteTeamIndex = state.teams.findIndex((item)=>{
+        return item.teamId == payload.teamId;
+      })
+      state.teams.splice(deleteTeamIndex,1);
+      var deleteModuleIndex = state.signInTeacherModule.findIndex((item)=>{
+        return item.moduleId == payload.moduleId;
+      })
+      var deleteModuleTeamIndex = state.signInTeacherModule[deleteModuleIndex].teamIds.findIndex((item)=>{
+        return item == payload.teamId;
+      })
+      state.signInTeacherModule[deleteModuleIndex].teamIds.splice(deleteModuleTeamIndex,1);
+    },
     updateRememberCookie(state,rememberCookie){
       state.rememberCookie = rememberCookie;
     },

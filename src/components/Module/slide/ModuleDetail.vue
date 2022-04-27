@@ -32,6 +32,7 @@
                 :haveJoinTeam="haveJoinTeam"
                 :teamId="teamObj.teamId"
                 @join-team="joinTeam"
+                @delete-team="deleteTeam"
               ></module-detail-collapse-content>
             </el-collapse-item>
           </el-collapse>
@@ -45,6 +46,13 @@
         :disabled="haveJoinModule"
         @click="joinModule"
         >{{ joinModuleBtnTitle }}</el-button
+      >
+      <el-button
+        type="danger"
+        v-else
+        :style="{ height: 40 + 'px', marginBottom: 20 + 'px' }"
+        @click="deleteModule"
+        ><i class="fa fa-trash-o"></i>Delete this module</el-button
       >
     </div>
   </div>
@@ -110,6 +118,52 @@ export default {
         }
       });
     },
+    deleteModule() {
+      this.axios({
+        url: "/deleteModule",
+        method: "post",
+        data: qs.stringify(
+          {
+            moduleId: this.focusModuleObj.moduleId,
+          },
+          { indices: false }
+        ),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }).then((res) => {
+        if (!res.data) {
+          this.$store.commit(
+            "deleteTeacherModule",
+            this.focusModuleObj.moduleId
+          );
+        }
+      });
+    },
+    //删除组
+    deleteTeam(teamId) {
+      this.axios({
+        url: "/deleteTeam",
+        method: "post",
+        data: qs.stringify(
+          {
+            teamId: teamId,
+          },
+          { indices: false }
+        ),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }).then((res) => {
+        if (!res.data) {
+          this.$store.commit("deleteTeacherTeam", {
+            teamId: teamId,
+            moduleId: this.focusModuleObj.moduleId,
+          });
+        }
+      });
+    },
+    // 加入组
     joinTeam: function (teamId) {
       if (this.haveJoinModule == false) {
         ElMessage.error("Please join the module first");
@@ -147,11 +201,11 @@ export default {
                   ),
                 }).then((res) => {
                   //TODO 需要插入一个动态修改的功能，可以直接修改module detail里面的值
-                  res.data.taskList = []
+                  res.data.taskList = [];
                   this.focusModuleObj.teamIds.push(res.data.teamId);
                   this.$store.commit("pushStudentTeams", res.data);
-                  this.$emit("changeTeam",res.data);
-                })
+                  this.$emit("changeTeam", res.data);
+                });
                 ElMessage({
                   type: "success",
                   message: `Your team name is:${value},Chat room name is:${chatRoomName}`,
@@ -206,7 +260,7 @@ export default {
           break;
         }
       }
-      if(this.$store.state.role == "teacher"){
+      if (this.$store.state.role == "teacher") {
         return false;
       }
       return flag;

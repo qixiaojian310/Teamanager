@@ -9,11 +9,16 @@
 </template>
 
 <script>
+import all from "./util/all";
+
 
 export default {
   name: "App",
   mounted() {
     this.reloadChange()
+  },
+  beforeMount(){
+    all()
   },
   methods:{
     //监听窗口大小变化

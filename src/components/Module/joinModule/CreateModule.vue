@@ -44,7 +44,7 @@
             class="btn-submit"
             type="button"
             @click="submitForm"
-            value="Sign up your Team"
+            value="Create a Module"
           />
         </div>
       </el-col>
@@ -80,7 +80,16 @@ export default {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-      }).then((res) => {});
+      }).then((res) => {
+        if(res.data){
+          this.$notify({
+            title: "Success",
+            message: "Create a module successfully",
+            type: "success",
+            position:"top-left"
+          });
+        }
+      });
     },
   },
   computed: {
@@ -107,7 +116,7 @@ export default {
   color: #1b1b1b;
   background-color: #65b54d56;
   border: 2px solid #65b54d;
-  width: 80%;
+  width: 200px;
   display: block;
   text-align: center;
   padding: 2%;

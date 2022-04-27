@@ -1,6 +1,7 @@
 import {
   createApp
 } from 'vue'
+import $ from "jquery";
 import App from './App.vue'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
@@ -12,6 +13,9 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import aos from './aos/index'
 
+
+window.jQuery = $;
+window.$ = $;
 const app = createApp(App).use(store)
 app.use(router)
 app.use(ElementPlus)

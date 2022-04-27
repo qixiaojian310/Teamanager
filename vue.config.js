@@ -1,4 +1,7 @@
 'use strict'
+const webpack = require("webpack");
+const path = require("path");
+
 module.exports = {
     publicPath: '/api',
     pages: {
@@ -22,6 +25,16 @@ module.exports = {
         // 输出文件名会被推导为 `subpage.html`。
     },
     devServer: {
-        port:8088,
-    }
+        port: 8088,
+    },
+    //其他配置....
+    configureWebpack: {
+        plugins: [
+            new webpack.ProvidePlugin({
+                $: "jquery",
+                jQuery: "jquery",
+                "window.jQuery": "jquery",
+            }),
+        ],
+    },
 }
