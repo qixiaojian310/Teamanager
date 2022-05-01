@@ -132,20 +132,6 @@ export default {
         var injectModules = response.data;
         this.moduleItems = response.data;
         this.$store.commit("injectStudentModules", injectModules);
-        // for (let index = 0; index < injectModules.length; index++) {
-        //   var tempModuleObj = new Object();
-        //   //绑定name
-        //   tempModuleObj.moduleName = injectModules[index].moduleName;
-        //   //绑定id
-        //   tempModuleObj.moduleId = injectModules[index].moduleId;
-        //   tempModuleObj.teacher = injectModules[index].teacher;
-        //   tempModuleObj.students = injectModules[index].students;
-        //   tempModuleObj.teamIds = injectModules[index].teamIds;
-        //   tempModuleObj.teamNum = injectModules[index].teamNum;
-        //   tempModuleObj.moduleSize = injectModules[index].moduleSize;
-        //   this.moduleItems.push(tempModuleObj);
-        //   this.$store.commit("pushStudentModule",tempModuleObj);
-        // }
       });
     },
     //该方法负责初始化所有的uncompleted task

@@ -187,6 +187,16 @@ export default {
     submitForm() {
       //TODO 加一个判断用户是否选择自己身份的警告
       //AJAX方式
+      if(this.role == ""){
+        this.$notify({
+          title: "Please choose your role",
+          message: "",
+          type: "warning",
+          duration: 2000,
+          position:"top-left"
+        })
+        return;
+      }
       this.axios({
         url: this.role[0],
         data: this.adaptUserData(),
@@ -208,6 +218,31 @@ export default {
             this.$store.commit("updateSignInTeacherName", this.form.username);
           }
           this.$router.push(this.role + "/" + this.form.username);
+          this.$notify({
+            title: "Sign in successfully",
+            message: "",
+            type: "success",
+            duration: 2000,
+            position:"top-left"
+          })
+        }else if(responseData == "NoMatch"){
+          this.$notify({
+            title: "The password is wrong",
+            message: "",
+            type: "error",
+            duration: 2000,
+            position:"top-left"
+          })
+          return;
+        }else{
+          this.$notify({
+            title: "The User is not exist",
+            message: "",
+            type: "warning",
+            duration: 2000,
+            position:"top-left"
+          })
+          return;
         }
       });
     },
@@ -224,4 +259,5 @@ export default {
 i{
   margin-right: 0.5rem;
 }
+
 </style>

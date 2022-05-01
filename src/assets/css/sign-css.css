@@ -1,5 +1,7 @@
 .bg-box {
-  background-color: #4d58b5;
+  /* background-color: #4d58b5; */
+  background: url("~@/assets/picture/signInBg.png") no-repeat 0% 0%;
+  background-size: 100% 100%;
 }
 .sign-up-box{
   background-color: rgb(255, 255, 255);

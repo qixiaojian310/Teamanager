@@ -255,21 +255,6 @@ export default {
       //先接受所有的信息再打开链接
       this.receiveAllExistMessage(chatRoomId);
     },
-    // onOpen() {
-    //   console.log("open");
-    //   document.getElementById("status").value = "已连接";
-    // },
-    // onMessage() {
-    //   if (this.chartContent.length > 0) {
-    //     this.chartContent += "\n";
-    //   }
-    //   // this.chartContent = this.chartContent + e.data;
-    //   document.getElementById("chartContent").value = this.chartContent;
-    // },
-    // onClose() {
-    //   console.log("close");
-    //   document.getElementById("status").value = "未连接...";
-    // },
     clickConnect(chatRoomId) {
       this.sockjsClient = new SockJS(this.sockjsAddr);
       this.stompClient = Stomp.over(this.sockjsClient);
