@@ -39,7 +39,7 @@ export default {
   align-items: center;
 }
 p {
-  color: #fff;
+  color: var(--main-center-title-color);
   margin-top: 0.5em;
   font-size: 30px;
   font-weight: bold;

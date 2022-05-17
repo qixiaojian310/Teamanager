@@ -14,7 +14,7 @@
         @ensure-choice="selectModule"
       ></module-toolbar>
     </el-aside>
-    <el-container :style="{ height: asideHeight - 50 + 'px' }">
+    <el-container class="main-page" :style="{ height: asideHeight + 'px' }">
       <el-scrollbar :height="asideHeight - 50" :style="{ width: 100 + '%' }">
         <el-main>
           <div ref="skele">
@@ -349,8 +349,8 @@ export default {
 
 </style>
 
-<style scoped>
-#skele {
+<style scoped src="@/assets/css/team.css">
+/* #skele {
   position: absolute;
   z-index: 3;
   width: calc(100% - 40px);
@@ -381,14 +381,6 @@ export default {
   background: rgba(0, 0, 0, 0);
   border: none;
 }
-.refresh-btn{
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 2;
-  background: rgba(0, 0, 0, 0);
-  border: none;
-}
 .close-btn:hover {
   background: rgba(0, 0, 0, 0.1);
 }
@@ -398,9 +390,19 @@ export default {
   justify-content: center;
   font-size: 20px;
   font-weight: bold;
-  color: rgb(15, 15, 15);
+  color: var(--el-text-color-primary);
 }
 .left-aside{
   display: flex;
+} */
+</style>
+<style scoped>
+.refresh-btn{
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0);
+  border: none;
 }
 </style>

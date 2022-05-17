@@ -15,7 +15,7 @@
         @create-module="createModule"
       ></module-toolbar>
     </el-aside>
-    <el-container :style="{ height: asideHeight - 50 + 'px' }">
+    <el-container class="main-page" :style="{ height: asideHeight + 'px' }">
       <div :height="asideHeigh - 50" :style="{ width: 100 + '%' }">
         <el-main>
           <div ref="skele">
@@ -381,7 +381,7 @@ export default {
   justify-content: center;
   font-size: 20px;
   font-weight: bold;
-  color: rgb(15, 15, 15);
+  color: var(--el-text-color-primary);
 }
 #skele {
   position: absolute;
@@ -413,13 +413,8 @@ export default {
   overflow-x: hidden;
   overflow-y: auto;
 }
-.aside-box-left > div p {
-  font-size: 20px;
-  font-weight: 700;
-  margin-left: 30px;
-}
 .aside-box-right {
-  background: #515151;
+  background: var(--right-bar-bgcolor);
   box-shadow: -1px 0px 7px #888888;
   overflow: hidden;
   position: relative;
@@ -436,23 +431,11 @@ export default {
   display: flex;
   flex-wrap: nowrap;
 }
-.swiper-container {
-  width: 100%;
-  height: 200px;
-}
-.close-btn {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
-  background: rgba(0, 0, 0, 0);
-  border: none;
-}
-.close-btn:hover {
-  background: rgba(0, 0, 0, 0.1);
-}
 .main-box {
   display: flex;
   flex-direction: column;
 }
+  .main-page{
+    background: var(--page-background);
+  }
 </style>

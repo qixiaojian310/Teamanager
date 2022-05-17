@@ -8,7 +8,7 @@
     </div>
     </template>
     <template #content>
-      <span style="font-size: 15px;">Story point: the number of subtask</span>
+      <span style="font-size: 15px;color: #000;">Story point: the number of subtask</span>
     </template>
   </el-tooltip>
 </template>

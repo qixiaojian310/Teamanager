@@ -301,7 +301,7 @@ export default {
   margin-left: 30px;
 }
 .el-main {
-  background: #cbcbcb;
+  background: var(--main-center-bgcolor);
   color: black;
   font-size: large;
   background-size: 50px 50px, 50px 50px; /* grid size */

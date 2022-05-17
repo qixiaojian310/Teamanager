@@ -24,7 +24,7 @@
             :type="'text'"
           >
           </sign-input-item>
-          <textarea :value="signInStudentObj.info" @input="setUserInfo">
+          <textarea :value="signInStudentObj.info" @input="setUserInfo" style="background: var(--input-bg-color)">
 
           </textarea>
           <div class="submit-box">
@@ -94,7 +94,7 @@ export default {
 .btn-submit{
   transition: background-color 0.35s ease-in-out, color 0.35s ease-in-out;
   text-decoration: none;
-  color: #1b1b1b;
+  color: var(--el-text-color-primary);
   background-color: #65b54d56;
   border: 2px solid #65b54d;
   width: 80%;

@@ -5,7 +5,7 @@
         <p>{{ senderId }}</p>
         <p>{{ sendTime }}</p>
       </div>
-      <p class="message">{{ message }}</p>
+      <p class="message" v-html="message"></p>
     </div>
     <head-icon
       :disabled="true"
@@ -26,7 +26,7 @@
         <p>{{ senderId }}</p>
         <p>{{ sendTime }}</p>
       </div>
-      <p class="message">{{ message }}</p>
+      <p class="message" v-html="message"></p>
     </div>
   </div>
 </template>
@@ -117,19 +117,20 @@ export default {
   padding: 10px;
   padding-top: 0px;
   border-radius: 5px;
+  color: #222;
 }
 .sender > .msg-content {
   border-right-width:7px;
   border-right-color: #444791;
   border-right-style: solid;
-  background: #f8c301;
+  background: #a4e079;
 }
 
 .receiver > .msg-content{
   border-left-width: 7px;
   border-left-style: solid;
   border-left-color: #444791;
-  background: rgb(149,235,108) 
+  background: rgb(241, 241, 241) 
 }
 .info-box {
   display: flex;
@@ -138,10 +139,10 @@ export default {
 .info-box p {
   margin-left: 15px;
   font-weight: 600;
-  color: #fff;
+  /* color: #fff; */
 }
 .message {
-  color: #fff;
+  /* color: #fff; */
   margin: 10px;
   word-break: break-all;
 }

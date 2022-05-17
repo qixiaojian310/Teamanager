@@ -9,7 +9,7 @@
     <el-row style="width: 100%">
       <el-col :span="20" :offset="2" style="height: 100%">
         <div class="input-item-box">
-          <span>Your Module Name</span>
+          <span style="color: var(--el-text-color-primary);">Your Module Name</span>
           <div class="input-item">
             <el-input
               v-model="moduleName"
@@ -25,7 +25,7 @@
             :height="transferHeight"
             style="overflow-y: hidden"
           >
-            <p style="text-align: center; font-size: 2rem">
+            <p style="text-align: center; font-size: 2rem; color: var(--el-text-color-primary);">
               Delete some student
             </p>
             <el-transfer

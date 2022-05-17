@@ -3,7 +3,7 @@
     <el-container>
       <el-row v-if="tasks.length > 0" style="width: 100%">
         <el-col :span="isDetail ? 16 : 24">
-          <el-scrollbar :wrap-class="'slide-page'" :height="asideHeight - 240">
+          <el-scrollbar :wrap-class="'slide-page'" :height="height-60.2">
             <div class="tasks-box">
               <task-card @cancel="isDetail = true" v-for="task in tasks" :key="task.taskId" :task="task" @see-detail="seeDetail" @refresh-subtask="refreshSubtask">
                 <template #detail>

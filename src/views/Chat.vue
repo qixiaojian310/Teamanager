@@ -24,7 +24,7 @@
         </div>
       </el-scrollbar>
     </el-aside>
-    <el-main>
+    <el-main style="overflow:hidden;padding: 0px;">
       <chat-box
         @send="sendMessage"
         :all-messages="messages"
@@ -336,7 +336,7 @@ export default {
       if (!this.inTeam) {
         return this.$store.state.windowSize.windowSizeHeight;
       } else {
-        return this.$store.state.windowSize.windowSizeHeight - 180;
+        return this.$store.state.windowSize.windowSizeHeight - 100;
       }
     },
     inChatRoom() {

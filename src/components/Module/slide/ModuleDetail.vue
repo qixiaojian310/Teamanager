@@ -292,7 +292,7 @@ export default {
   margin-bottom: 30px;
 }
 .scroll-bar-right {
-  background: #e0e0e0;
+  background: var(--left-slide-content-bgcolor);
   margin-left: 60px;
   margin-right: 60px;
   margin-top: 50px;
@@ -322,5 +322,8 @@ export default {
 .team-name span {
   margin-right: 10px;
   color: #409eff;
+}
+p{
+  color: var(--el-text-color-primary);
 }
 </style>

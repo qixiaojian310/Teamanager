@@ -2,7 +2,8 @@
   <el-container>
     <!-- 列表栏，细节展示需要收回去 -->
     <el-container
-      :style="{ height: asideHeight - 50 + 'px' }"
+      :style="{ height: asideHeight + 'px' }"
+      class="main-page"
       v-if="!detailState"
     >
       <el-scrollbar :height="asideHeight - 50" :style="{ width: 100 + '%' }">
@@ -254,6 +255,11 @@ export default {
 };
 </script>
 
+<style scoped src="@/assets/css/team.css">
+
+</style>
+
+<!-- 
 <style scoped>
 #skele {
   position: absolute;
@@ -329,4 +335,4 @@ export default {
   font-weight: bold;
   color: rgb(15, 15, 15);
 }
-</style>
+</style> -->

@@ -101,12 +101,12 @@ export default {
 
 <style scoped>
 .header-link-box {
-  justify-content: end;
+  justify-content: flex-end;
 }
 .el-row {
   height: 100%;
   width: 100%;
-  background: #515151;
+  background: var(--header-bg-color);
   /* background: rgb(91, 113, 167); */
   /* background: rgb(167, 93, 93); */
 }

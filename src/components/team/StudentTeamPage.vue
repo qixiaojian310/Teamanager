@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <el-container class="main-page">
     <!-- 列表栏，细节展示需要收回去 -->
     <el-container
       :style="{ height: asideHeight - 50 + 'px' }"
@@ -35,7 +35,7 @@
     >
       <!-- 关闭细节 -->
       <el-button class="close-btn" @click="closeDetail">
-        <el-icon :size="30" :color="'#ffffff'">
+        <el-icon :size="30" class="close-btn-icon">
           <close-bold></close-bold>
         </el-icon>
       </el-button>
@@ -259,7 +259,11 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped src="@/assets/css/team.css">
+
+</style>
+
+<!-- <style scoped>
 #skele {
   position: absolute;
   z-index: 3;
@@ -334,4 +338,4 @@ export default {
   font-weight: bold;
   color: rgb(15, 15, 15);
 }
-</style>
+</style> -->

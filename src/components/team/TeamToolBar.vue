@@ -12,7 +12,7 @@
         :backgroundColor="'#e6e1e1'"
         :inputHeight="2"
       ></sign-input-item> -->
-        <div style="background-color: #fff">
+        <div class="cascader-panel">
           <el-cascader-panel
             placeholder="Try searching Guide"
             :options="options"
@@ -219,7 +219,7 @@ export default {
   width: 100%;
   /* margin-bottom: 5%;
   margin-top: 5%; */
-  background-color: #e6e1e1;
+  background-color: var(--team-toolbar-bgcolor);
 }
 .toolbar-list {
   height: 45%;
@@ -229,9 +229,9 @@ export default {
 
 .btn-all-team {
   transition: background-color 0.35s ease-in-out, color 0.35s ease-in-out;
-  color: #df7599;
-  background-color: #fac1d3;
-  border: 2px solid #df7599;
+  color: #000000;
+  background-color: #ffcc00;
+  border: 2px solid #000000;
   width: 100%;
   display: block;
   text-align: start;
@@ -277,5 +277,9 @@ i {
 .btn-box {
   position: relative;
   height: 3.2rem;
+}
+
+.cascader-panel{
+  background: var(--cascader-bgcolor);
 }
 </style>

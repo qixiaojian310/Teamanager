@@ -13,6 +13,7 @@ import TeamHome from '../components/team/TeamHome.vue'
 import VotePage from '../components/team/vote/VotePage.vue'
 import Chat from '../views/Chat.vue'
 import TeacherTeamPage from '@/components/team/TeacherTeamPage'
+import homepage from '@/views/HomePage.vue'
 
 const routes = [
   {
@@ -104,6 +105,11 @@ const routes = [
     ]
   },
   {
+    path:'/',
+    name:'home',
+    component:homepage
+  },
+  {
     path: '/signin',
     name: 'Signin',
     component: Signin
@@ -112,15 +118,7 @@ const routes = [
     path:'/signup',
     name: 'Signup',
     component:Signup
-  },
-  {
-    path: '/',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/HomePage.vue')
-  },
+  }
 ]
 
 const router = createRouter({
@@ -128,7 +126,7 @@ const router = createRouter({
   routes
 })
 router.beforeEach((to, from) => {
-  if(to.name == 'About'){
+  if(to.name == 'home'){
     document.body.style.overflow = 'auto'
   }else{
     document.body.style.overflow = 'hidden'

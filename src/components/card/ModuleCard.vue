@@ -78,7 +78,7 @@ export default {
 }
 .teacher-name {
   font-size: 0.5rem;
-  color: #414040;
+  color: var(--el-text-color-primary);
   margin-bottom: 5px;
 }
 </style>

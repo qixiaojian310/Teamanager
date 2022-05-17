@@ -1,6 +1,6 @@
 <template>
   <div class="scroll-bar-right" :style="{ height: asideHeight - 100 + 'px' }">
-    <div :style="{ height: asideHeight - 140 + 'px', padding: 20 + 'px' }">
+    <div :style="{ height: asideHeight - 140 + 'px'}">
       <swiper
         :enabled="detailStatus"
         :modules="modules"
@@ -14,12 +14,12 @@
         :simulateTouch="false"
       >
         <swiper-slide data-hash="teamChart">
-          <el-scrollbar :wrap-class="'slide-page'" :height="asideHeight - 140">
+          <el-scrollbar :wrap-class="'slide-page'" :height="asideHeight - 100">
             <p>
               Team name: <span>{{ focusTeamObj.teamName }}</span>
             </p>
             <span class="teacher-name-big">Leader name:</span>
-            <span v-html="searchLeader"></span>
+            <span class="teacher-name-big" v-html="searchLeader"></span>
             <div class="team-box">
               <gantt-chart
                 :option="ganttOption"
@@ -34,7 +34,7 @@
           data-hash="vote"
           v-if="this.$store.state.role == 'student'"
         >
-          <el-scrollbar :wrap-class="'slide-page'" :height="asideHeight - 140">
+          <el-scrollbar :wrap-class="'slide-page'" :height="asideHeight - 100">
             <div class="vote-header">
               <p>{{ focusTeamObj.teamName }} Vote Center</p>
             </div>
@@ -53,7 +53,7 @@
           data-hash="score"
           v-if="this.$store.state.role == 'teacher'"
         >
-          <el-scrollbar :height="asideHeight - 196">
+          <el-scrollbar :height="asideHeight - 100">
             <p>Score center</p>
             <score-unit
               :students="scoreStudents"
@@ -84,7 +84,7 @@
               :is-detail="detailStatus"
               :team-id="focusTeamObj.teamId"
               :is-create-task="isCreateTask"
-              :height="asideHeight - 196"
+              :height="asideHeight - 143"
               :tasks="focusTeamObj.taskList"
               :asideHeight="asideHeight"
               @refresh-task="refreshTask"
@@ -100,7 +100,7 @@
           ></chat>
         </swiper-slide>
         <swiper-slide data-hash="contribution">
-          <el-scrollbar :height="asideHeight - 186" style="margin-left: 20px">
+          <el-scrollbar :height="asideHeight - 100" style="margin-left: 20px">
             <contribution-page
               :option="contributeOption"
               :width="asideWidth - 160"
@@ -586,8 +586,11 @@ export default {
 </script>
 
 <style scoped>
+p{
+  color: var(--el-text-color-primary);
+}
 .scroll-bar-right {
-  background: #e0e0e0;
+  background: var(--left-slide-border-color);
   margin-left: 30px;
   margin-right: 30px;
   margin-top: 40px;
@@ -635,12 +638,15 @@ export default {
   margin-left: 0;
 }
 .swiper-slide {
-  background: rgb(222, 222, 222);
+  background: var(--left-slide-content-bgcolor);
 }
 .student-box {
   display: flex;
   justify-content: flex-start;
   margin-left: 30px;
+}
+.teacher-name-big{
+  color: var(--el-text-color-primary);
 }
 </style>
 <style></style>

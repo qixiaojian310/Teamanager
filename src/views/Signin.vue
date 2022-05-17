@@ -259,5 +259,16 @@ export default {
 i{
   margin-right: 0.5rem;
 }
-
+.el-checkbox{
+  background: var(--input-bg-color);
+}
+.sign-box > div{
+  background: var(--el-fill-color-blank);
+}
+p{
+  color: var(--el-text-color-primary);
+}
+span{
+  color: var(--el-text-color-primary);
+}
 </style>

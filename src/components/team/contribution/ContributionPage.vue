@@ -4,7 +4,7 @@
   <!-- 每个人的时间计划 -->
   <!-- task summary -->
   <!-- 贡献相当于是每个人承担的任务数量除以团队的总任务，任务点数的设计，任务点数相当于子任务的数量 -->
-  <div>
+  <div style="margin:10px">
     <highcharts :constructorType="'chart'" class="hc" :options="option" :callback="afterChartCreate" ref="chart" :highchart="hcInstance"></highcharts>
   </div>
 </template>

@@ -14,7 +14,7 @@
         <div class="time">{{contactDate}}</div>
       </el-row>
       <el-row class="right-bottom">
-        <p class="last-msg">{{message}}</p>
+        <p class="last-msg" v-html="message"></p>
       </el-row>
     </div>
   </div>

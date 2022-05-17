@@ -1,6 +1,6 @@
 <template>
-  <el-container>
-    <el-header>
+  <el-container style="height:100%;position:relative" class="chat-box">
+    <el-header :height="'30px'">
       <p class="header">{{contactName}}</p>
     </el-header>
     <el-main>
@@ -12,25 +12,18 @@
         </el-col>
       </el-row>
       </el-main>
-      <el-main>
         <div class="send-box">
-          <el-input v-model="message" placeholder="message"></el-input>
-        <el-button type="success" @click="send">
-          Send
-        </el-button>
+          <!-- <el-input v-model="message" placeholder="message"></el-input> -->
+        <message-editor @send="send"></message-editor>
+
         </div>
-      </el-main>
   </el-container>
 </template>
 
 <script>
+import MessageEditor from '@/components/editor/MessageEditor.vue'
 import MessageItem from './MessageItem.vue'
 export default {
-  data(){
-    return {
-      message: '',
-    }
-  },
   props:{
     allMessages: {
       type: Array,
@@ -42,10 +35,10 @@ export default {
       type: Number,
     }
   },
-  components: { MessageItem },
+  components: { MessageItem, MessageEditor },
   methods:{
-    send(){
-      this.$emit('send', this.message)
+    send(message){
+      this.$emit('send', message)
     }
   }
 }
@@ -55,12 +48,24 @@ export default {
 .header{
   font-size: 20px;
   font-weight: bold;
-  margin: 0px;
+  margin: 10px;
   color: #000;
 }
 .send-box{
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
   padding: 10px;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  background: var(--chat-box-input-bgcolor);
+}
+.chat-box{
+  background: var(--chat-box-bgcolor);
+  box-sizing: border-box;
 }
 </style>

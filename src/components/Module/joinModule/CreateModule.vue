@@ -34,7 +34,7 @@
             </el-col>
             <el-col :span="10">
               <div class="computed-team-size">
-                <div>Your Team size is {{ teamSize }}</div>
+                <span>Your Team size is {{ teamSize }}</span>
               </div>
             </el-col>
           </el-row>
@@ -105,6 +105,9 @@ export default {
 </script>
 
 <style scoped>
+span{
+  color: var(--el-text-color-primary);
+}
 .submit-box {
   display: flex;
   justify-content: center;
@@ -113,7 +116,7 @@ export default {
 .btn-submit {
   transition: background-color 0.35s ease-in-out, color 0.35s ease-in-out;
   text-decoration: none;
-  color: #1b1b1b;
+  color: var(--el-text-color-primary);
   background-color: #65b54d56;
   border: 2px solid #65b54d;
   width: 200px;

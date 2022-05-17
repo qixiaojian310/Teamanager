@@ -86,7 +86,7 @@
         ></path>
       </svg>
     </div>
-    <router-link :to="routerLink">{{ teamName }}</router-link>
+    <router-link :to="routerLink" style="color:var(--right-link-color)">{{ teamName }}</router-link>
     <!-- <p v-else>{{teamName}}</p> -->
   </li>
 </template>

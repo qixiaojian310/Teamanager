@@ -35,15 +35,15 @@
         <span>Your Modules</span>
       </button>
       <!-- TODO对于老师要执行添加的效果，可以提交不同的事件到上层当中就可以实现 -->
-      <button v-if="isTeacher" class="btn-add-module" @click="add">
+      <button v-if="isTeacher" class="btn-all-module" @click="add">
         <i class="fa fa-edit"></i>
         <span >Edit a Module</span>
       </button>
-      <button v-else class="btn-add-module" @click="add">
+      <button v-else class="btn-all-module" @click="add">
         <i class="fa fa-edit"></i>
         <span >All Modules</span>
       </button>
-      <button v-if="isTeacher" class="btn-add-module" @click="create">
+      <button v-if="isTeacher" class="btn-all-module" @click="create">
         <i class="fa fa-building-o"></i>
         <span >Create a Module</span>
       </button>
@@ -119,7 +119,7 @@ export default {
 <style scoped>
 .toolbar {
   height: 100%;
-  background-color: #e6e1e1;
+  background-color: var(--team-toolbar-bgcolor);
   width: 100%
 }
 .toolbar-list {
@@ -130,13 +130,14 @@ export default {
 
 .btn-all-module {
   transition: background-color 0.35s ease-in-out, color 0.35s ease-in-out;
-  color: #df7599;
-  background-color: #fac1d3;
-  border: 2px solid #df7599;
+  color: #000000;
+  background-color: #ffcc00;
+  border: 2px solid #000000;
   width: 80%;
   display: block;
   text-align: center;
   padding: 2%;
+  margin: 10px;
   border-radius: 10px;
   font-size: 1.2rem;
 }
@@ -161,5 +162,10 @@ export default {
 <style scoped>
 i{
   margin-right: 5px;
+}
+</style>
+<style>
+.el-cascader-panel{
+  background: var(--panel-bg-color);
 }
 </style>

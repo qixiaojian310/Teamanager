@@ -24,7 +24,7 @@
       </svg>
     </div>
 
-    <router-link :to="routerLink">{{ moduleName }}</router-link>
+    <router-link :to="routerLink" style="color:var(--right-link-color)">{{ moduleName }}</router-link>
   </li>
 </template>
 

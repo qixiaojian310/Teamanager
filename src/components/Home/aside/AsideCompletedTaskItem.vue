@@ -50,5 +50,6 @@ export default {
 
 p {
   margin: 2px !important;
+  color: var(--right-link-color);
 }
 </style>

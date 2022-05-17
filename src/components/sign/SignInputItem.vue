@@ -39,7 +39,7 @@ export default {
     },
     backgroundColor: {
       type: String,
-      default: "#ffffff",
+      default: "var(--input-bg-color)",
     },
     inputHeight:{
       type:Number,

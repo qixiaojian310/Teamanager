@@ -88,11 +88,15 @@
   >
     <!-- :style="{width:bigBoxWidth*0.4+'px',height:bigBoxHeight*0.5+'px',marginLeft:-bigBoxWidth*0.2+'px',marginTop:-bigBoxHeight*0.25+'px'}" -->
     <div class="sign-box">
-      <div class="sign-in-content">
+      <div class="sign-up-box">
         <div class="sign-in-title" style="text-align: center">
-          <p style="font-size: 30px; font-weight: 800">Teamanager</p>
+          <p
+            style="font-size: 30px; font-weight: 800; padding: 5px; margin: 5px"
+          >
+            Teamanager
+          </p>
         </div>
-        <div class="sign-in-box-content" :height="200">
+        <el-scrollbar class="sign-in-box-content" :height="300">
           <el-form
             :model="form"
             :rules="rules"
@@ -137,25 +141,24 @@
                 Your password is no same
               </p>
             </el-form-item>
+            <div class="cascader-box">
+              <span style="margin-right: 1rem">choose your role</span>
+              <el-cascader :options="roleOptions" v-model="role"></el-cascader>
+            </div>
             <div class="submit-box">
               <input
                 class="btn-submit"
                 type="button"
                 @click="submitForm"
                 value="Sign up your Team"
+                :style="{ cursor: cursorStatus }"
               />
             </div>
-            <div class="cascader-box">
-              <span style="margin-right: 1rem">choose your role</span>
-              <el-cascader :options="roleOptions" v-model="role"></el-cascader>
-            </div>
           </el-form>
-          <div class="sign-toggle-box-link">
-            <p>Already have an account of Teamanager</p>
-            <router-link to="/signin">Sign in</router-link>
-            <span>© Teamanager</span>
-          </div>
-        </div>
+        </el-scrollbar>
+      </div>
+      <div class="sign-toggle-box-link">
+        <router-link to="/signin">Sign in</router-link>
       </div>
     </div>
   </div>
@@ -279,5 +282,14 @@ export default {
 <style scoped>
 p {
   margin: 0;
+}
+.sign-box > div{
+  background: var(--el-fill-color-blank);
+}
+p{
+  color: var(--el-text-color-primary);
+}
+span{
+  color: var(--el-text-color-primary);
 }
 </style>

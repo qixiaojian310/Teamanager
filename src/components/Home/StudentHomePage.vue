@@ -321,18 +321,21 @@ export default {
 </script>
 
 <style scoped>
+p{
+  color: var(--right-link-color);
+}
 .aside-box-left {
   /* box-shadow: 1px 0px 7px #888888; */
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #39852e;
+  background:var(--main-left-card-bgcolor);
 }
 .aside-box-left > div {
   height: 80%;
   width: 80%;
   /* box-shadow: 0px 0px 14px 2px #3994BE inset; */
-  background: #fff;
+  background: var(--main-left-input-bgcolor);
   margin-left: 20px;
   margin-right: 20px;
   margin-top: 30px;
@@ -349,15 +352,16 @@ export default {
   margin-left: 30px;
 }
 .aside-box-right {
-  background: #515151;
+  background: var(--right-bar-bgcolor);
   box-shadow: -1px 0px 7px #888888;
   overflow: hidden;
 }
 .scroll-bar-right {
-  background: #e0e0e0;
+  background: var(--right-card-bgcolor);
   height: 30%;
   margin-left: 60px;
   margin-right: 60px;
+
   margin-top: 30px;
   margin-bottom: 30px;
   padding-top: 20px;
@@ -371,7 +375,7 @@ export default {
   margin-left: 30px;
 }
 .el-main {
-  background: #cbcbcb;
+  background: var(--main-center-bgcolor);
   color: black;
   font-size: large;
   background-size: 50px 50px, 50px 50px; /* grid size */
