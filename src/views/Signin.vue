@@ -175,6 +175,7 @@ export default {
       }
     },
     rememberCodeInject(){
+      //该函数根据cookie中的数据填充表单
       console.log("执行cookie探测");
       if(this.role[0]=="/student"){
         this.form.username = getCookie("studentId")
@@ -259,16 +260,5 @@ export default {
 i{
   margin-right: 0.5rem;
 }
-.el-checkbox{
-  background: var(--input-bg-color);
-}
-.sign-box > div{
-  background: var(--el-fill-color-blank);
-}
-p{
-  color: var(--el-text-color-primary);
-}
-span{
-  color: var(--el-text-color-primary);
-}
+
 </style>

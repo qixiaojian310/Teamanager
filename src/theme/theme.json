@@ -4,25 +4,33 @@
             "--header-bg-color": "#289c28",
             "--header-link-hover-bgcolor": "#1b681b",
             "--right-card-bgcolor": "#cee9c6",
-            "--left-slide-content-bgcolor": "#89c586"
+            "--left-slide-content-bgcolor": "#89c586",
+            "--badge-background-color": "#53bc43",
+            "--badge-hover-background-color": "#2A901B"
         },
         "red": {
             "--header-bg-color": "#ff461f",
             "--header-link-hover-bgcolor": "#ed5736",
             "--right-card-bgcolor": "#ffb3a7",
-            "--left-slide-content-bgcolor": "#f9906f"
+            "--left-slide-content-bgcolor": "#f9906f",
+            "--badge-background-color":"#9E3B3B",
+            "--badge-hover-background-color": "#631616"
         },
         "blue":{
             "--header-bg-color": "#1685a9",
             "--header-link-hover-bgcolor": "#065279",
             "--right-card-bgcolor": "#70f3ff",
-            "--left-slide-content-bgcolor": "#44cef6"
+            "--left-slide-content-bgcolor": "#44cef6",
+            "--badge-background-color": "#2f94b3",
+            "--badge-hover-background-color": "#1F6F87"
         },
         "yellow":{
             "--header-bg-color": "#ff8c31",
             "--header-link-hover-bgcolor": "#ff7500",
-            "--right-card-bgcolor": "#eaff56",
-            "--left-slide-content-bgcolor": "#fff143"
+            "--right-card-bgcolor": "#ffad56",
+            "--left-slide-content-bgcolor": "#fff143",
+            "--badge-background-color": "#daa428",
+            "--badge-hover-background-color": "#986F12"
         }
     },
     "black": {
@@ -30,25 +38,33 @@
             "--header-bg-color": "#289c28",
             "--header-link-hover-bgcolor": "#1b681b",
             "--right-card-bgcolor": "#1b4e18",
-            "--left-slide-content-bgcolor": "#41763e"
+            "--left-slide-content-bgcolor": "#41763e",
+            "--badge-background-color": "#53bc43",
+            "--badge-hover-background-color": "#2A901B"
         },
         "red": {
             "--header-bg-color": "#ff461f",
             "--header-link-hover-bgcolor": "#ed5736",
             "--right-card-bgcolor": "#c32136",
-            "--left-slide-content-bgcolor": "#a98175"
+            "--left-slide-content-bgcolor": "#a98175",
+            "--badge-background-color":"#9E3B3B",
+            "--badge-hover-background-color": "#631616"
         },
         "blue":{
             "--header-bg-color": "#1685a9",
             "--header-link-hover-bgcolor": "#065279",
             "--right-card-bgcolor": "#3b2e7e",
-            "--left-slide-content-bgcolor": "#4a4266"
+            "--left-slide-content-bgcolor": "#4a4266",
+            "--badge-background-color": "#2f94b3",
+            "--badge-hover-background-color": "#1F6F87"
         },
         "yellow":{
             "--header-bg-color": "#ff8c31",
             "--header-link-hover-bgcolor": "#ff7500",
             "--right-card-bgcolor": "#e29c45",
-            "--left-slide-content-bgcolor": "#ca6924"
+            "--left-slide-content-bgcolor": "#ca6924",
+            "--badge-background-color": "#daa428",
+            "--badge-hover-background-color": "#986F12"
         }
     }
 }

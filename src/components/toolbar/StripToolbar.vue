@@ -58,6 +58,9 @@
         :userName="username"
         :userInfor="userInfor"
       ></head-icon>
+      <el-button circle type="info" style="height:40px;width:40px;margin-bottom:10px;">
+        <el-icon :size="30"><SwitchButton /></el-icon>
+      </el-button>
     </div>
   </div>
 </template>
@@ -65,6 +68,7 @@
 <script>
 import ToolbarIcon from "./ToolbarIcon.vue";
 import HeadIcon from "../HeadIcon.vue";
+import { SwitchButton } from "@element-plus/icons-vue";
 
 export default {
   name: "StripToolbar",
@@ -76,6 +80,7 @@ export default {
   components: {
     ToolbarIcon,
     HeadIcon,
+    SwitchButton
   },
   computed: {
     userInfor() {
@@ -115,5 +120,6 @@ export default {
   height: 30%;
   justify-content: flex-end;
   align-items: center;
+  margin-bottom: 10px;
 }
 </style>

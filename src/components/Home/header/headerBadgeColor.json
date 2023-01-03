@@ -1,0 +1,38 @@
+{
+  "white": {
+    "green": {
+      "header-badge-color": "#53BC43",
+      "header-badge-text-color": "#000000"
+    },
+    "blue": {
+      "header-badge-color": "#3B5998",
+      "header-badge-text-color": "#000000"
+    },
+    "red": {
+      "header-badge-color": "#D32F2F",
+      "header-badge-text-color": "#000000"
+    },
+    "yellow": {
+      "header-badge-color": "#FBC02D",
+      "header-badge-text-color": "#000000"
+    }
+  },
+  "dark": {
+    "green": {
+      "header-badge-color": "#53BC43",
+      "header-badge-text-color": "#FFFFFF"
+    },
+    "blue": {
+      "header-badge-color": "#3B5998",
+      "header-badge-text-color": "#FFFFFF"
+    },
+    "red": {
+      "header-badge-color": "#D32F2F",
+      "header-badge-text-color": "#FFFFFF"
+    },
+    "yellow": {
+      "header-badge-color": "#FBC02D",
+      "header-badge-text-color": "#FFFFFF"
+    }
+  }
+}

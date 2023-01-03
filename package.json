@@ -6,13 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
-    "test:e2e": "vue-cli-service test:e2e",
-    "electron:build": "vue-cli-service electron:build",
-    "electron:serve": "vue-cli-service electron:serve",
-    "postinstall": "electron-builder install-app-deps",
-    "postuninstall": "electron-builder install-app-deps"
+    "test:e2e": "vue-cli-service test:e2e"
   },
-  "main": "background.js",
   "dependencies": {
     "@element-plus/icons-vue": "^0.2.7",
     "@popperjs/core": "^2.11.2",
@@ -48,17 +43,13 @@
     "@vue/compiler-sfc": "^3.0.0",
     "@vue/test-utils": "^2.0.0-0",
     "chromedriver": "97",
-    "electron": "^13.0.0",
-    "electron-devtools-installer": "^3.1.0",
     "geckodriver": "^1.20.0",
-    "node-sass": "^7.0.1",
-    "sass-loader": "^12.6.0",
+    "node-sass": "^6.0.1",
+    "sass-loader": "^10.1.1",
     "spectron": "15.0.0",
     "svg-sprite-loader": "^6.0.11",
     "typescript": "~3.9.3",
-    "vue-cli-plugin-electron-builder": "~2.1.1",
     "vue-jest": "^5.0.0-0",
-    "wdio-chromedriver-service": "^6.0.3",
-    "wdio-geckodriver-service": "^1.1.0"
+    "webpack": "^4.46.0"
   }
 }

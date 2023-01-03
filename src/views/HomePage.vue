@@ -93,7 +93,8 @@ export default {
       (-height * 0.9 - faceTop) * 0.15 + "px"
     );
   },
-  beforeDestroy: function() {
+  beforeUpdate: function() {
+    console.log("homepage beforeDestroy")
     window.removeEventListener("scroll", this.scrollSwitch, true);
     clearInterval(this.idOfSetinterval)
   },

@@ -3,6 +3,12 @@ const webpack = require("webpack");
 const path = require("path");
 
 module.exports = {
+    pluginOptions: {
+        'style-resources-loader': {
+            preProcessor: 'scss',
+            patterns: []
+        }
+    },
     publicPath: '/api',
     pages: {
         index: {

@@ -1,60 +1,42 @@
 <template>
-  <el-header>
-    <el-row>
+    <el-row @click="changeColor">
       <!-- icon -->
-      <el-col :xs="6" :sm="6" :md="6" :lg="3">
+      <el-col :xs="9" :sm="9" :md="9" :lg="6">
         <el-row align="middle" justify="start">
-          <div
-            :style="{
-              height: '30px',
-              width: '100px',
-              backgroundSize: '100% auto',
-              marginLeft: '20px',
-            }"
-          >
-            <svg
-              t="1649393958074"
-              class="icon"
-              viewBox="0 0 1024 1024"
-              version="1.1"
-              xmlns="http://www.w3.org/2000/svg"
-              p-id="2683"
-              width="30"
-              height="30"
-            >
-              <path
-                d="M0 512C0 229.23264 229.23264 0 512 0s512 229.23264 512 512-229.23264 512-512 512S0 794.76736 0 512z"
-                fill="#53BC43"
-                p-id="2684"
-              ></path>
-              <path
-                d="M807.54176 508.93824a54.67136 54.67136 0 0 0-47.60064-19.84h-32.2816c0.3584-10.61376 0.0768-21.23264-0.85504-31.81056h-447.2832s-9.216 80.46592 29.0816 143.68256a272.62976 272.62976 0 0 0 59.19744 70.23616 120.80128 120.80128 0 0 0 76.27776 32.6656h117.41184a121.20064 121.20064 0 0 0 75.76064-31.7184c7.84384-7.50592 15.16544-13.73696 22.33344-21.0944 117.74976-6.10304 147.61984-83.21024 151.1936-93.46048a53.44768 53.44768 0 0 0-3.23584-48.62976v-0.03072z m-34.78528 37.2736l0.67072-1.92 0.09216 0.06144c2.1504-4.5568 2.52416-9.7536 1.03936-14.5664a21.3504 21.3504 0 0 0-14.55616-3.20512h-36.00384a212.5056 212.5056 0 0 1-26.0864 74.4192c-1.80224 2.6624-3.23584 5.2224-4.85376 7.63392 36.03456-6.77888 65.96608-30.24896 79.69792-62.42304z m-503.57248 185.1648h469.00224c22.70208 29.30176-155.94496 46.848-155.94496 46.848H425.09824s-184.1408-18.2784-155.91424-46.848z"
-                fill="#FFFFFF"
-                p-id="2685"
-              ></path>
-              <path
-                d="M603.73504 238.06976c-11.1104-26.88-17.75104-33.28-17.75104-33.28s6.11328 15.54944-3.72736 26.95168c-9.84064 11.40224-52.66944 15.42144-64.91136 46.9504-3.82976 9.86624-5.6832 17.91488-6.5024 24.25344-6.92736-36.5824-23.90016-76.34432-72.4992-83.69664-31.37024-4.74112-46.3872 0.07168-60.7744 4.6848-10.752 3.44576-21.15584 6.784-37.77024 5.92384 0 0 32.512 8.58112 46.2848 45.17376 13.7728 36.59776 41.8816 94.9248 99.7376 100.0704 23.22432 2.09408 36.2496 12.85632 41.66144 32.67584-8.61184-37.82656-26.64448-127.09888-136.99072-171.0592 18.11456 2.2784 102.92736 9.69216 124.82048 103.59296-0.80896 11.0592 0.93696 27.15648 9.61024 51.26656 0 0-11.6736-39.47008-4.63872-50.66752 7.03488-11.19232 24.832-12.30848 43.9808-19.84512 19.1488-7.5264 55.26528-44.79488 39.4752-82.9952zM518.7072 324.864c3.72736-9.66144 24.2688-27.07456 35.60448-37.12 11.3408-10.05568 29.57312-32.93184 31.8976-42.496-16.67584 15.42656-41.27744 31.27296-52.97152 41.6768-11.28448 10.04544-17.5616 22.72256-20.25472 29.20448 1.1264 8.28416 1.8432 16.13824 2.42688 23.12704 0.5632-6.28224 1.9456-10.90048 3.29728-14.3872z m8.7808 82.9184c0.4608 2.02752 0.90112 3.9168 1.32096 5.632a72.26368 72.26368 0 0 0-1.32096-5.632z"
-                fill="#FFFFFF"
-                fill-opacity=".6"
-                p-id="2686"
-              ></path>
-            </svg>
-          </div>
+          <button class="header-badge">
+            <span class="icon-ico-2">
+              <span class="path1"></span><span class="path2"></span><span class="path3"></span>
+            </span>
+          </button>
+          <template v-if="!windowSizeBoolean">
+            <button class="header-badge">
+              <span class="icon-ico-1"><span class="path1"></span><span class="path2"></span></span>
+            </button>
+            <button class="header-badge">
+              <!-- <svg t="1672625510908" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                xmlns="http://www.w3.org/2000/svg" p-id="14920" width="30" height="30">
+                <path
+                  d="M0 512C0 229.23264 229.23264 0 512 0s512 229.23264 512 512-229.23264 512-512 512S0 794.76736 0 512z"
+                  fill="#53BC43" p-id="14921"></path>
+                <path
+                  d="M707.27 458.34L552.35 310.61c-21.46-20.46-59.25-20.46-80.71 0L316.73 458.34c-8.74 8.34-13.57 19.1-13.57 30.24v194.57c0 25.18 24.14 45.58 53.93 45.58h85.96c16.49 0 29.85-11.3 29.85-25.24v-69.98c0-15.77 12.54-30.18 30.8-33.41 25.09-4.44 47.41 11.85 47.41 32.32v71.07c0 13.94 13.37 25.24 29.85 25.24h85.96c29.78 0 53.93-20.41 53.93-45.58V488.58c-0.01-11.14-4.83-21.9-13.58-30.24z"
+                  fill="#FFFFFF" p-id="14922"></path>
+              </svg> -->
+              <span class="icon-ico-uniE900">
+                <span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span>
+              </span>
+            </button>
+            <button @click.stop="changeTheme" circle class="header-badge" id="dark-toggle">
+              <i class="fa fa-sun-o"></i>
+            </button>
+          </template>
         </el-row>
         <!-- <i class="fa fa-2x fa-snowflake-o fa-spin"></i> -->
       </el-col>
       <!-- 选项卡 -->
-      <el-col
-        :xs="{ span: 9, offset: 9 }"
-        :sm="{ span: 9, offset: 9 }"
-        :md="{ span: 9, offset: 9 }"
-        :lg="{ span: 9, offset: 12 }"
-      >
-        <el-row
-          class="header-link-box"
-          :justify="drawerBtnJustify"
-          align="middle"
-        >
+      <el-col :xs="{ span: 13, offset: 2 }" :sm="{ span: 13, offset: 2 }" :md="{ span: 13, offset: 2 }"
+        :lg="{ span: 13, offset: 5 }">
+        <el-row class="header-link-box" align="middle">
           <header-link v-if="windowSizeBoolean"></header-link>
           <el-button @click="drawer = true" style="margin-right: 20px" v-else>
             <i class="fa fa-bars"></i>
@@ -62,22 +44,53 @@
         </el-row>
       </el-col>
     </el-row>
-    <el-drawer v-model="drawer"> </el-drawer>
-  </el-header>
 </template>
 
 <script>
+import { RouterLink } from "vue-router";
 import HeaderLink from "./HeaderLink.vue";
+import badgeTheme from "./headerBadgeColor.json"
+import { useDark } from "@vueuse/core";
+import { addColor } from "@/theme/theme.js";
 
 export default {
   name: "MainHeader",
   components: {
     HeaderLink,
+    RouterLink
   },
   data() {
     return {
       drawer: false,
+      dark: useDark({
+        valueDark:'dark',
+        valueLight:'white'
+      }),
     };
+  },
+  props:{
+    color:{
+      type:String,
+      default:'green'
+    }
+  },
+  mounted(){
+    // addColor(this.dark, this.color);
+    // this.$store.commit("updateThemeColor", this.color);
+    // this.$store.commit("updateIsDark", this.dark);
+  }, 
+  methods: {
+    changeTheme() {
+      // useToggle(this.dark);
+      this.dark = !this.dark;
+      addColor(this.dark, this.color);
+      this.$store.commit("updateThemeColor", this.color);
+      this.$store.commit("updateIsDark", this.dark);
+    },
+    changeColor() {
+      console.log("changeColor");
+      this.$emit("changeColor");
+    },
   },
   computed: {
     //判断设备大小是否小于700
@@ -88,8 +101,11 @@ export default {
         return "end";
       }
     },
+    badgeTheme() {
+
+    },
     windowSizeBoolean() {
-      if (this.$store.state.windowSize.windowSizeWidth > 768) {
+      if (this.$store.state.windowSize.windowSizeWidth > 980) {
         return true;
       } else {
         return false;
@@ -103,6 +119,7 @@ export default {
 .header-link-box {
   justify-content: flex-end;
 }
+
 .el-row {
   height: 100%;
   width: 100%;
@@ -110,9 +127,25 @@ export default {
   /* background: rgb(91, 113, 167); */
   /* background: rgb(167, 93, 93); */
 }
-.el-header {
+.header-badge {
+  height: 30px;
+  width: 30px;
+  background-size: 100% auto;
+  margin-left: 10px;
+  border-radius: 50%;
+  border: 0px;
   padding: 0px;
-  /* align-content: center;
-  justify-content: center; */
+}
+
+.header-badge > span >span{
+  font-size: 30px;
+  vertical-align: middle;
+}
+
+#dark-toggle {
+  background-color: var(--badge-background-color);
+}
+#dark-toggle:hover {
+  background-color: var(--badge-hover-background-color);
 }
 </style>

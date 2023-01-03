@@ -1,4 +1,5 @@
 <template>
+  <!-- 老师和学生的注册页面 -->
   <!-- 宽度小于500时不显示背景图 -->
   <div
     class="bg-box"
@@ -15,7 +16,7 @@
             Teamanager
           </p>
         </div>
-        <el-scrollbar class="sign-in-box-content" :height="300">
+        <div class="sign-in-box-content" :height="300">
           <el-form
             :model="form"
             :rules="rules"
@@ -74,7 +75,7 @@
               />
             </div>
           </el-form>
-        </el-scrollbar>
+        </div>
       </div>
       <div class="sign-toggle-box-link">
         <router-link to="/signin">Sign in</router-link>
@@ -88,15 +89,11 @@
   >
     <!-- :style="{width:bigBoxWidth*0.4+'px',height:bigBoxHeight*0.5+'px',marginLeft:-bigBoxWidth*0.2+'px',marginTop:-bigBoxHeight*0.25+'px'}" -->
     <div class="sign-box">
-      <div class="sign-up-box">
+      <div class="sign-in-content">
         <div class="sign-in-title" style="text-align: center">
-          <p
-            style="font-size: 30px; font-weight: 800; padding: 5px; margin: 5px"
-          >
-            Teamanager
-          </p>
+          <p style="font-size: 30px; font-weight: 800">Teamanager</p>
         </div>
-        <el-scrollbar class="sign-in-box-content" :height="300">
+        <div class="sign-in-box-content" :height="200">
           <el-form
             :model="form"
             :rules="rules"
@@ -141,24 +138,25 @@
                 Your password is no same
               </p>
             </el-form-item>
-            <div class="cascader-box">
-              <span style="margin-right: 1rem">choose your role</span>
-              <el-cascader :options="roleOptions" v-model="role"></el-cascader>
-            </div>
             <div class="submit-box">
               <input
                 class="btn-submit"
                 type="button"
                 @click="submitForm"
                 value="Sign up your Team"
-                :style="{ cursor: cursorStatus }"
               />
             </div>
+            <div class="cascader-box">
+              <span style="margin-right: 1rem">choose your role</span>
+              <el-cascader :options="roleOptions" v-model="role"></el-cascader>
+            </div>
           </el-form>
-        </el-scrollbar>
-      </div>
-      <div class="sign-toggle-box-link">
-        <router-link to="/signin">Sign in</router-link>
+          <div class="sign-toggle-box-link">
+            <p>Already have an account of Teamanager</p>
+            <router-link to="/signin">Sign in</router-link>
+            <span>© Teamanager</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -167,6 +165,8 @@
 <script>
 import { Lock, User } from "@element-plus/icons-vue";
 import SignInputItem from "../components/sign/SignInputItem.vue";
+import qs from "qs";
+
 
 export default {
   name: "Signup",
@@ -177,6 +177,13 @@ export default {
     bigBoxHeight: function () {
       return this.$store.state.windowSize.windowSizeHeight;
     },
+    url: function(){
+      if(this.role == "student"){
+        return "/registerStudent";
+      }else if(this.role == "teacher"){
+        return "/registerTeacher";
+      }
+    }
   },
   data() {
     return {
@@ -184,7 +191,6 @@ export default {
         username: "",
         password: "",
       },
-      url: "/registerStudent",
       placeholder: {
         username: "Enter your user name",
         password: "Enter your password",
@@ -223,12 +229,11 @@ export default {
       //AJAX方式
       this.axios({
         url: this.url,
-        data: {
-          studentId: this.form.username,
+        data: qs.stringify({
+          userId: this.form.username,
           password: this.form.password,
-        },
+        }),
         method: "post",
-        baseURL: "http://localhost:8080/api/",
         // headers.post['Content-type'] = "application/json",
       }).then((response) => {
         console.log(response);
@@ -241,7 +246,20 @@ export default {
         } else if (responseData == "success") {
           //注册成功
           this.registered = false;
-          this.$router.push("/student/" + this.form.username);
+          if(this.role == "teacher"){
+            this.$router.push("/teacher/" + this.form.username);
+            this.$store.commit("updateSignInTeacherName", this.form.username);
+          }else{
+            this.$router.push("/student/" + this.form.username);
+            this.$store.commit("updateSignInStudentName", this.form.username);
+          }
+          this.$notify({
+            title: "Sign in successfully",
+            message: "",
+            type: "success",
+            duration: 2000,
+            position:"top-left"
+          })
         } else {
           //注册失败
           console.error("注册失败");
@@ -282,14 +300,5 @@ export default {
 <style scoped>
 p {
   margin: 0;
-}
-.sign-box > div{
-  background: var(--el-fill-color-blank);
-}
-p{
-  color: var(--el-text-color-primary);
-}
-span{
-  color: var(--el-text-color-primary);
 }
 </style>

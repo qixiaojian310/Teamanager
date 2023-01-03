@@ -1,52 +1,70 @@
 <template>
   <el-container>
     <strip-toolbar></strip-toolbar>
-    <el-aside
+    <!-- <el-aside
       :width="asideLeftWidth + 'px'"
       class="aside-box-left hidden-sm-and-down"
       :style="{ height: asideHeight + 'px' }"
     >
       <student-info :signInStudentId="signInStudentId"></student-info>
-    </el-aside>
+    </el-aside> -->
     <el-container :style="{ height: asideHeight + 'px' }">
       <el-main>
         <el-scrollbar :style="{ width: 100 + '%' }">
           <!-- show your task haven't done  -->
           <el-row style="width: 100%">
             <el-col :span="20" :offset="2">
-              <un-completed-tasks
-                :unCompletedTasks="unCompletedTasks"
-              ></un-completed-tasks>
+              <un-completed-tasks :unCompletedTasks="unCompletedTasks"></un-completed-tasks>
             </el-col>
           </el-row>
         </el-scrollbar>
       </el-main>
     </el-container>
-    <el-aside
-      :width="asideRightWidth + 'px'"
-      class="aside-box-right hidden-md-and-down"
-      :style="{ height: asideHeight + 'px' }"
-    >
-      <el-scrollbar :view-style="[{ height: 100 + '%' }]">
-        <div class="scroll-bar-right">
-          <el-scrollbar :wrap-class="'scroll-bar-right'">
-            <p>Your Teams</p>
-            <aside-teams :team-items="teamItems"></aside-teams>
-          </el-scrollbar>
-        </div>
-        <div class="scroll-bar-right">
-          <el-scrollbar :wrap-class="'scroll-bar-right'">
-            <p>Your Modules</p>
-            <aside-modules :module-items="moduleItems"></aside-modules>
-          </el-scrollbar>
-        </div>
-        <div class="scroll-bar-right">
-          <aside-completed-tasks :completedTasks="completedTasks">
-            <p>Completed Task</p>
-          </aside-completed-tasks>
-        </div>
-      </el-scrollbar>
-    </el-aside>
+    <transition name="bounce-out" appear>
+      <el-aside v-if="asideShow" :width="asideRightWidth + 'px'" class="aside-box-right" :style="{ height: asideHeight + 'px' }">
+        <el-scrollbar :view-style="[{ height: 100 + '%' }]">
+          <div class="scroll-bar-right">
+            <el-scrollbar :wrap-class="'scroll-bar-right'">
+              <p>Your Teams</p>
+              <aside-teams :team-items="teamItems"></aside-teams>
+            </el-scrollbar>
+          </div>
+          <div class="scroll-bar-right">
+            <el-scrollbar :wrap-class="'scroll-bar-right'">
+              <p>Your Modules</p>
+              <aside-modules :module-items="moduleItems"></aside-modules>
+            </el-scrollbar>
+          </div>
+          <div class="scroll-bar-right">
+            <aside-completed-tasks :completedTasks="completedTasks">
+              <p>Completed Task</p>
+            </aside-completed-tasks>
+          </div>
+        </el-scrollbar>
+      </el-aside>
+      <el-aside v-else class="aside-box-right-toggle" :style="{ height: asideHeight + 'px' }">
+        <el-scrollbar :view-style="[{ height: 100 + '%' }]">
+          <div class="scroll-bar-right">
+            <el-scrollbar :wrap-class="'scroll-bar-right'">
+              <p>Your Teams</p>
+              <aside-teams :team-items="teamItems"></aside-teams>
+            </el-scrollbar>
+          </div>
+          <div class="scroll-bar-right">
+            <el-scrollbar :wrap-class="'scroll-bar-right'">
+              <p>Your Modules</p>
+              <aside-modules :module-items="moduleItems"></aside-modules>
+            </el-scrollbar>
+          </div>
+          <div class="scroll-bar-right">
+            <aside-completed-tasks :completedTasks="completedTasks">
+              <p>Completed Task</p>
+            </aside-completed-tasks>
+          </div>
+        </el-scrollbar>
+      </el-aside> 
+    </transition>
+
   </el-container>
 </template>
 
@@ -109,7 +127,7 @@ export default {
             tempTeamObj.studentList = injectTeams[index].studentList;
             tempTeamObj.available = injectTeams[index].available;
             tempTeamObj.moduleId = injectTeams[index].moduleId;
-            tempTeamObj.taskList = injectTeams[index].taskList.length==0?[]:injectTeams[index].taskList;
+            tempTeamObj.taskList = injectTeams[index].taskList.length == 0 ? [] : injectTeams[index].taskList;
             tempTeamObj.chatRoomId = injectTeams[index].chatRoomId;
             this.teamItems.push(tempTeamObj);
             this.$store.state.teams.push(tempTeamObj);
@@ -294,7 +312,7 @@ export default {
       if (this.$store.state.windowSize.windowSizeWidth > 992) {
         return this.$store.state.windowSize.windowSizeWidth * 0.3;
       } else {
-        return this.$store.state.windowSize.windowSizeWidth * 0.35;
+        return this.$store.state.windowSize.windowSizeWidth * 0;
       }
     },
     asideLeftWidth() {
@@ -316,22 +334,31 @@ export default {
         return this.$store.state.windowSize.windowSizeWidth * 0.35;
       }
     },
+    asideShow(){
+      if(this.$store.state.windowSize.windowSizeWidth > 980){
+        return true;
+      }else{
+        return false;
+      }
+    }
   },
 };
 </script>
 
 <style scoped>
-p{
+p {
   color: var(--right-link-color);
 }
+
 .aside-box-left {
   /* box-shadow: 1px 0px 7px #888888; */
   display: flex;
   align-items: center;
   justify-content: center;
-  background:var(--main-left-card-bgcolor);
+  background: var(--main-left-card-bgcolor);
 }
-.aside-box-left > div {
+
+.aside-box-left>div {
   height: 80%;
   width: 80%;
   /* box-shadow: 0px 0px 14px 2px #3994BE inset; */
@@ -346,16 +373,27 @@ p{
   overflow-x: hidden;
   overflow-y: auto;
 }
-.aside-box-left > div p {
+
+.aside-box-left>div p {
   font-size: 20px;
   font-weight: 700;
   margin-left: 30px;
 }
+
 .aside-box-right {
   background: var(--right-bar-bgcolor);
   box-shadow: -1px 0px 7px #888888;
   overflow: hidden;
 }
+
+.aside-box-right-toggle{
+  background: var(--right-bar-bgcolor);
+  box-shadow: -1px 0px 7px #888888;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+}
+
 .scroll-bar-right {
   background: var(--right-card-bgcolor);
   height: 30%;
@@ -369,17 +407,40 @@ p{
   overflow-x: hidden;
   overflow-y: auto;
 }
-.scroll-bar-right > div p {
+
+.scroll-bar-right>div p {
   font-size: 20px;
   font-weight: 700;
   margin-left: 30px;
 }
+
 .el-main {
   background: var(--main-center-bgcolor);
   color: black;
   font-size: large;
-  background-size: 50px 50px, 50px 50px; /* grid size */
-  background-image:
+  background-size: 50px 50px, 50px 50px;
+  /* grid size */
+}
+
+.bounce-out-enter-active{
+  animation: bounce-out 0.4s;
+}
+
+@keyframes bounce-out {
+  0% {
+    width: 0%;
+  }
+  95% {
+    width:35%
+  }
+  100% {
+    width:30%;
+  }
+}
+
+/* #399448 #3994BE #B2E8F7 #FFDAE6 #DF7599 */
+</style>
+<!--  background-image:
                 /* horizontal line */
                 /* the first size is defines horizontal line,while the second defines transeparent */ linear-gradient(
       90deg,
@@ -387,7 +448,4 @@ p{
       transparent 2px
     ),
     /* vertical line */
-      linear-gradient(0, rgba(80, 80, 80, 0.5) 2px, transparent 2px);
-}
-/* #399448 #3994BE #B2E8F7 #FFDAE6 #DF7599 */
-</style>
+      linear-gradient(0, rgba(80, 80, 80, 0.5) 2px, transparent 2px); -->

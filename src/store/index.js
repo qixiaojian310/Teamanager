@@ -1,6 +1,7 @@
 import {
   createStore
 } from 'vuex'
+import { useStorage} from "@vueuse/core"
 
 export default createStore({
   state() {
@@ -26,10 +27,13 @@ export default createStore({
       },
       role:"",
       rememberCookie:true,
-      teamSwiper:{}
+      teamSwiper:{},
+      themeColor:"",
+      isDark:true
     }
   },
-  getters: {},
+  getters: {
+  },
   mutations: {
     updateSignInStudentName(state,name){
       state.signInStudent.name = name;
@@ -113,6 +117,12 @@ export default createStore({
         return item.moduleId == payload.moduleId;
       })
       state.signInTeacherModule[focusModuleIndex].moduleName = payload.moduleName;
+    },
+    updateThemeColor(state,themeColor){
+      state.themeColor = themeColor;
+    },
+    updateIsDark(state,isDark){
+      state.isDark = isDark;
     }
   },
   actions: {},
